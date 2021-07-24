@@ -40,13 +40,13 @@
               name="credit-card"
               class="nav__icon"
             ></box-icon>
-            <span class="nav__name">Payment</span>
+            <span class="nav__name">Class</span>
           </router-link>
 
           <router-link to="/results" tag="a" class="nav__link">
             <!-- <i class="fa fa-bookmark nav__icon"></i> -->
             <box-icon color="white" name="book" class="nav__icon"></box-icon>
-            <span class="nav__name">Results</span>
+            <span class="nav__name">Assignment</span>
           </router-link>
 
           <router-link to="/timetable" tag="a" class="nav__link">
@@ -62,7 +62,13 @@
           <router-link to="/wallet" tag="a" class="nav__link">
             <!-- <i class="fa fa-chart-bar nav__icon"></i> -->
             <box-icon color="white" class="nav__icon" name='wallet'></box-icon>
-            <span class="nav__name">Wallet</span>
+            <span class="nav__name">Leave Request</span>
+          </router-link>
+
+          <router-link to="/wallet" tag="a" class="nav__link">
+            <!-- <i class="fa fa-chart-bar nav__icon"></i> -->
+            <box-icon color="white" class="nav__icon" name='wallet'></box-icon>
+            <span class="nav__name">Salary Request</span>
           </router-link>
         </div>
       </div>

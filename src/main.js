@@ -96,7 +96,7 @@ Axios.interceptors.response.use(
   function(error) {
     if (
       error.response.status == 401 &&
-      error.response.data.error == "invalid credentials"
+      error.response.data.error == "invalid_token"
     ) {
       store.dispatch("logout");
     }

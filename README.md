@@ -1,4 +1,4 @@
-# student_dashboard
+# staff_dashboard
 
 ## Project setup
 ```
