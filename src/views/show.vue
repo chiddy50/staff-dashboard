@@ -42,12 +42,12 @@
 
               <router-link to="/payment" tag="a" class="nav__link">
                 <i class="bx bx-credit-card nav__icon"></i>
-                <span class="nav__name">Payment</span>
+                <span class="nav__name">Class</span>
               </router-link>
 
               <router-link to="/results" tag="a" class="nav__link">
                 <i class="bx bx-book nav__icon"></i>
-                <span class="nav__name">Results</span>
+                <span class="nav__name">Assignment</span>
               </router-link>
 
               <router-link to="/timetable" tag="a" class="nav__link">
@@ -57,12 +57,12 @@
 
               <router-link to="/wallet" tag="a" class="nav__link">
                 <i class="bx bx-wallet nav__icon"></i>
-                <span class="nav__name">Wallet</span>
+                <span class="nav__name">Leave Request</span>
               </router-link>
 
               <router-link to="/settings" tag="a" class="nav__link">
                 <i class="bx bx-cog nav__icon"></i>
-                <span class="nav__name">Settings</span>
+                <span class="nav__name">Salary Request</span>
               </router-link>
             </div>
           </div>

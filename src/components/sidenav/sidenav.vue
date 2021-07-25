@@ -68,7 +68,7 @@
           <router-link to="/wallet" tag="a" class="nav__link">
             <!-- <i class="fa fa-chart-bar nav__icon"></i> -->
             <box-icon color="white" class="nav__icon" name='wallet'></box-icon>
-            <span class="nav__name">Salary Request</span>
+            <span class="nav__name">Salary History</span>
           </router-link>
         </div>
       </div>
