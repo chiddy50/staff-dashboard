@@ -37,21 +37,27 @@
             <b-col v-for="(a, i) in 5" :key="i">
               <b-row>
                 <b-col>
-                  <div class="display-data bg-white">
+                  <div class="display-data bg-white pr-4">
                     <b-row class="px-2">
                       <b-col>
                         <span class="text-uppercase">SSS1A</span
                         >
                         <br /><span class="text-gray-500 text-xs">Mathematics</span>
                       </b-col>
-                      <!-- <b-col cols="4" class="flex items-center justify-end d-none d-md-flex">
-                        <span class="tracking-wide text-gray-300 mr-3"
-                          >232-43424-3224</span
-                        >
-                        <span class="tracking-wide font-bold"
-                          >21 Oct 2021
-                        </span>
-                      </b-col> -->
+                      
+                      <b-col cols="2" md="1" class="flex items-center justify-center">
+												<b-button-group>
+													<b-dropdown right split text="Action" size="sm">
+														<b-dropdown-item
+															:to="`/viewsubclass/${i}`">
+															<i class="fal fa-expand"></i> View
+														</b-dropdown-item>
+														<b-dropdown-item v-b-modal="`delete${i}`"><i
+																class="fal fa-trash"></i>Delete</b-dropdown-item>
+													</b-dropdown>
+												</b-button-group>
+                      </b-col>
+
                     </b-row>
                   </div>
                 </b-col>
