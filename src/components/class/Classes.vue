@@ -1,31 +1,19 @@
 <template>
   <div class="w-full pl-2 mt-12">
-    <!-- <div class="row p-3">
-            <div class="col-md-6 flex items-center"></div>
-        </div> -->
     <div class="row px-3 pt-10 flex items-center justify-between">
       <div class="flex items-center">
-        <!-- <i class="fas fa-file-invoice text-3xl mr-2"></i> -->
         <h1 class="text-3xl m-0 flex items-center">
           <i class="bx bx-book mr-2"></i> <span>Class</span>
         </h1>
       </div>
-      <b-btn
-        variant="success"
-        v-show="!paymentdata.paid"
-        v-b-modal.makePayment
-        class="shadow-md"
-      >
-        <!-- Make Payment -->
-        <i class="bx bx-plus"></i>
-      </b-btn>
+      
     </div>
     <div class="row pr-3">
       <hr class="w-full" />
     </div>
-    <preloader v-if="refundLoading"></preloader>
-    <div v-else>
-      <b-row class="px-2">
+    <!-- <preloader v-if="refundLoading"></preloader> -->
+    <div>
+      <!-- <b-row class="px-2">
         <div class="col-12 my-3">
          
           <div class="data_list">
@@ -41,44 +29,38 @@
           </div>
         </div>
 
-      </b-row>
+      </b-row> -->
 
       <div class="py-3">
         <div class="">
-          <div v-if="paymentdata.history.length">
-            <b-col :key="index" v-for="(i, index) in paymentdata.history">
+          <div>
+            <b-col v-for="(a, i) in 5" :key="i">
               <b-row>
                 <b-col>
                   <div class="display-data bg-white">
                     <b-row class="px-2">
                       <b-col>
-                        <span class="text-uppercase"
-                          >{{ i.session }} - {{ i.term }}</span
+                        <span class="text-uppercase">SSS1A</span
                         >
-                        <br /><span class="text-gray-500">
-                          {{ toNaira(i.total) }}</span
-                        >
+                        <br /><span class="text-gray-500 text-xs">Mathematics</span>
                       </b-col>
-                      <b-col
-                        cols="4"
-                        class="flex items-center justify-end d-none d-md-flex"
-                      >
+                      <!-- <b-col cols="4" class="flex items-center justify-end d-none d-md-flex">
                         <span class="tracking-wide text-gray-300 mr-3"
                           >232-43424-3224</span
                         >
                         <span class="tracking-wide font-bold"
                           >21 Oct 2021
                         </span>
-                      </b-col>
+                      </b-col> -->
                     </b-row>
                   </div>
                 </b-col>
               </b-row>
             </b-col>
           </div>
-          <div v-else>
+          <!-- <div v-else>
             <h2 class="text-2xl text-center">No payment history</h2>
-          </div>
+          </div> -->
         </div>
 
         <b-modal
