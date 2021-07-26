@@ -28,34 +28,7 @@
                 </div>
               </div>
 
-              <div class="mb-4">
-                <h6 class="text-md text-gray-400 mb-3">Tuesday, July 27</h6>
-                <div class="schedule_item rounded-md shadow-sm p-3">
-                  <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS3A</span></p>
-                  <span class="text-xs text-gray-400">09:00 AM - 10:00 AM</span>
-                </div>
-                <div class="schedule_item rounded-md shadow-sm p-3">
-                  <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS1C</span></p>
-                  <span class="text-xs text-gray-400">11:00 AM - 11:30 AM</span>
-                </div>
-                <div class="schedule_item rounded-md shadow-sm p-3">
-                  <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS1C</span></p>
-                  <span class="text-xs text-gray-400">11:00 AM - 11:30 AM</span>
-                </div>
-                
-              </div>
-
-              <div class="mb-4">
-                <h6 class="text-md text-gray-400 mb-3">Wednesday, July 28</h6>
-                <div class="schedule_item rounded-md shadow-sm p-3">
-                  <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS3A</span></p>
-                  <span class="text-xs text-gray-400">09:00 AM - 10:00 AM</span>
-                </div>
-                <div class="schedule_item rounded-md shadow-sm p-3">
-                  <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS1C</span></p>
-                  <span class="text-xs text-gray-400">11:00 AM - 11:30 AM</span>
-                </div>
-              </div>
+            
             </div>
           </div>
           <div class="col-12 col-lg-8">
