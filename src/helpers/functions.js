@@ -5,7 +5,7 @@ import moment from 'moment';
 export default class Helper {
 
     static auth(param) {
-      let token = localStorage.getItem("auth");
+      let token = localStorage.getItem("auth_staff");
       let auth = {
         auth: `Bearer ${token}`,
       };
@@ -16,7 +16,7 @@ export default class Helper {
     }
 
     static async logout() {
-      localStorage.removeItem("auth");
+      localStorage.removeItem("auth_staff");
       router.push({ path: "/login" });
     }
 

@@ -8,6 +8,6 @@ export default {
     // var loggedIn = state.student_token !== null;
     // return loggedIn;
 
-    return localStorage.getItem("auth");
+    return localStorage.getItem("auth_staff");
   },
 };
