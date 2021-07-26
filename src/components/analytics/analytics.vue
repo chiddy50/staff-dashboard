@@ -13,7 +13,7 @@
     <div class="dashboard__content my-4">
       <div class="col-12">
         <div class="row">
-           <div class="col-12 col-lg-8">
+           <div class="col-12 col-lg-6">
             <div class="flex justify-end items-center">
               <div class="w-1/4">
                 <select
@@ -39,7 +39,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-4">
+          <div class="col-12 col-lg-6">
             <h1 class="text-lg text-gray-400 m-0">Here is your schedule for today,</h1>
             <div class="mb-10 mt-3">
               <div class="mb-4">

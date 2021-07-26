@@ -1,12 +1,12 @@
 <template>
   <div>
-    <show component="payment"></show>
+    <show component="classes"></show>
   </div>
 </template>
 
 <script>
 export default {
-  name: "payment",
+  name: "classes",
 };
 </script>
 

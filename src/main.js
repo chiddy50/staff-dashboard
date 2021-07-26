@@ -10,7 +10,7 @@ import show from "@/views/show";
 import analytics from "@/components/analytics/analytics";
 import profilecom from "@/components/profilecom/profilecom";
 import timetablecom from "@/components/timetablecom/timetablecom";
-import payment from "@/components/payment/payment";
+import classes from "@/components/class/Classes";
 import wallet from "@/components/wallet/wallet";
 import preloader from "@/components/preloader/preloader";
 
@@ -18,7 +18,7 @@ Vue.component("show", show);
 Vue.component("analytics", analytics);
 Vue.component("timetablecom", timetablecom);
 Vue.component("profilecom", profilecom);
-Vue.component("payment", payment);
+Vue.component("classes", classes);
 Vue.component("wallet", wallet);
 Vue.component("preloader", preloader);
 

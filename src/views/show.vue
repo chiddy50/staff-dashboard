@@ -40,8 +40,8 @@
                 <span class="nav__name">Profile</span>
               </router-link>
 
-              <router-link to="/payment" tag="a" class="nav__link">
-                <i class="bx bx-credit-card nav__icon"></i>
+              <router-link to="/class" tag="a" class="nav__link">
+                <i class="bx bx-book nav__icon"></i>
                 <span class="nav__name">Class</span>
               </router-link>
 
