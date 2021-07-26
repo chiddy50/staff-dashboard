@@ -44,7 +44,7 @@
               >
                 <div
                   v-if="loginLoading"
-                  class="spinner-border spinner-border-sm mr-3"
+                  class="spinner-border spinner-border-sm mr-2"
                 ></div>
                 <span>Sign in</span>
               </button>
