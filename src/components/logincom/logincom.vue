@@ -99,7 +99,7 @@ export default {
         if (status == 200) {
           console.log(data);
           this.$store.dispatch("setUserData", data.message.data);
-          localStorage.setItem("auth", data.message.token);
+          localStorage.setItem("auth_staff", data.message.token);
           localStorage.setItem("school_id", this.$route.params.schoolid);
           this.$router.push({
             path: "/",
