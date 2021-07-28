@@ -49,7 +49,7 @@
                         <!-- <label class='small m-0'>Link 1:</label> -->
                         <input type="text" class="form-control" placeholder="Text" />
                         <input type="text" class="form-control" placeholder="URL" />
-                        <i class="bx bx-trash cursor-pointer" @click="removeLink(link.id)" v-b-popover.hover.bottom="'Remove link'"></i>
+                        <i v-if="links.length > 1" class="bx bx-trash cursor-pointer" @click="removeLink(link.id)" v-b-popover.hover.bottom="'Remove link'"></i>
                         
                     </div>
                 </div>
@@ -189,7 +189,9 @@ export default {
             this.links.push({ title: '', url: '', id: Math.floor(Math.random() * 9999999999999) })
         },
         removeLink(id){
-            this.links = this.links.filter(link => link.id !== id)
+            if(this.links.length !== 1){
+                this.links = this.links.filter(link => link.id !== id)
+            }
         },
         tagSubjects(newTag) {  
             // this.personnel_details.subjectIds.push(newTag.id)
