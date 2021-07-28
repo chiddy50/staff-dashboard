@@ -45,8 +45,8 @@
                 <span class="nav__name">Class</span>
               </router-link>
 
-              <router-link to="/results" tag="a" class="nav__link">
-                <i class="bx bx-book nav__icon"></i>
+              <router-link to="/assignment" tag="a" class="nav__link">
+                <i class="bx bx-notepad nav__icon"></i>
                 <span class="nav__name">Assignment</span>
               </router-link>
 

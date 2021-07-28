@@ -5,6 +5,8 @@ import store from "./store";
 
 import Axios from "axios";
 import VueAxios from "vue-axios";
+import Multiselect from "vue-multiselect";
+
 
 import show from "@/views/show";
 import analytics from "@/components/analytics/analytics";
@@ -12,7 +14,9 @@ import profilecom from "@/components/profilecom/profilecom";
 import timetablecom from "@/components/timetablecom/timetablecom";
 import classes from "@/components/class/Classes";
 import wallet from "@/components/wallet/wallet";
+import assignment from "@/components/assignment/Assignment";
 import preloader from "@/components/preloader/preloader";
+
 
 Vue.component("show", show);
 Vue.component("analytics", analytics);
@@ -20,7 +24,9 @@ Vue.component("timetablecom", timetablecom);
 Vue.component("profilecom", profilecom);
 Vue.component("classes", classes);
 Vue.component("wallet", wallet);
+Vue.component("assignment", assignment);
 Vue.component("preloader", preloader);
+Vue.component("Multiselect", Multiselect);
 
 import "@/assets/css/style.css";
 import "@/assets/css/login.css";
@@ -45,6 +51,8 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
