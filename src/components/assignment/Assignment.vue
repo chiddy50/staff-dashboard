@@ -20,14 +20,9 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <!-- <select class="form-control">
-                                <option value="">Choose Class</option>
-                                <option value="">SSS1C</option>
-                                <option value="">SSS2B</option>
-                            </select> -->
                             <div>										
                                 <multiselect v-model="subjectValues" tag-placeholder="Search & add Subjects" 
-                                    placeholder="Search & add Subjects" label="subject" class="mb-3"
+                                    placeholder="Choose Subjects and Class" label="subject" class="mb-3"
                                     track-by="id" :options="subjects" :multiple="true" :taggable="true" @select="tagSubjects" @remove="untagSubject">
                                 </multiselect>										
                             </div>
@@ -45,16 +40,16 @@
                 </div>               
                 
                 <div class='mb-4'>
-                    <div @click="addLink" class="flex items-center gap-1 mb-3">
-                        <label class="flex items-center m-0 cursor-pointer">Add links</label>                       
-                        <i class="bx bx-plus-circle cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
+                    <div @click="addLink" class="flex items-center gap-1 mb-2">
+                        <label class="flex items-center m-0 cursor-pointer text-info small">Add links</label>                       
+                        <i class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
                     </div>
 
                     <div class="assignment_links mb-2" v-for="(link, index) in links" :key="index">
                         <!-- <label class='small m-0'>Link 1:</label> -->
                         <input type="text" class="form-control" placeholder="Text" />
                         <input type="text" class="form-control" placeholder="URL" />
-                        <i class="bx bx-trash cursor-pointer" v-b-popover.hover.bottom="'Remove link'"></i>
+                        <i class="bx bx-trash cursor-pointer" @click="removeLink(link.id)" v-b-popover.hover.bottom="'Remove link'"></i>
                         
                     </div>
                 </div>
@@ -104,6 +99,15 @@
                         <b-form-checkbox class="warning" v-model="send_notication" name="check-button" switch>
                             <span class="text-xs">Send Notification</span>
                         </b-form-checkbox>
+                    </div>
+                </div>
+
+                <div class="row mb-4">                    
+                     <div class="col-6 flex items-center">
+                        <button class="btn btn-outline-info flex items-center gap-2">Add Attachments
+                            <i class="bx bx-pin"></i>
+                        </button>
+                        
                     </div>
                 </div>
                          
@@ -171,18 +175,21 @@ export default {
             send_notication: false,
             subjectValues: [],
             subjects: [
-                {subject:'Math',id:1},
-                {subject:'English',id:2},
+                {subject:'Math for SS1A',id:1},
+                {subject:'Math for SSS3D',id:2},
             ],   
             links: [
-                { title: '', url: '' } 
+                { title: '', url: '', id: Math.floor(Math.random() * 9999999999999) } 
             ],    
-            viewAssignments: true     
+            viewAssignments: false     
         }
     },
     methods :{
         addLink(){
-            this.links.push({ title: '', url: '' })
+            this.links.push({ title: '', url: '', id: Math.floor(Math.random() * 9999999999999) })
+        },
+        removeLink(id){
+            this.links = this.links.filter(link => link.id !== id)
         },
         tagSubjects(newTag) {  
             // this.personnel_details.subjectIds.push(newTag.id)
