@@ -40,9 +40,9 @@
                 </div>               
                 
                 <div class='mb-4'>
-                    <div @click="addLink" class="flex items-center gap-1 mb-2">
-                        <label class="flex items-center m-0 cursor-pointer text-info small">Add links</label>                       
-                        <i class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
+                    <div class="flex items-center gap-1 mb-2">
+                        <label @click="addLink" class="flex items-center m-0 cursor-pointer text-info small">Add links</label>                       
+                        <i @click="addLink" class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
                     </div>
 
                     <div class="assignment_links mb-2" v-for="(link, index) in links" :key="index">
