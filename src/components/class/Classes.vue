@@ -46,7 +46,10 @@
                       </b-col>
                       
                       <b-col cols="2" md="1" class="flex items-center justify-center">
-												<b-button-group>
+                      <b-button size="sm">
+                        View
+                      </b-button>
+												<!-- <b-button-group>
 													<b-dropdown right split text="Action" size="sm">
 														<b-dropdown-item
 															:to="`/viewsubclass/${i}`">
@@ -55,7 +58,7 @@
 														<b-dropdown-item v-b-modal="`delete${i}`"><i
 																class="fal fa-trash"></i>Delete</b-dropdown-item>
 													</b-dropdown>
-												</b-button-group>
+												</b-button-group> -->
                       </b-col>
 
                     </b-row>

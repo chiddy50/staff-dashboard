@@ -43,13 +43,9 @@
             <h1 class="text-lg text-gray-400 m-0">Here is your schedule for today,</h1>
             <div class="mb-10 mt-3">
               <div class="mb-4">
-                <div class="schedule_item rounded-md shadow-sm p-3">
+                <div class="schedule_item rounded-md shadow-sm p-3" :key="index" v-for="(index) in 4">
                   <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS1A</span></p>
                   <span class="text-xs text-gray-400">10:00 AM - 11:00 AM</span>
-                </div>
-                <div class="schedule_item rounded-md shadow-sm p-3">
-                  <p class="text-sm font-bold m-0">Physics Practical <span class="font-light">for SSS2B</span></p>
-                  <span class="text-xs text-gray-400">11:00 AM - 11:30 AM</span>
                 </div>
               </div>
 
