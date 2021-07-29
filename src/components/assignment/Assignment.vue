@@ -10,10 +10,42 @@
         <div class="row pr-3">
             <hr class="w-full" />
         </div>
-        <div v-if="viewAssignments" class="row">
-           <div class="col-12">
-               <h4 class="texxt-center my-4">No Assignments yet</h4>
-           </div>
+        <div v-if="viewAssignments">
+            <div v-if="assignments.length > 0">
+                <div v-for="(item, i) in assignments" :key="i">
+                
+                    <div class="display-data bg-white pr-4">
+                        <b-row class="px-2">
+                            <b-col>
+                                <span class="text-uppercase">{{ item.title }}</span><br />
+                                <span class="text-gray-500 text-xs">{{ item.subject }}</span>
+                            </b-col>
+                            
+                            <b-col cols="2" md="1" class="flex items-center justify-center">
+                                <b-button-group>
+                                    <b-dropdown right split text="Action" size="sm">
+                                        <b-dropdown-item :to="`/viewsubclass/${i}`">
+                                            <i class="fal fa-expand"></i> Update
+                                        </b-dropdown-item>
+                                        <b-dropdown-item :to="`/viewsubclass/${i}`">
+                                            <i class="fal fa-expand"></i> Manage Progress
+                                        </b-dropdown-item>
+                                        <b-dropdown-item v-b-modal="`delete${i}`">
+                                            <i class="fal fa-trash"></i>Remove</b-dropdown-item>                                            
+                                        <b-dropdown-item v-b-modal="`delete${i}`">
+                                            <i class="fal fa-trash"></i>Manage Attachments</b-dropdown-item>
+                                    </b-dropdown>
+                                </b-button-group>
+                            </b-col>
+                        </b-row>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div v-else class="col-12">
+                <h4 class="text-center my-4">No Assignments yet</h4>
+            </div>
         </div>
         <div v-else class="row">
             <div class="col-12">
@@ -181,7 +213,13 @@ export default {
             links: [
                 { title: '', url: '', id: Math.floor(Math.random() * 9999999999999) } 
             ],    
-            viewAssignments: false     
+            viewAssignments: false,
+            assignments: [
+                { title: 'Name the key signatures', subject: 'Mathematics for SSS1A' },
+                { title: 'Memorize the periodic table', subject: 'Mathematics for SSS2B' },
+                { title: 'True or false equations', subject: 'Mathematics for SSS2C' },
+                { title: 'Quadratic equations', subject: 'Mathematics for SSS3A' }
+            ]     
         }
     },
     methods :{
