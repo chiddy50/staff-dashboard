@@ -32,7 +32,31 @@ export default {
             }
         } catch (error) {
             commit('DATA_LOADING', false);
+            console.log(error);
+            console.table(error);
+        } 
+    },
 
+
+    getAssignments: async ({ commit }) => {
+        commit('ASSIGNMENT_LOADING', true);
+        try {
+            let auth = Helper.auth();
+    
+            let { data, status } = await Axios.get(
+                "school/staff-assignments",
+                auth
+            );
+            commit('ASSIGNMENT_LOADING', false);
+            
+            if (status == 200) {
+                commit({
+                    type: 'SET_ASSIGNMENTS',
+                    data: data.data
+                })
+            }
+        } catch (error) {
+            commit('ASSIGNMENT_LOADING', false);
             console.log(error);
             console.table(error);
         } 

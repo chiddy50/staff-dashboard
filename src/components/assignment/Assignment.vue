@@ -11,8 +11,8 @@
             <hr class="w-full" />
         </div>
         <div v-if="viewAssignments">
-            <div v-if="assignments.length > 0">
-                <div v-for="(item, i) in assignments" :key="i">
+            <div v-if="storedAssignments.length > 0">
+                <div v-for="(item, i) in storedAssignments" :key="i">
                 
                     <div class="display-data bg-white pr-4">
                         <b-row class="px-2">
@@ -25,15 +25,17 @@
                                 <b-button-group>
                                     <b-dropdown right split text="Action" size="sm">
                                         <b-dropdown-item :to="`/viewsubclass/${i}`">
-                                            <i class="fal fa-expand"></i> Update
+                                            <i class="bx bx-edit mr-2"></i> Update
                                         </b-dropdown-item>
-                                        <b-dropdown-item :to="`/viewsubclass/${i}`">
-                                            <i class="fal fa-expand"></i> Manage Progress
+                                        <b-dropdown-item :to="`/manage-progress/${item._id}`">
+                                            <i class="bx bx-loader-circle mr-2"></i> Manage Progress
                                         </b-dropdown-item>
                                         <b-dropdown-item v-b-modal="`delete${i}`">
-                                            <i class="fal fa-trash"></i>Remove</b-dropdown-item>                                            
-                                        <b-dropdown-item v-b-modal="`delete${i}`">
-                                            <i class="fal fa-trash"></i>Manage Attachments</b-dropdown-item>
+                                            <i class="bx bx-trash mr-2"></i>Remove
+                                        </b-dropdown-item>                                            
+                                        <b-dropdown-item >
+                                            <i class="bx bx-pin mr-2"></i>Manage Attachments
+                                        </b-dropdown-item>
                                     </b-dropdown>
                                 </b-button-group>
                             </b-col>
@@ -200,6 +202,9 @@
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+
 export default {
     name: 'assignment',
     data(){
@@ -213,15 +218,24 @@ export default {
             links: [
                 { title: '', url: '', id: Math.floor(Math.random() * 9999999999999) } 
             ],    
-            viewAssignments: false,
+            viewAssignments: true,
             assignments: [
-                { title: 'Name the key signatures', subject: 'Mathematics for SSS1A' },
-                { title: 'Memorize the periodic table', subject: 'Mathematics for SSS2B' },
-                { title: 'True or false equations', subject: 'Mathematics for SSS2C' },
-                { title: 'Quadratic equations', subject: 'Mathematics for SSS3A' }
+                
             ]     
         }
     },
+    computed: mapState({
+        // arrow functions can make the code very succinct!
+        storedAssignments: state => state.assignments,
+
+        // // passing the string value 'count' is same as `state => state.count`
+        // countAlias: 'count',
+
+        // // to access local state with `this`, a normal function must be used
+        // countPlusLocalState (state) {
+        // return state.count + this.localCount
+        // }
+    }),
     methods :{
         addLink(){
             this.links.push({ title: '', url: '', id: Math.floor(Math.random() * 9999999999999) })

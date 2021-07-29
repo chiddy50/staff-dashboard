@@ -45,10 +45,21 @@
                 <span class="nav__name">Class</span>
               </router-link>
 
-              <router-link to="/assignment" tag="a" class="nav__link">
-                <i class="bx bx-notepad nav__icon"></i>
-                <span class="nav__name">Assignment</span>
-              </router-link>
+              <div class='nav__dropdown'>
+                <a href='#' class='nav__link'>
+                    <i class='bx bx-notepad nav__icon' ></i>
+                    <span class='nav__name'>Assesment</span>
+                    <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                </a>
+
+                <div class='nav__dropdown-collapse'>
+                    <div class='nav__dropdown-content'>
+                        <router-link to="/assignment" tag="a" class='nav__dropdown-item'>Assignment</router-link>
+                        <router-link to="/assignment" tag="a" class='nav__dropdown-item'>Classwork</router-link>
+                        <router-link to="/assignment" tag="a" class='nav__dropdown-item'>Exam</router-link>
+                    </div>
+                </div>
+              </div>
 
               <router-link to="/timetable" tag="a" class="nav__link">
                 <i class="bx bx-book-reader nav__icon"></i>
