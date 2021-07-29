@@ -25,4 +25,11 @@ export default{
         }, 0);
         state.walletBalance = creditBalance - debitBalance;
     },
+
+    ASSIGNMENT_LOADING(state){
+
+    },
+    SET_ASSIGNMENTS(state){
+        
+    }
 }

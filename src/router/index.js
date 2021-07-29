@@ -33,6 +33,12 @@ const routes = [
   },
   
   {
+    path: "/manage-progress/:id",
+    name: "ManageProgress",
+    component: () => import("../views/ManageProgress.vue"),
+  },
+  
+  {
     path: "/timetable",
     name: "timetable",
     component: () => import("../views/Timetable.vue"),
