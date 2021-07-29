@@ -98,7 +98,7 @@
             Create <i class="bx bx-check-circle text-white"></i>
             </button>
             <button class="btn btn-secondary flex items-center">
-            Cancel <i class="bx bx-x-circle text-white"></i>
+            {{ returnText }} <i class="bx bx-x-circle text-white"></i>
             </button>
         </div>
     </div>
@@ -107,6 +107,11 @@
 <script>
 export default {
     name: 'assignmentForm',
+    props: {
+        returnText: {
+            default: 'Cancel'
+        }
+    },
     data(){
         return {
             send_notication: false,

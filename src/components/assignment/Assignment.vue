@@ -159,7 +159,9 @@
         <div v-if="assignmentView == 'update_assignment'" class="row">
             <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
 
-            <assignmentForm></assignmentForm>
+            <assignmentForm 
+                :returnText="'Back to Assignment'">
+            </assignmentForm>
             
         </div>
 
