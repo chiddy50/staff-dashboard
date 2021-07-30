@@ -9,7 +9,7 @@
         <div class="progress_header my-4">
             <div class="flex gap-4 items-center">
                 <p class='m-0 text-gray-400 text-uppercase'>{{assignment.subject}}</p> - 
-                <p class='m-0 small'>{{assignment.title}}</p>
+                <p class='m-0'>{{assignment.title}}</p>
             </div>
             <div class="flex gap-4 items-center">
                 <p class='m-0 text-gray-400'>Due on 28 July, 2021</p> 
@@ -45,20 +45,23 @@
 
             <div class="students_list">
                 <div v-for="i in 30" :key="i" class='student_item bg-white p-3 shadow-sm rounded'>
-                    <div class="flex">
+                    <div class="flex w-full">
                         <b-avatar
                         src="https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg"
                         class="mr-3"
                         ></b-avatar>
                         <div class="flex" style="flex-direction:column;">
-                            <p class="m-0" style="font-size:14px;">John Chukwuemekaeze</p>
+                            <p class="m-0" style="font-size:13px;display:flex;flex-direction:column">                                 
+                                <span>Samuel</span>
+                                <span>Chukwuemekaeze</span>
+                            </p>
                             <p class="m-0 text-gray-400" style="font-size:12px;">Status: Pending</p>
                         </div>
                     </div>
                     <div class="status_options">
-                       <span class="bg-secondary text-light">Pending</span>
-                       <span class="bg-success text-light">Done</span>
-                       <span class="bg-danger text-light">Not Done</span>
+                       <span class="pending">Pending</span>
+                       <span class="done">Done</span>
+                       <span class="not_done">Not Done</span>
                     </div>
                     
                 </div>
@@ -104,12 +107,15 @@ export default {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+    flex-direction: column;
 }
 
 .status_options {
     display: flex;
     /* flex-direction: column; */
-    gap: 5px;
+    /* gap: 1rem; */
+    justify-content: space-between;
+    width: 100%;
 }
 
 .status_options > span {
@@ -119,11 +125,44 @@ export default {
     border-radius: 4px;
     text-align: center;
     cursor: pointer;
+    transition: all .2s;
+}
+.status_options > span:hover {
+    color: #fff;
+}
+.pending {
+    border: 2px solid#6c757d;
+    color: #6c757d;
+}
+
+.pending:hover {
+    background: #6c757d;
+    color: #fff;
+}
+
+.done {
+    border: 2px solid#28a745;
+    color: #28a745;
+}
+
+.done:hover {
+    background: #28a745;
+    color: #fff;
+}
+
+.not_done {
+    border: 2px solid#dc3545;
+    color: #dc3545;
+}
+
+.not_done:hover {
+    background: #dc3545;
+    color: #fff;
 }
 
 .students_list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
 }
 
@@ -140,4 +179,21 @@ export default {
     border-radius: 5px;
 }
 
+@media screen and (max-width: 80.625em) { /** 1290px */
+    .students_list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 63.5em) { /** 1016px */
+    .students_list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 37.5em) { /** 600px */
+    .students_list {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
 </style>
