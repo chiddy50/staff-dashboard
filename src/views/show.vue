@@ -11,7 +11,7 @@
           class="ml-3"
         ></b-avatar>
 
-        <div class="header__toggle text-white">
+        <div class="header__toggle ml-3">
           <i class="bx bx-menu" id="header-toggle"></i>
         </div>
       </div>

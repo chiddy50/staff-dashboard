@@ -7,8 +7,8 @@
         </div>
 
         <div class="progress_header my-4">
-            <div class="flex gap-4 items-center">
-                <p class='m-0 text-gray-400 text-uppercase'>{{assignment.subject}}</p> - 
+            <div class="assignment_title">
+                <p class='m-0 text-gray-400 text-uppercase'>{{assignment.subject}} </p> 
                 <p class='m-0'>{{assignment.title}}</p>
             </div>
             <div class="flex gap-4 items-center">
@@ -16,7 +16,7 @@
                 <!-- <p class='m-0 small'>28 July, 2021</p> -->
             </div>
             <div class="row items-center">
-                <div class="col-12 col-lg-5">
+                <div class="col-12 col-lg-4">
                     <multiselect v-model="selected_class" 
                                 :options="classes" :searchable="false" 
                                 :close-on-select="false" :show-labels="false"
@@ -24,7 +24,7 @@
                                 placeholder="Choose class to view students">
                     </multiselect>
                 </div>
-                <div class="col-12 col-lg-5">
+                <div class="col-12 col-lg-4 search_input">
                     <!-- <multiselect v-model="value" 
                                 :options="options" :searchable="true" 
                                 :close-on-select="false" :show-labels="false"
@@ -36,6 +36,13 @@
                         <input type="search" v-model="value" class="form-control text-indent-1 border-0"
                             placeholder="Search for student" style="text-indent: 1.5rem;"/>
                     </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <multiselect v-model="status_filter" 
+                                :options="statuses" :searchable="false" 
+                                :close-on-select="false" :show-labels="false"
+                                placeholder="Choose Status">
+                    </multiselect>
                 </div>
             </div>
         </div>
@@ -77,12 +84,17 @@ export default {
     name: 'manageProgress',
     data() {
         return {
-            assignment: null,
+            assignment: {
+                subject: null,
+                title: null
+            },
             value: null,
             options: [],
             selected_class: null,
             classes: ['SSS3A', 'SSS3B', 'SSS3C'],
-            visibleStudents: false
+            visibleStudents: false,
+            status_filter: null,
+            statuses: ['Pending', 'Done', 'Not Done']
         }
     },
     computed: mapState({
@@ -113,8 +125,8 @@ export default {
 .status_options {
     display: flex;
     /* flex-direction: column; */
-    /* gap: 1rem; */
-    justify-content: space-between;
+    gap: 7px;
+    /* justify-content: space-between; */
     width: 100%;
 }
 
@@ -126,6 +138,7 @@ export default {
     text-align: center;
     cursor: pointer;
     transition: all .2s;
+    flex: 1;
 }
 .status_options > span:hover {
     color: #fff;
@@ -179,21 +192,45 @@ export default {
     border-radius: 5px;
 }
 
-@media screen and (max-width: 80.625em) { /** 1290px */
+.assignment_title{
+    display: flex;
+    gap: 1rem;
+}
+
+@media screen and (max-width: 90.625em) { /** 1450px */
     .students_list {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
-@media screen and (max-width: 63.5em) { /** 1016px */
+@media screen and (max-width: 70.625em) { /** 1130px */
     .students_list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media screen and (max-width: 37.5em) { /** 600px */
+@media screen and (max-width: 61.875em) { /** 990px */
+    .search_input{
+        margin: 1rem 0 1rem;
+    }
+
+    .assignment_title{
+        flex-direction: column;
+        gap: 0rem;
+    }
+}
+
+@media screen and (max-width: 50.75em) { /** 812px */
     .students_list {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 }
+
+@media screen and (max-width: 22.875em) { /** 366px */
+    .status_options {
+        flex-direction: column;
+    }
+}
+
+
 </style>
