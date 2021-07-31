@@ -2,15 +2,15 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row px-3 pt-10 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-notepad mr-2"></i> <span>Assignment</span>
+                <i class="bx bx-notepad mr-2"></i> <span>{{updatePlaceholder}} Assignment</span>
             </h1>
-            <button v-if="viewAssignments" @click="viewAssignments = false" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
-            <button v-else @click="viewAssignments = true" class="btn btn-info" style="font-size:13px;">View Assignment</button>
+            <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
+            <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignment</button>
         </div>
         <div class="row pr-3">
             <hr class="w-full" />
         </div>
-        <div v-if="viewAssignments">
+        <div v-if="assignmentView == 'assignments'">
             <div v-if="storedAssignments.length > 0">
                 <div v-for="(item, i) in storedAssignments" :key="i">
                 
@@ -24,7 +24,8 @@
                             <b-col cols="2" md="1" class="flex items-center justify-center">
                                 <b-button-group>
                                     <b-dropdown right split text="Action" size="sm">
-                                        <b-dropdown-item :to="`/viewsubclass/${i}`">
+                                        <!-- <b-dropdown-item :to="`/viewsubclass/${i}`"> -->
+                                        <b-dropdown-item @click="updateAssignment">
                                             <i class="bx bx-edit mr-2"></i> Update
                                         </b-dropdown-item>
                                         <b-dropdown-item :to="`/manage-progress/${item._id}`">
@@ -49,8 +50,8 @@
                 <h4 class="text-center my-4">No Assignments yet</h4>
             </div>
         </div>
-        <div v-else class="row">
-            <div class="col-12">
+        <div v-if="assignmentView == 'add_assignment'" class="row">
+            <!-- <div class="col-12">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -80,7 +81,6 @@
                     </div>
 
                     <div class="assignment_links mb-2" v-for="(link, index) in links" :key="index">
-                        <!-- <label class='small m-0'>Link 1:</label> -->
                         <input type="text" class="form-control" placeholder="Text" />
                         <input type="text" class="form-control" placeholder="URL" />
                         <i v-if="links.length > 1" class="bx bx-trash cursor-pointer" @click="removeLink(link.id)" v-b-popover.hover.bottom="'Remove link'"></i>
@@ -140,8 +140,7 @@
                      <div class="col-6 flex items-center">
                         <button class="btn btn-outline-info flex items-center gap-2">Add Attachments
                             <i class="bx bx-pin"></i>
-                        </button>
-                        
+                        </button>                     
                     </div>
                 </div>
                          
@@ -153,8 +152,18 @@
                     Cancel <i class="bx bx-x-circle text-white"></i>
                     </button>
                 </div>
-            </div>
-          </div>
+            </div> -->
+
+            <assignmentForm></assignmentForm>
+        </div>
+        <div v-if="assignmentView == 'update_assignment'" class="row">
+            <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
+
+            <assignmentForm 
+                :returnText="'Back to Assignment'">
+            </assignmentForm>
+            
+        </div>
 
         <b-modal id="addAssignment"
           content-class="bg-gray-100"
@@ -219,6 +228,7 @@ export default {
                 { title: '', url: '', id: Math.floor(Math.random() * 9999999999999) } 
             ],    
             viewAssignments: true,
+            assignmentView: 'assignments',
             assignments: [
                 
             ]     
@@ -231,10 +241,10 @@ export default {
         // // passing the string value 'count' is same as `state => state.count`
         // countAlias: 'count',
 
-        // // to access local state with `this`, a normal function must be used
-        // countPlusLocalState (state) {
-        // return state.count + this.localCount
-        // }
+        // to access local state with `this`, a normal function must be used
+        updatePlaceholder () {
+            return this.assignmentView == 'update_assignment' ? 'Update' : ''        
+        }
     }),
     methods :{
         addLink(){
@@ -250,6 +260,9 @@ export default {
         },
         untagSubject(){
 
+        },
+        updateAssignment(){
+            this.assignmentView = 'update_assignment'
         }
     }
 }

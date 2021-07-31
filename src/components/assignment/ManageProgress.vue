@@ -6,57 +6,69 @@
             </h1>            
         </div>
 
-        <div class="row my-4">
-            <div class="flex gap-4 items-center p-3 bg-white" style='border: 1px solid #ddd; border-radius:7px'>
-                <p class='m-0 text-gray-400 text-uppercase'>{{assignment.subject}}</p> - 
-                <p class='m-0 small'>{{assignment.title}}</p>
+        <div class="progress_header my-4">
+            <div class="assignment_title">
+                <p class='m-0 text-gray-400 text-uppercase'>{{assignment.subject}} </p> 
+                <p class='m-0'>{{assignment.title}}</p>
             </div>
-        </div>
-        <div class=" my-4">
-            <h3 class='mb-4'>Students</h3>
-            <div class="students_list">
-                <div class="card" v-for="(i) in 6" :key="i">
-                    <div class="flex items-center pt-2 justify-center">
-                        <i class='bx bxs-user-circle' style="font-size: 5rem;"></i>
-                    </div>
-                    <div class="card-body">
-                    <h5 class="card-title flex text-center small flex-col">
-                        <span>John</span>
-                        <span>Chukwuemekaeze</span>
-                    </h5>
-                    <div class="card-title flex text-center flex-col">
-                       <span class="assignment_status">Pending</span>
-                    </div>
-                    <div class="btn-group w-full">
-                        <button type="button" class="btn btn-info btn-sm small_text dropdown-toggle" data-toggle="dropdown">
-                        Action
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item small" href="#">Pending</a>
-                            <a class="dropdown-item small" href="#">Done</a>
-                            <a class="dropdown-item small" href="#">Not Done</a>
-                        </div>
-                    </div>
+            <div class="flex gap-4 items-center">
+                <p class='m-0 text-gray-400'>Due on 28 July, 2021</p> 
+                <!-- <p class='m-0 small'>28 July, 2021</p> -->
+            </div>
+            <div class="row items-center">
+                <div class="col-12 col-lg-4">
+                    <multiselect v-model="selected_class" 
+                                :options="classes" :searchable="false" 
+                                :close-on-select="false" :show-labels="false"
+                                @select="showStudents"
+                                placeholder="Choose class to view students">
+                    </multiselect>
+                </div>
+                <div class="col-12 col-lg-4 search_input">
+                    <!-- <multiselect v-model="value" 
+                                :options="options" :searchable="true" 
+                                :close-on-select="false" :show-labels="false"
+                                @select="showStudents"
+                                placeholder="Search for student">
+                    </multiselect> -->
+                    <div class="position-relative rounded-lg" style='border: 1px solid #ddd;'>
+                        <i class="bx bx-search position-absolute position" style="left: 0.7rem; top: 0.7rem;"></i>
+                        <input type="search" v-model="value" class="form-control text-indent-1 border-0"
+                            placeholder="Search for student" style="text-indent: 1.5rem;"/>
                     </div>
                 </div>
+                <div class="col-12 col-lg-4">
+                    <multiselect v-model="status_filter" 
+                                :options="statuses" :searchable="false" 
+                                :close-on-select="false" :show-labels="false"
+                                placeholder="Choose Status">
+                    </multiselect>
+                </div>
             </div>
+        </div>
 
-            <div class="students_list2 mt-5">
+        <div class="my-4" v-if="visibleStudents">
+            <h4 class='text-gray-400 mt-10'>SSS3A - Students</h4>
+
+            <div class="students_list">
                 <div v-for="i in 30" :key="i" class='student_item bg-white p-3 shadow-sm rounded'>
-                    <div class="flex">
+                    <div class="flex w-full">
                         <b-avatar
                         src="https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg"
                         class="mr-3"
                         ></b-avatar>
                         <div class="flex" style="flex-direction:column;">
-                            <p class="m-0" style="font-size:14px;">John Chukwuemekaeze</p>
+                            <p class="m-0" style="font-size:13px;display:flex;flex-direction:column">                                 
+                                <span>Samuel</span>
+                                <span>Chukwuemekaeze</span>
+                            </p>
                             <p class="m-0 text-gray-400" style="font-size:12px;">Status: Pending</p>
                         </div>
                     </div>
                     <div class="status_options">
-                       <span class="bg-secondary text-light">Pending</span>
-                       <span class="bg-success text-light">Done</span>
-                       <span class="bg-danger text-light">Not Done</span>
+                       <span class="pending">Pending</span>
+                       <span class="done">Done</span>
+                       <span class="not_done">Not Done</span>
                     </div>
                     
                 </div>
@@ -72,12 +84,27 @@ export default {
     name: 'manageProgress',
     data() {
         return {
-            assignment: null
+            assignment: {
+                subject: null,
+                title: null
+            },
+            value: null,
+            options: [],
+            selected_class: null,
+            classes: ['SSS3A', 'SSS3B', 'SSS3C'],
+            visibleStudents: false,
+            status_filter: null,
+            statuses: ['Pending', 'Done', 'Not Done']
         }
     },
     computed: mapState({
         storedAssignments: state => state.assignments,
     }),
+    methods: {
+        showStudents(){
+            this.visibleStudents = true
+        }
+    },
     mounted(){
         this.assignment = this.storedAssignments.find(item => item._id == this.$route.params.id)
         console.log(this.$route.params.id);
@@ -87,38 +114,20 @@ export default {
 </script>
 
 <style>
-.students_list {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 1rem;
-}
-
-.assignment_status {
-    font-size: 10px;
-    padding: 2px;
-    border: 1px solid teal;
-    border-radius: 4px;
-}
-
-.small_text {
-    font-size: 12px;
-}
-
-.medium_text {
-    font-size: 15px;
-}
-
 .student_item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+    flex-direction: column;
 }
 
 .status_options {
     display: flex;
     /* flex-direction: column; */
-    gap: 5px;
+    gap: 7px;
+    /* justify-content: space-between; */
+    width: 100%;
 }
 
 .status_options > span {
@@ -128,11 +137,100 @@ export default {
     border-radius: 4px;
     text-align: center;
     cursor: pointer;
+    transition: all .2s;
+    flex: 1;
+}
+.status_options > span:hover {
+    color: #fff;
+}
+.pending {
+    border: 2px solid#6c757d;
+    color: #6c757d;
 }
 
-.students_list2 {
+.pending:hover {
+    background: #6c757d;
+    color: #fff;
+}
+
+.done {
+    border: 2px solid#28a745;
+    color: #28a745;
+}
+
+.done:hover {
+    background: #28a745;
+    color: #fff;
+}
+
+.not_done {
+    border: 2px solid#dc3545;
+    color: #dc3545;
+}
+
+.not_done:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+.students_list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
 }
+
+.progress_header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.outline-btn {
+    font-size: 11px;
+    padding: 3px 10px;
+    border: 1px solid teal;
+    border-radius: 5px;
+}
+
+.assignment_title{
+    display: flex;
+    gap: 1rem;
+}
+
+@media screen and (max-width: 90.625em) { /** 1450px */
+    .students_list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 70.625em) { /** 1130px */
+    .students_list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 61.875em) { /** 990px */
+    .search_input{
+        margin: 1rem 0 1rem;
+    }
+
+    .assignment_title{
+        flex-direction: column;
+        gap: 0rem;
+    }
+}
+
+@media screen and (max-width: 50.75em) { /** 812px */
+    .students_list {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 22.875em) { /** 366px */
+    .status_options {
+        flex-direction: column;
+    }
+}
+
+
 </style>

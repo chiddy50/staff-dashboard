@@ -16,6 +16,7 @@ import classes from "@/components/class/Classes";
 import wallet from "@/components/wallet/wallet";
 import assignment from "@/components/assignment/Assignment";
 import manageProgress from "@/components/assignment/ManageProgress";
+import assignmentForm from "@/components/assignment/AssignmentForm";
 
 import preloader from "@/components/preloader/preloader";
 
@@ -28,7 +29,9 @@ Vue.component("classes", classes);
 Vue.component("wallet", wallet);
 Vue.component("assignment", assignment);
 Vue.component("manageProgress", manageProgress);
+Vue.component("assignmentForm", assignmentForm);
 Vue.component("preloader", preloader);
+
 Vue.component("Multiselect", Multiselect);
 
 import "@/assets/css/style.css";
