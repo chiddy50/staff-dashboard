@@ -31,6 +31,11 @@ const routes = [
     name: "Assignment",
     component: () => import("../views/Assignment.vue"),
   },
+  {
+    path: "/communication",
+    name: "communication",
+    component: () => import("../views/Communication.vue"),
+  },
   
   {
     path: "/manage-progress/:id",
