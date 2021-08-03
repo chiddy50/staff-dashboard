@@ -93,12 +93,12 @@
             </div>
         </div>
                     
-        <div class="mt-4">
+        <div class="mt-3">
             <button class="btn btn-success flex items-center mr-3">                    
-            Create <i class="bx bx-check-circle text-white"></i>
+            <i class="bx bx-check-circle text-white"></i> Create
             </button>
             <button class="btn btn-secondary flex items-center">
-            {{ returnText }} <i class="bx bx-x-circle text-white"></i>
+            <i class="bx bx-x-circle text-white"></i> {{ returnText }} 
             </button>
         </div>
     </div>
