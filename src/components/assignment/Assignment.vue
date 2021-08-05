@@ -18,14 +18,14 @@
                         <b-row class="px-2">
                             <b-col>
                                 <span class="text-uppercase">{{ item.title }}</span><br />
-                                <span class="text-gray-500 text-xs">{{ item.subject }}</span>
+                                <!-- <span class="text-gray-500 text-xs">{{ item.subject }}</span> -->
                             </b-col>
                             
                             <b-col cols="2" md="1" class="flex items-center justify-center">
                                 <b-button-group>
                                     <b-dropdown right split text="Action" size="sm">
                                         <!-- <b-dropdown-item :to="`/viewsubclass/${i}`"> -->
-                                        <b-dropdown-item @click="updateAssignment">
+                                        <b-dropdown-item @click="updateAssignment(item._id)">
                                             <i class="bx bx-edit mr-2"></i> Update
                                         </b-dropdown-item>
                                         <b-dropdown-item :to="`/manage-progress/${item._id}`">
@@ -157,10 +157,13 @@
             <assignmentForm></assignmentForm>
         </div>
         <div v-if="assignmentView == 'update_assignment'" class="row">
-            <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
+            <div class="col-12">
+                <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
+            </div>
 
             <assignmentForm 
-                :returnText="'Back to Assignment'">
+                :assignment="assignment"
+                :returnText="'Back to Assignments'">
             </assignmentForm>
             
         </div>
@@ -229,9 +232,8 @@ export default {
             ],    
             viewAssignments: true,
             assignmentView: 'assignments',
-            assignments: [
-                
-            ]     
+            assignments: [],     
+            assignment: null,     
         }
     },
     computed: mapState({
@@ -261,9 +263,14 @@ export default {
         untagSubject(){
 
         },
-        updateAssignment(){
+        updateAssignment(id){
+            this.assignment = this.storedAssignments.find(item => item._id === id);
+            console.log(this.assignment);
             this.assignmentView = 'update_assignment'
         }
+    },
+    watch: {
+        
     }
 }
 </script>
