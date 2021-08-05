@@ -37,7 +37,6 @@ export default {
         } 
     },
 
-
     getAssignments: async ({ commit }) => {
         commit('ASSIGNMENT_LOADING', true);
         try {
