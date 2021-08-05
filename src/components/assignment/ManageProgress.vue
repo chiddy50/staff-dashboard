@@ -67,11 +67,11 @@
                     <!-- <div class="pending_status">Pending</div> -->
                     <div class="notdone_status">
                         <span class='text-xs'>Not Done</span>
-                        <span class='text-2xl'>25</span>
+                        <span class='text-2xl font-bold'>25</span>
                     </div>
                     <div class="done_status">
                         <span class='text-xs'>Done</span>
-                        <span class='text-2xl'>6</span>
+                        <span class='text-2xl font-bold'>6</span>
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@ export default {
 
 .students_list {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
 }
 
