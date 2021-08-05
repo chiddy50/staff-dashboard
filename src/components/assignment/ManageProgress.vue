@@ -1,20 +1,32 @@
 <template>
     <div class="w-full py-2 mt-12 px-4">
-        <div class="row px-3 pt-10 flex items-center justify-between">
+        <div class="row px-3 pt-10 mb-4 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
                 <i class="bx bx-loader-circle mr-2"></i> <span>Manage Progress</span>
             </h1>            
         </div>
 
+        <div class="assignment_title">
+            <p class='m-0 text-sm'>
+                <span class='text-gray-400'>Subject - </span>
+                <span>{{assignment.subject || 'Mathematics' }}</span>
+            </p> 
+        </div>
+        <div class="flex">
+            <p class='m-0 text-sm'>
+                <span class='text-gray-400'>Title - </span>
+                <span>{{assignment.title}}</span>                
+            </p>
+        </div>
+        <div class="flex">
+            <p class='m-0 text-sm'>
+                <span class='text-gray-400'> Due date - </span>
+                <span> 28 July, 2021</span>
+            </p> 
+        </div>
+
         <div class="progress_header my-4">
-            <div class="assignment_title">
-                <p class='m-0 text-gray-400 text-uppercase'>{{assignment.subject}} </p> 
-                <p class='m-0'>{{assignment.title}}</p>
-            </div>
-            <div class="flex gap-4 items-center">
-                <p class='m-0 text-gray-400'>Due on 28 July, 2021</p> 
-                <!-- <p class='m-0 small'>28 July, 2021</p> -->
-            </div>
+
             <div class="row items-center">
                 <div class="col-12 col-lg-4">
                     <multiselect v-model="selected_class" 
@@ -48,7 +60,21 @@
         </div>
 
         <div class="my-4" v-if="visibleStudents">
-            <h4 class='text-gray-400 mt-10'>SSS3A - Students</h4>
+            <div class="grid grid-cols-2 mb-4">
+                <h4 class='text-gray-500 flex items-center m-0'>SSS3A - Students</h4>
+
+                <div class="status_box">
+                    <!-- <div class="pending_status">Pending</div> -->
+                    <div class="notdone_status">
+                        <span class='text-xs'>Not Done</span>
+                        <span class='text-2xl'>25</span>
+                    </div>
+                    <div class="done_status">
+                        <span class='text-xs'>Done</span>
+                        <span class='text-2xl'>6</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="students_list">
                 <div v-for="i in 30" :key="i" class='student_item bg-white p-3 shadow-sm rounded'>
@@ -66,7 +92,7 @@
                         </div>
                     </div>
                     <div class="status_options">
-                       <span class="pending">Pending</span>
+                       <!-- <span class="pending">Pending</span> -->
                        <span class="done">Done</span>
                        <span class="not_done">Not Done</span>
                     </div>
@@ -195,6 +221,46 @@ export default {
 .assignment_title{
     display: flex;
     gap: 1rem;
+}
+
+.status_box {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.status_box > div{
+    font-size: 14px;
+    padding: 3px 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* .pending_status {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background: #0000ff2e;
+    color: #0000ff73;
+    border: 1px solid #0000ff73;
+} */
+
+.notdone_status {
+    /* grid-column-start: 1;
+    grid-column-end: 4; */
+    background: #f3c6c6;
+    color: #f33838;
+    border: 1px solid #f33838;
+}
+
+.done_status {
+    /* grid-column-start: 4;
+    grid-column-end: 7; */
+    background: #00800036;
+    color: #008000ab;
+    border: 1px solid #008000ab;
 }
 
 @media screen and (max-width: 90.625em) { /** 1450px */

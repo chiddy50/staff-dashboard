@@ -5,7 +5,7 @@
                 <i class="bx bx-notepad mr-2"></i> <span>{{updatePlaceholder}} Assignment</span>
             </h1>
             <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
-            <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignment</button>
+            <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
         </div>
         <div class="row pr-3">
             <hr class="w-full" />
