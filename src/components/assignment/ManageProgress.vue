@@ -2,26 +2,26 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row px-3 pt-10 mb-4 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-loader-circle mr-2"></i> <span>Manage Progress</span>
+                <i class="bx bx-hourglass mr-2"></i> <span class="font-bold">Manage Progress</span>
             </h1>            
         </div>
 
-        <div class="assignment_title">
-            <p class='m-0 text-sm'>
-                <span class='text-gray-400'>Subject - </span>
-                <span>{{assignment.subject || 'Mathematics' }}</span>
+        <div class="">
+            <p class='m-0 text-sm flex'>
+                <span style="flex:7%;" class='text-gray-400'>Subject</span>
+                <span style="flex: 93%;">{{assignment.subject || 'Mathematics' }}</span>
             </p> 
         </div>
-        <div class="flex">
-            <p class='m-0 text-sm'>
-                <span class='text-gray-400'>Title - </span>
-                <span>{{assignment.title}}</span>                
+        <div class="">
+            <p class='m-0 text-sm flex'>
+                <span style="flex:7%;" class='text-gray-400'>Title</span>
+                <span style="flex: 93%;">{{assignment.title}}</span>                
             </p>
         </div>
-        <div class="flex">
-            <p class='m-0 text-sm'>
-                <span class='text-gray-400'> Due date - </span>
-                <span> 28 July, 2021</span>
+        <div class="">
+            <p class='m-0 text-sm flex'>
+                <span style="flex:7%;" class='text-gray-400'> Due date</span>
+                <span style="flex: 93%;"> 28 July, 2021</span>
             </p> 
         </div>
 

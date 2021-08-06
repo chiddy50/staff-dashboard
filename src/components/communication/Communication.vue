@@ -2,7 +2,7 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row pt-10 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-message-rounded-detail mr-2"></i> <span>Communication</span>
+                <i class="bx bx-message-rounded-detail mr-2"></i> <span class="font-bold">Communication</span>
             </h1>          
 
 
