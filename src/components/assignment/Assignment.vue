@@ -2,7 +2,7 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row px-3 pt-10 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-notepad mr-2"></i> <span>{{updatePlaceholder}} Assignment</span>
+                <i class="bx bx-notepad mr-2"></i> <span class="font-bold">{{updatePlaceholder}} Assignment</span>
             </h1>
             <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
             <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
@@ -12,24 +12,23 @@
         </div>
         <div v-if="assignmentView == 'assignments'">
             <div v-if="storedAssignments.length > 0">
-                <div v-for="(item, i) in storedAssignments" :key="i">
+                <!-- <div v-for="(item, i) in storedAssignments" :key="i">
                 
                     <div class="display-data bg-white pr-4">
                         <b-row class="px-2">
                             <b-col>
                                 <span class="text-uppercase">{{ item.title }}</span><br />
-                                <!-- <span class="text-gray-500 text-xs">{{ item.subject }}</span> -->
+                                <span class="text-gray-500 text-xs">{{ item.subject }}</span>
                             </b-col>
                             
                             <b-col cols="2" md="1" class="flex items-center justify-center">
                                 <b-button-group>
                                     <b-dropdown right split text="Action" size="sm">
-                                        <!-- <b-dropdown-item :to="`/viewsubclass/${i}`"> -->
                                         <b-dropdown-item @click="updateAssignment(item._id)">
                                             <i class="bx bx-edit mr-2"></i> Update
                                         </b-dropdown-item>
                                         <b-dropdown-item :to="`/manage-progress/${item._id}`">
-                                            <i class="bx bx-loader-circle mr-2"></i> Manage Progress
+                                            <i class="bx bx-hourglass mr-2"></i> Manage Progress
                                         </b-dropdown-item>
                                         <b-dropdown-item v-b-modal="`delete${i}`">
                                             <i class="bx bx-trash mr-2"></i>Remove
@@ -43,7 +42,65 @@
                         </b-row>
                     </div>
                     
+                </div> -->
+
+                <div v-for="(item, i) in storedAssignments" :key="i"
+                 class="assignment_item bg-white p-4 rounded-md text-sm">
+                    <div class="assignment_header">
+                        <p class='flex items-center'>Memorize the quadratic equation</p>
+                        <span class='rounded-md'>Not Done</span>
+                    </div>
+                    <div class="assignment_desc">
+                        <span class='text-gray-400 flex items-center'>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim dignissimos quisquam odit aliquam.
+                        </span>
+                    </div>
+                    <div class="assignment_body mt-2">
+                        <div class='assignment_stats'>
+                            <p>
+                                <span class='text_gray'>Subject</span>
+                                <span>Mathematics</span>
+                            </p>
+                            <p>
+                                <span class='text_gray'>Marked</span>
+                                <span>Homework</span>
+                            </p>
+                            <p>
+                                <span class='text_gray'>Type</span>
+                                <span>Project</span>
+                            </p>
+                            <p>
+                                <span class='text_gray'>Due Date</span>
+                                <span>28th July, 2021</span>
+                            </p>
+                        </div>
+                        <div class='flex justify-end'>
+                            <b-button-group class='btn-sm'>
+                                <b-dropdown right split text="Action" size="sm">
+                                    <b-dropdown-item>
+                                        <i class="bx bx-book mr-2"></i> Classes
+                                    </b-dropdown-item>
+                                    <b-dropdown-item @click="updateAssignment(item._id)">
+                                        <i class="bx bx-edit mr-2"></i> Update
+                                    </b-dropdown-item>
+                                    <b-dropdown-item :to="`/manage-progress/${item._id}`">
+                                        <i class="bx bx-hourglass mr-2"></i> Manage Progress
+                                    </b-dropdown-item>
+                                    <b-dropdown-item v-b-modal="`delete${i}`">
+                                        <i class="bx bx-trash mr-2"></i>Remove
+                                    </b-dropdown-item>                                            
+                                    <b-dropdown-item >
+                                        <i class="bx bx-pin mr-2"></i>Manage Attachments
+                                    </b-dropdown-item>
+                                </b-dropdown>
+                            </b-button-group>
+                        </div>
+                    </div>
+                    <!-- <div class="assignment_desc mt-2">
+                        <span class='text-gray-400 flex items-center'>Name the key signatures in the periiodic table</span>                        
+                    </div> -->
                 </div>
+
             </div>
 
             <div v-else class="col-12">
@@ -51,108 +108,6 @@
             </div>
         </div>
         <div v-if="assignmentView == 'add_assignment'" class="row">
-            <!-- <div class="col-12">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <div>										
-                                <multiselect v-model="subjectValues" tag-placeholder="Search & add Subjects" 
-                                    placeholder="Choose Subjects and Class" label="subject" class="mb-3"
-                                    track-by="id" :options="subjects" :multiple="true" :taggable="true" @select="tagSubjects" @remove="untagSubject">
-                                </multiselect>										
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">                    
-                            <input type="text" class="form-control"  placeholder="Title" />
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <textarea class='form-control' rows="3" placeholder="Description"></textarea>
-                </div>               
-                
-                <div class='mb-4'>
-                    <div class="flex items-center gap-1 mb-2">
-                        <label @click="addLink" class="flex items-center m-0 cursor-pointer text-info small">Add links</label>                       
-                        <i @click="addLink" class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
-                    </div>
-
-                    <div class="assignment_links mb-2" v-for="(link, index) in links" :key="index">
-                        <input type="text" class="form-control" placeholder="Text" />
-                        <input type="text" class="form-control" placeholder="URL" />
-                        <i v-if="links.length > 1" class="bx bx-trash cursor-pointer" @click="removeLink(link.id)" v-b-popover.hover.bottom="'Remove link'"></i>
-                        
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <div class="">
-                                <label class='small m-1'>Type:</label>
-                                <select class="form-control">
-                                    <option value="">Select Option</option>
-                                    <option value="">Essay</option>
-                                    <option value="">Project</option>
-                                    <option value="">Review</option>
-                                    <option value="">Written</option>
-                                </select>                        
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <div class="">
-                                <label class='small m-1'>Due Date:</label>
-                                <input type="date" class="form-control" />                      
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <div class="">
-                                <label class='small m-1'>Mark Item:</label>
-                                <select class="form-control">
-                                    <option value="">None</option>
-                                    <option value="">Quiz</option>
-                                    <option value="">Presentation</option>
-                                    <option value="">Homework</option>
-                                    <option value="">Project</option>
-                                    <option value="">Exam</option>                                    
-                                </select>                        
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-6 flex items-center">
-                        <b-form-checkbox class="warning" v-model="send_notication" name="check-button" switch>
-                            <span class="text-xs">Send Notification</span>
-                        </b-form-checkbox>
-                    </div>
-                </div>
-
-                <div class="row mb-4">                    
-                     <div class="col-6 flex items-center">
-                        <button class="btn btn-outline-info flex items-center gap-2">Add Attachments
-                            <i class="bx bx-pin"></i>
-                        </button>                     
-                    </div>
-                </div>
-                         
-                <div class="mt-4">
-                    <button class="btn btn-success flex items-center mr-3">                    
-                    Create <i class="bx bx-check-circle text-white"></i>
-                    </button>
-                    <button class="btn btn-secondary flex items-center">
-                    Cancel <i class="bx bx-x-circle text-white"></i>
-                    </button>
-                </div>
-            </div> -->
 
             <assignmentForm></assignmentForm>
         </div>
@@ -281,5 +236,75 @@ export default {
     display: flex;
     gap: 1rem;
     align-items: center;
+}
+
+.assignment_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.assignment_header p {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.assignment_header span {
+    font-size: 11px;
+    background: #ddd;
+    color: tomato;
+    padding: 3px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assignment_body {
+    /* display: flex;
+    gap: 1rem; */
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.assignment_body p{
+    display: flex;
+    flex-direction: column;
+
+    font-size: 12px;
+    margin: 0;
+}
+
+.assignment_body p span:nth-child(1){
+    font-weight: 600;
+}
+
+.assignment_body p span:nth-child(2){
+    color: #444;
+    font-weight: 600;
+}
+
+.view_classes span {
+    font-size: 12px;
+    color: rgb(64, 99, 214);
+    font-weight: bold;
+}
+
+.text_gray{
+    color: #c8c8c8;
+}
+
+.assignment_stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.assignment_desc{ 
+    margin: 5px 0 0;
+}   
+
+.assignment_desc span {
+    font-size: 13px;
 }
 </style>
