@@ -1,33 +1,18 @@
 <template>
-  <div class="w-full py-2 mt-12 px-4">
-    <div class="row px-3 pt-10 flex items-center justify-between">
-      <h1 class="text-3xl m-0 flex items-center">
-        <i class="bx bx-notepad mr-2"></i>
-        <span class="font-bold">{{ updatePlaceholder }} Assignment</span>
-      </h1>
-      <button
-        v-if="assignmentView == 'assignments'"
-        @click="assignmentView = 'add_assignment'"
-        class="btn btn-info"
-        style="font-size: 13px"
-      >
-        Add Assignment
-      </button>
-      <button
-        v-if="assignmentView == 'add_assignment'"
-        @click="assignmentView = 'assignments'"
-        class="btn btn-info"
-        style="font-size: 13px"
-      >
-        View Assignments
-      </button>
-    </div>
-    <div class="row pr-3">
-      <hr class="w-full" />
-    </div>
-    <div v-if="assignmentView == 'assignments'">
-      <div v-if="storedAssignments.length > 0">
-        <!-- <div v-for="(item, i) in storedAssignments" :key="i">
+    <div class="w-full py-2 mt-12 px-4">
+        <div class="row px-3 pt-10 flex items-center justify-between">
+            <h1 class="text-3xl m-0 flex items-center">
+                <i class="bx bx-notepad mr-2"></i> <span class="font-bold">{{updatePlaceholder}} Assignment</span>
+            </h1>
+            <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
+            <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
+        </div>
+        <div class="row pr-3">
+            <hr class="w-full" />
+        </div>
+        <div v-if="assignmentView == 'assignments'">
+            <div v-if="storedAssignments.length > 0">
+                <!-- <div v-for="(item, i) in storedAssignments" :key="i">
                 
                     <div class="display-data bg-white pr-4">
                         <b-row class="px-2">
@@ -59,269 +44,267 @@
                     
                 </div> -->
 
-        <div
-          v-for="(item, i) in storedAssignments"
-          :key="i"
-          class="assignment_item bg-white p-4 rounded-md text-sm"
-        >
-          <div class="flex justify-between item-center">
-            <p>
-              <span> Due Date: 28th July, 2021</span>
-            </p>
-           <p>
-                <span class="rounded-md bg-red-100 text-red-600 p-1 text-xs"
-              >Not Done</span
-            >
-           </p>
-          </div>
-          <div class="assignment_header">
-            <p class="flex items-center">Memorize the quadratic equation</p>
-          </div>
-          <div class="assignment_desc">
-            <span class="text-gray-400 flex items-center">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim
-              dignissimos quisquam odit aliquam.
-            </span>
-          </div>
-          <hr class="w-100" />
-          <div class="assignment_body mt-2">
-            <div class="assignment_stats">Mathematics * Homework * Project</div>
-            <div class="flex justify-end">
-              <b-button-group class="btn-sm">
-                <b-dropdown right split text="Action" size="sm">
-                  <b-dropdown-item>
-                    <i class="bx bx-book mr-2"></i> Classes
-                  </b-dropdown-item>
-                  <b-dropdown-item @click="updateAssignment(item._id)">
-                    <i class="bx bx-edit mr-2"></i> Update
-                  </b-dropdown-item>
-                  <b-dropdown-item :to="`/manage-progress/${item._id}`">
-                    <i class="bx bx-hourglass mr-2"></i> Manage Progress
-                  </b-dropdown-item>
-                  <b-dropdown-item v-b-modal="`delete${i}`">
-                    <i class="bx bx-trash mr-2"></i>Remove
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <i class="bx bx-pin mr-2"></i>Manage Attachments
-                  </b-dropdown-item>
-                </b-dropdown>
-              </b-button-group>
-            </div>
-          </div>
-          <!-- <div class="assignment_desc mt-2">
+                <div v-for="(item, i) in storedAssignments" :key="i"
+                 class="assignment_item bg-white p-4 rounded-md text-sm">
+                    <div class="assignment_header">
+                        <p class='flex items-center'>Memorize the quadratic equation</p>
+                        <span class='rounded-md'>Not Done</span>
+                    </div>
+                    <div class="assignment_desc">
+                        <span class='text-gray-400 flex items-center'>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim dignissimos quisquam odit aliquam.
+                        </span>
+                    </div>
+                    <div class="assignment_body mt-2">
+                        <div class='assignment_stats'>
+                            <p>
+                                <span class='text_gray'>Subject</span>
+                                <span>Mathematics</span>
+                            </p>
+                            <p>
+                                <span class='text_gray'>Marked</span>
+                                <span>Homework</span>
+                            </p>
+                            <p>
+                                <span class='text_gray'>Type</span>
+                                <span>Project</span>
+                            </p>
+                            <p>
+                                <span class='text_gray'>Due Date</span>
+                                <span>28th July, 2021</span>
+                            </p>
+                        </div>
+                        <div class='flex justify-end'>
+                            <b-button-group class='btn-sm'>
+                                <b-dropdown right split text="Action" size="sm">
+                                    <b-dropdown-item>
+                                        <i class="bx bx-book mr-2"></i> Classes
+                                    </b-dropdown-item>
+                                    <b-dropdown-item @click="updateAssignment(item._id)">
+                                        <i class="bx bx-edit mr-2"></i> Update
+                                    </b-dropdown-item>
+                                    <b-dropdown-item :to="`/manage-progress/${item._id}`">
+                                        <i class="bx bx-hourglass mr-2"></i> Manage Progress
+                                    </b-dropdown-item>
+                                    <b-dropdown-item v-b-modal="`delete${i}`">
+                                        <i class="bx bx-trash mr-2"></i>Remove
+                                    </b-dropdown-item>                                            
+                                    <b-dropdown-item >
+                                        <i class="bx bx-pin mr-2"></i>Manage Attachments
+                                    </b-dropdown-item>
+                                </b-dropdown>
+                            </b-button-group>
+                        </div>
+                    </div>
+                    <!-- <div class="assignment_desc mt-2">
                         <span class='text-gray-400 flex items-center'>Name the key signatures in the periiodic table</span>                        
                     </div> -->
+                </div>
+
+            </div>
+
+            <div v-else class="col-12">
+                <h4 class="text-center my-4">No Assignments yet</h4>
+            </div>
         </div>
-      </div>
+        <div v-if="assignmentView == 'add_assignment'" class="row">
 
-      <div v-else class="col-12">
-        <h4 class="text-center my-4">No Assignments yet</h4>
-      </div>
-    </div>
-    <div v-if="assignmentView == 'add_assignment'" class="row">
-      <assignmentForm></assignmentForm>
-    </div>
-    <div v-if="assignmentView == 'update_assignment'" class="row">
-      <div class="col-12">
-        <button
-          @click="assignmentView = 'assignments'"
-          class="btn btn-info mb-4"
-          style="font-size: 13px"
+            <assignmentForm></assignmentForm>
+        </div>
+        <div v-if="assignmentView == 'update_assignment'" class="row">
+            <div class="col-12">
+                <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
+            </div>
+
+            <assignmentForm 
+                :assignment="assignment"
+                :returnText="'Back to Assignments'">
+            </assignmentForm>
+            
+        </div>
+
+        <b-modal id="addAssignment"
+          content-class="bg-gray-100"
+          size="md"
+          centered
+          hide-footer
+          title="Add Assignment"
         >
-          Back to Assignment
-        </button>
-      </div>
+          <div class="row">
+            <div class="col-12">
+                <!-- <div class="row"> -->
+                <div class="form-group">
+                    <select class="form-control">
+                        <option value="">Choose Class</option>
+                        <option value="">SSS1C</option>
+                        <option value="">SSS2B</option>
+                    </select>
+                </div>
+                <div class="form-group">                    
+                    <input type="text" class="form-control"  placeholder="Title" />
+                </div>
+                <div class="form-group">
+                    <textarea class='form-control' rows="5" placeholder="Description"></textarea>
+                </div>
+                <div>
+                    <div class="">
+                        <label class='small'>Links</label>
+                        <input type="text" class="form-control mb-2" placeholder="Text" />
+                        <input type="text" class="form-control"  placeholder="URL" />
 
-      <assignmentForm
-        :assignment="assignment"
-        :returnText="'Back to Assignments'"
-      >
-      </assignmentForm>
-    </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <hr />
 
-    <b-modal
-      id="addAssignment"
-      content-class="bg-gray-100"
-      size="md"
-      centered
-      hide-footer
-      title="Add Assignment"
-    >
-      <div class="row">
-        <div class="col-12">
-          <!-- <div class="row"> -->
-          <div class="form-group">
-            <select class="form-control">
-              <option value="">Choose Class</option>
-              <option value="">SSS1C</option>
-              <option value="">SSS2B</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Title" />
-          </div>
-          <div class="form-group">
-            <textarea
-              class="form-control"
-              rows="5"
-              placeholder="Description"
-            ></textarea>
-          </div>
-          <div>
-            <div class="">
-              <label class="small">Links</label>
-              <input type="text" class="form-control mb-2" placeholder="Text" />
-              <input type="text" class="form-control" placeholder="URL" />
+                <div class="col my-4">
+                    <button class="btn btn-secondary btn-block">
+                    Create
+                    </button>
+                </div>
             </div>
           </div>
-          <!-- </div> -->
-          <hr />
-
-          <div class="col my-4">
-            <button class="btn btn-secondary btn-block">Create</button>
-          </div>
-        </div>
-      </div>
-    </b-modal>
-  </div>
+        </b-modal>
+    </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+
+import { mapState } from 'vuex'
 
 export default {
-  name: "assignment",
-  data() {
-    return {
-      send_notication: false,
-      subjectValues: [],
-      subjects: [
-        { subject: "Math for SS1A", id: 1 },
-        { subject: "Math for SSS3D", id: 2 },
-      ],
-      links: [
-        { title: "", url: "", id: Math.floor(Math.random() * 9999999999999) },
-      ],
-      viewAssignments: true,
-      assignmentView: "assignments",
-      assignments: [],
-      assignment: null,
-    };
-  },
-  computed: mapState({
-    // arrow functions can make the code very succinct!
-    storedAssignments: (state) => state.assignments,
+    name: 'assignment',
+    data(){
+        return {
+            send_notication: false,
+            subjectValues: [],
+            subjects: [
+                {subject:'Math for SS1A',id:1},
+                {subject:'Math for SSS3D',id:2},
+            ],   
+            links: [
+                { title: '', url: '', id: Math.floor(Math.random() * 9999999999999) } 
+            ],    
+            viewAssignments: true,
+            assignmentView: 'assignments',
+            assignments: [],     
+            assignment: null,     
+        }
+    },
+    computed: mapState({
+        // arrow functions can make the code very succinct!
+        storedAssignments: state => state.assignments,
 
-    // // passing the string value 'count' is same as `state => state.count`
-    // countAlias: 'count',
+        // // passing the string value 'count' is same as `state => state.count`
+        // countAlias: 'count',
 
-    // to access local state with `this`, a normal function must be used
-    updatePlaceholder() {
-      return this.assignmentView == "update_assignment" ? "Update" : "";
+        // to access local state with `this`, a normal function must be used
+        updatePlaceholder () {
+            return this.assignmentView == 'update_assignment' ? 'Update' : ''        
+        }
+    }),
+    methods :{
+        addLink(){
+            this.links.push({ title: '', url: '', id: Math.floor(Math.random() * 9999999999999) })
+        },
+        removeLink(id){
+            if(this.links.length !== 1){
+                this.links = this.links.filter(link => link.id !== id)
+            }
+        },
+        tagSubjects(newTag) {  
+            // this.personnel_details.subjectIds.push(newTag.id)
+        },
+        untagSubject(){
+
+        },
+        updateAssignment(id){
+            this.assignment = this.storedAssignments.find(item => item._id === id);
+            console.log(this.assignment);
+            this.assignmentView = 'update_assignment'
+        }
     },
-  }),
-  methods: {
-    addLink() {
-      this.links.push({
-        title: "",
-        url: "",
-        id: Math.floor(Math.random() * 9999999999999),
-      });
-    },
-    removeLink(id) {
-      if (this.links.length !== 1) {
-        this.links = this.links.filter((link) => link.id !== id);
-      }
-    },
-    tagSubjects(newTag) {
-      // this.personnel_details.subjectIds.push(newTag.id)
-    },
-    untagSubject() {},
-    updateAssignment(id) {
-      this.assignment = this.storedAssignments.find((item) => item._id === id);
-      console.log(this.assignment);
-      this.assignmentView = "update_assignment";
-    },
-  },
-  watch: {},
-};
+    watch: {
+        
+    }
+}
 </script>
 
 <style>
+
 .assignment_links {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 .assignment_header {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .assignment_header p {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
 }
 
 .assignment_header span {
-  font-size: 11px;
-  background: #ddd;
-  color: tomato;
-  padding: 3px 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    font-size: 11px;
+    background: #ddd;
+    color: tomato;
+    padding: 3px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .assignment_body {
-  /* display: flex;
+    /* display: flex;
     gap: 1rem; */
 
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
 }
 
-.assignment_body p {
-  display: flex;
-  flex-direction: column;
+.assignment_body p{
+    display: flex;
+    flex-direction: column;
 
-  font-size: 12px;
-  margin: 0;
+    font-size: 12px;
+    margin: 0;
 }
 
-.assignment_body p span:nth-child(1) {
-  font-weight: 600;
+.assignment_body p span:nth-child(1){
+    font-weight: 600;
 }
 
-.assignment_body p span:nth-child(2) {
-  color: #444;
-  font-weight: 600;
+.assignment_body p span:nth-child(2){
+    color: #444;
+    font-weight: 600;
 }
 
 .view_classes span {
-  font-size: 12px;
-  color: rgb(64, 99, 214);
-  font-weight: bold;
+    font-size: 12px;
+    color: rgb(64, 99, 214);
+    font-weight: bold;
 }
 
-.text_gray {
-  color: #c8c8c8;
+.text_gray{
+    color: #c8c8c8;
 }
 
 .assignment_stats {
-  display: flex;
-  /* grid-template-columns: repeat(5, 1fr); */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
-.assignment_desc {
-  margin: 5px 0 0;
-}
+.assignment_desc{ 
+    margin: 5px 0 0;
+}   
 
 .assignment_desc span {
-  font-size: 13px;
+    font-size: 13px;
 }
 </style>
