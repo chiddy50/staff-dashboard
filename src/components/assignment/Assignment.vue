@@ -48,7 +48,26 @@
                  class="assignment_item bg-white p-4 rounded-md text-sm">
                     <div class="assignment_header">
                         <p class='flex items-center'>Memorize the quadratic equation</p>
-                        <span class='rounded-md'>Not Done</span>
+                        <!-- <span class='rounded-md'>Not Done</span> -->
+                         <b-button-group class='btn-sm'>
+                            <b-dropdown right split text="Action" size="sm">
+                                <b-dropdown-item>
+                                    <i class="bx bx-book mr-2"></i> Classes
+                                </b-dropdown-item>
+                                <b-dropdown-item @click="updateAssignment(item._id)">
+                                    <i class="bx bx-edit mr-2"></i> Update
+                                </b-dropdown-item>
+                                <b-dropdown-item :to="`/manage-progress/${item._id}`">
+                                    <i class="bx bx-hourglass mr-2"></i> Manage Progress
+                                </b-dropdown-item>
+                                <b-dropdown-item v-b-modal="`delete${i}`">
+                                    <i class="bx bx-trash mr-2"></i>Remove
+                                </b-dropdown-item>                                            
+                                <b-dropdown-item >
+                                    <i class="bx bx-pin mr-2"></i>Manage Attachments
+                                </b-dropdown-item>
+                            </b-dropdown>
+                        </b-button-group>
                     </div>
                     <div class="assignment_desc">
                         <span class='text-gray-400 flex items-center'>
@@ -75,25 +94,7 @@
                             </p>
                         </div>
                         <div class='flex justify-end'>
-                            <b-button-group class='btn-sm'>
-                                <b-dropdown right split text="Action" size="sm">
-                                    <b-dropdown-item>
-                                        <i class="bx bx-book mr-2"></i> Classes
-                                    </b-dropdown-item>
-                                    <b-dropdown-item @click="updateAssignment(item._id)">
-                                        <i class="bx bx-edit mr-2"></i> Update
-                                    </b-dropdown-item>
-                                    <b-dropdown-item :to="`/manage-progress/${item._id}`">
-                                        <i class="bx bx-hourglass mr-2"></i> Manage Progress
-                                    </b-dropdown-item>
-                                    <b-dropdown-item v-b-modal="`delete${i}`">
-                                        <i class="bx bx-trash mr-2"></i>Remove
-                                    </b-dropdown-item>                                            
-                                    <b-dropdown-item >
-                                        <i class="bx bx-pin mr-2"></i>Manage Attachments
-                                    </b-dropdown-item>
-                                </b-dropdown>
-                            </b-button-group>
+                           
                         </div>
                     </div>
                     <!-- <div class="assignment_desc mt-2">
