@@ -2,12 +2,13 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row pt-10 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-message-rounded-detail mr-2"></i> <span class="font-bold">Communication</span>
+ 
+                <i class="bx bx-message-square mr-2"></i> <span class="font-bold">Message</span>
             </h1>          
 
 
             <div>
-                <button v-if="view === 'message_list'" @click="view = 'new_message'" class="btn btn-sm btn-secondary">
+                <button v-if="view === 'message_list'" @click="view = 'new_message'" class="btn btn-sm btn-success">
                     <i class="bx bx-mail-send"></i>
                     Send Message
                 </button>
@@ -25,7 +26,7 @@
         <div class="">
             <div v-if="view == 'message_list'" class="mt-4" id="message_list">
                 <h5 class="text-gray-500 my-4 text-lg">All Messages</h5>
-                <div v-for="i in 8" :key="i" class="message_item mb-3 bg-white p-3 rounded-md shadow-sm">  
+                <div v-for="i in 2" :key="i" class="message_item mb-3 bg-white p-3 rounded-md shadow-sm">  
   
                     <div class="flex">
                         <div>
@@ -38,8 +39,8 @@
                             <div class="flex justify-between items-center">
                                 <p class="m-0 flex gap-8">
                                     <span class="guardian_name">Jeremy Okafor</span>
-                                    <span class="guardian_title">Guardian</span>
-                                    <span class="guardian_title">08164193502</span>
+                                    <!-- <span class="guardian_title">Guardian</span>
+                                    <span class="guardian_title">08164193502</span> -->
                                 </p>
                                 <!-- <span class='created_date'>29 July 2021, 14:23</span> -->
                                 <span class="message_status rounded-md">Pending</span>
@@ -48,7 +49,7 @@
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab quibusdam repudiandae officia, tenetur quas quasi voluptate rerum iste mollitia modi doloremque vero impedit. Amet facilis ratione itaque alias distinctio. Sed?</p>
                             </div>
                             <p class="message_footer text-gray-400 mt-3 mb-0">
-                                <span>Scheduled Delivery Time: 05 August 2021, 12:35pm</span>
+                                <span>Scheduled Delivery Time: 05 August 2021, 12:35pm</span> 
                                 <span>Created on 25 July 2021, 14:23</span>
                             </p>
                         </div>
@@ -212,7 +213,7 @@ export default {
 
 .message_status{
     padding: 3px 10px;
-    background: #eee;
+    background: rgb(250, 218, 218);
     color: #ff5a5a;
     font-size: 11px;
     /* position: absolute;
@@ -223,7 +224,7 @@ export default {
 .message p {
     font-size: 13px;
     margin: 8px 0;
-    font-style: italic;
+    /* font-style: italic; */
     color: #555;
 }
 

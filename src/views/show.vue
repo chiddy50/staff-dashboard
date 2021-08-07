@@ -67,18 +67,19 @@
               </router-link>
 
               <router-link to="/communication" tag="a" class="nav__link">
-                <i class='bx bx-message-rounded-detail nav__icon'></i>
-                <span class="nav__name">Communication</span>
+             
+                <i class='bx bx-message-square nav__icon'></i>
+                <span class="nav__name">Message</span>
               </router-link>
 
               <router-link to="/wallet" tag="a" class="nav__link">
                 <i class="bx bx-wallet nav__icon"></i>
-                <span class="nav__name">Leave Request</span>
+                <span class="nav__name">Leave</span>
               </router-link>
 
               <router-link to="/settings" tag="a" class="nav__link">
                 <i class="bx bx-cog nav__icon"></i>
-                <span class="nav__name">Salary Request</span>
+                <span class="nav__name">Salary</span>
               </router-link>
             </div>
           </div>

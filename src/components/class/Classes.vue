@@ -45,10 +45,13 @@
                         <br /><span class="text-gray-500 text-xs">Mathematics</span>
                       </b-col>
                       
-                      <b-col cols="2" md="1" class="flex items-center justify-center">
-                      <b-button size="sm">
+                      <b-col cols="2" md="1" class="flex items-center justify-end">
+                        <span class="text-lg p-1 bg-yellow-100 rounded">
+                           <i class="bx bx-category text-yellow-700"></i>
+                        </span>
+                      <!-- <b-button size="sm">
                         View
-                      </b-button>
+                      </b-button> -->
 												<!-- <b-button-group>
 													<b-dropdown right split text="Action" size="sm">
 														<b-dropdown-item

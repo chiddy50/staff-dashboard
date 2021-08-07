@@ -32,11 +32,17 @@
   --z-fixed: 100;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1404px) {
   :root {
     --normal-font-size: 1rem;
     --small-font-size: 0.875rem;
     --smaller-font-size: 0.813rem;
+  }
+}
+
+@media screen and (max-width: 1404px) {
+  body {
+    font-size: 90% !important;
   }
 }
 
@@ -234,6 +240,7 @@ img {
   font-size: var(--smaller-font-size);
   font-weight: var(--font-medium);
   color: var(--text-color);
+  padding: 5px 0;
 }
 
 .nav__dropdown-item:hover {
