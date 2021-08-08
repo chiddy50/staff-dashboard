@@ -46,34 +46,28 @@
 
                 <div v-for="(item, i) in storedAssignments" :key="i"
                  class="assignment_item bg-white p-4 rounded-md text-sm">
-                    <div class="assignment_header">
-                        <p class='flex items-center'>Memorize the quadratic equation</p>
-                        <span class='rounded-md'>Not Done</span>
-                    </div>
-                    <div class="assignment_desc">
-                        <span class='text-gray-400 flex items-center'>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim dignissimos quisquam odit aliquam.
-                        </span>
-                    </div>
+                     <div class="flex justify-between item-center">
+            <p>
+              <span> Due Date: 28th July, 2021</span>
+            </p>
+           <p>
+                <span class="rounded-md bg-red-100 text-red-600 p-1 text-xs"
+              >Not Done</span
+            >
+           </p>
+          </div>
+          <div class="assignment_header">
+            <p class="flex items-center">Memorize the quadratic equation</p>
+          </div>
+          <div class="assignment_desc">
+            <span class="text-gray-400 flex items-center">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim
+              dignissimos quisquam odit aliquam.
+            </span>
+          </div>
+          <hr class="w-100" />
                     <div class="assignment_body mt-2">
-                        <div class='assignment_stats'>
-                            <p>
-                                <span class='text_gray'>Subject</span>
-                                <span>Mathematics</span>
-                            </p>
-                            <p>
-                                <span class='text_gray'>Marked</span>
-                                <span>Homework</span>
-                            </p>
-                            <p>
-                                <span class='text_gray'>Type</span>
-                                <span>Project</span>
-                            </p>
-                            <p>
-                                <span class='text_gray'>Due Date</span>
-                                <span>28th July, 2021</span>
-                            </p>
-                        </div>
+                        <div class="assignment_stats">Mathematics * Homework * Project</div>
                         <div class='flex justify-end'>
                             <b-button-group class='btn-sm'>
                                 <b-dropdown right split text="Action" size="sm">
@@ -112,9 +106,9 @@
             <assignmentForm></assignmentForm>
         </div>
         <div v-if="assignmentView == 'update_assignment'" class="row">
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
-            </div>
+            </div> -->
 
             <assignmentForm 
                 :assignment="assignment"
@@ -296,8 +290,10 @@ export default {
 }
 
 .assignment_stats {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    justify-content: space-between;
+align-items: center;
+    /* grid-template-columns: repeat(5, 1fr); */
 }
 
 .assignment_desc{ 

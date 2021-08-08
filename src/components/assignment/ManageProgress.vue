@@ -5,25 +5,26 @@
                 <i class="bx bx-hourglass mr-2"></i> <span class="font-bold">Manage Progress</span>
             </h1>            
         </div>
+        <hr>
 
-        <div class="">
+        <!-- <div class="">
             <p class='m-0 text-sm flex'>
                 <span style="flex:7%;" class='text-gray-400'>Subject</span>
                 <span style="flex: 93%;">{{assignment.subject || 'Mathematics' }}</span>
             </p> 
-        </div>
-        <div class="">
+        </div> -->
+        <!-- <div class="">
             <p class='m-0 text-sm flex'>
                 <span style="flex:7%;" class='text-gray-400'>Title</span>
                 <span style="flex: 93%;">{{assignment.title}}</span>                
             </p>
-        </div>
-        <div class="">
+        </div> -->
+        <!-- <div class="">
             <p class='m-0 text-sm flex'>
                 <span style="flex:7%;" class='text-gray-400'> Due date</span>
                 <span style="flex: 93%;"> 28 July, 2021</span>
             </p> 
-        </div>
+        </div> -->
 
         <div class="progress_header my-4">
 
@@ -37,12 +38,7 @@
                     </multiselect>
                 </div>
                 <div class="col-12 col-lg-4 search_input">
-                    <!-- <multiselect v-model="value" 
-                                :options="options" :searchable="true" 
-                                :close-on-select="false" :show-labels="false"
-                                @select="showStudents"
-                                placeholder="Search for student">
-                    </multiselect> -->
+                   
                     <div class="position-relative rounded-lg" style='border: 1px solid #ddd;'>
                         <i class="bx bx-search position-absolute position" style="left: 0.7rem; top: 0.7rem;"></i>
                         <input type="search" v-model="value" class="form-control text-indent-1 border-0"
