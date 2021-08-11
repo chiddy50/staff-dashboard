@@ -2,7 +2,7 @@
     <div>
         <div>
             <label class="text-xl font-bold">Question</label>
-            <wysiwyg v-model="myHTML" />
+            <wysiwyg v-model="question" />
         </div>
 
         <div class="row my-3">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="row my-3">
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="col-12 col-md-9 col-lg-6 col-xl-6">
                 <multiselect v-model="correct_answer" 
                     placeholder="Choose correct answer" class="mb-3"
                     :hideSelected="false"
@@ -35,7 +35,7 @@
         </div>
 
         <div class="row my-3">
-            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+            <div class="col-12 col-md-9 col-lg-6 col-xl-6">
                 <div class="form-group">
                     <textarea class='form-control' v-model="instruction" rows="3" placeholder="Instruction"></textarea>
                 </div>               
@@ -49,7 +49,7 @@ export default {
     name: 'objective',
     data(){
         return {
-            myHTML: null,
+            question: null,
             options: [
                 {
                     _id: Math.ceil(Math.random() * 9999999999999999),
