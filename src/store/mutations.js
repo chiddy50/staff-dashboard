@@ -3,7 +3,7 @@ import router from '../router/index'
 export default{
     LOGOUT(state){
         state.student_token = null;
-        localStorage.removeItem('auth');
+        localStorage.clear();
         router.push({ name: 'login' })
     },
     SET_USER_DATA(state, payload){
