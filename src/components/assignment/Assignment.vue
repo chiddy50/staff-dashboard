@@ -117,6 +117,8 @@
             
         </div>
 
+        <!-- <wysiwyg v-model="myHTML" /> -->
+
         <b-modal id="addAssignment"
           content-class="bg-gray-100"
           size="md"
@@ -183,6 +185,7 @@ export default {
             assignmentView: 'assignments',
             assignments: [],     
             assignment: null,     
+            myHTML: ''
         }
     },
     computed: mapState({

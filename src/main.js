@@ -7,6 +7,10 @@ import Axios from "axios";
 import VueAxios from "vue-axios";
 import Multiselect from "vue-multiselect";
 
+import wysiwyg from "vue-wysiwyg";
+Vue.use(wysiwyg, {}); // config is optional. more below
+
+import "vue-wysiwyg/dist/vueWysiwyg.css";
 
 import show from "@/views/show";
 import analytics from "@/components/analytics/analytics";
