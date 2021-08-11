@@ -90,7 +90,7 @@
             <div class="col-12 col-lg-12">
                 <div class='mb-4'>
                     <div class="flex items-center gap-1 mb-2">
-                        <label @click="addLink" class="flex items-center m-0 cursor-pointer text-info small">Add links</label>                       
+                        <label @click="addLink" class="flex items-center m-0 cursor-pointer text-info small">Click to add links</label>                       
                         <i @click="addLink" class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
                     </div>
 
