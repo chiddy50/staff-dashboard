@@ -67,21 +67,16 @@
         <div class="row">
             <div class="col-lg-6 col-12">
                 <div class="form-group">            
-                    <label class='small m-1'>Title:</label>
+                    <label class='m-1'>Title:</label>
                     <input v-model="assignment_data.title" type="text" class="form-control"  placeholder="Assignment title" />
                 </div>
             </div>
-            <div class="col-lg-6 col-12">
+            <div class="col-lg-6 col-12">                
                 <div class="form-group">
-                    <label class='small m-1'>Mark Item:</label>
-                    <select v-model="assignment_data.marked" class="form-control">
-                        <option value="none">None</option>
-                        <option value="quiz">Quiz</option>
-                        <option value="presentation">Presentation</option>
-                        <option value="homework">Homework</option>
-                        <option value="project">Project</option>
-                        <option value="exam">Exam</option>                                    
-                    </select>                        
+                    <div class="">
+                        <label class='m-1'>Due Date:</label>
+                        <input type="date" v-model="assignment_data.due_date" class="form-control" />                      
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,7 +99,20 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="form-group">
+                    <label class='small m-1'>Mark Item:</label>
+                    <select v-model="assignment_data.marked" class="form-control">
+                        <option value="none">None</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="presentation">Presentation</option>
+                        <option value="homework">Homework</option>
+                        <option value="project">Project</option>
+                        <option value="exam">Exam</option>                                    
+                    </select>                        
+                </div>
+            </div>
             <div class="col-lg-6 col-12">
                 <div class="form-group">
                     <div class="">
@@ -118,16 +126,8 @@
                         </select>                        
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-12">
-                <div class="form-group">
-                    <div class="">
-                        <label class='small m-1'>Due Date:</label>
-                        <input type="date" v-model="assignment_data.due_date" class="form-control" />                      
-                    </div>
-                </div>
-            </div>
-        </div>
+            </div>    
+        </div> -->
 
         <div class="row mb-2">                    
             <div class="col-lg-6 col-12 flex items-center">
