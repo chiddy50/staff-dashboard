@@ -102,7 +102,6 @@ export default {
         // console.log(data, status);
         if (status == 200) {
           console.log(data);
-
           localStorage.setItem("auth_staff", data.message.token);
 
           this.$router.push({
