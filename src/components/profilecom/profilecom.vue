@@ -17,7 +17,7 @@
       <img src="../../assets/img/preloadermain.gif" alt="" />
     </div>
     <div v-else class="row px-4">
-      <div v-if="userData !== null" class="col-md-12">
+      <div v-if="userData" class="col-md-12">
         <div class="row rounded p-4">
           <div class="col-md-12 my-4">
             <div class="flex">
@@ -209,7 +209,7 @@ export default {
       // passing the string value 'count' is same as `state => state.count`
       // to access local state with `this`, a normal function must be used
       userData: (state) => state.userData,
-      guardian: (state) => state.userData.guardian,
+      guardian: (state) => state.userData.guarantor,
     }),
   },
   mounted() {
@@ -228,7 +228,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        console.table(error);
+        // console.table(error);
       } finally {
         this.loading = false;
       }

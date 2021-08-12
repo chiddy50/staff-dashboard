@@ -5,17 +5,18 @@
 
     <header class="header" id="main_header">
       <div class="header__container">
-        <!-- {{ current_staff }} -->
-        <b-avatar
-          :src="
-            `${current_staff.image.file_url}` ||
-            'https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg'
-          "
-          class="mr-3"
-        ></b-avatar>
-        <a href="#" class="header__logo">
-          {{ current_staff.first_name }} {{ current_staff.last_name }}</a
-        >
+        <div class="flex items-center" v-if="current_staff">
+          <b-avatar
+            :src="
+              `${current_staff.image.file_url}` ||
+              'https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg'
+            "
+            class="mr-3"
+          ></b-avatar>
+          <a href="#" class="header__logo">
+            {{ current_staff.first_name }} {{ current_staff.last_name }}</a
+          >
+        </div>
 
         <div class="header__toggle ml-3">
           <i class="bx bx-menu" id="header-toggle"></i>

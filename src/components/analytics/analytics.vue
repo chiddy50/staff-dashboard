@@ -2,7 +2,7 @@
   <div class="mt-12 pt-5">
     <div class="custom__banner mb-3 rounded-md flex justify-between">
       <div class="flex items-center justify-between banner__header w-full">
-        <h1 class="text-3xl mb-0 text-muted">
+        <h1 class="text-3xl mb-0 text-muted" v-if="current_staff">
           <i class="bx bx-message-detail ml-2"></i>
           Hello,
           <span class="text-dark font-bold"
