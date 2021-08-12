@@ -25,7 +25,6 @@ import communication from "@/components/communication/Communication";
 
 import preloader from "@/components/preloader/preloader";
 
-
 Vue.component("show", show);
 Vue.component("analytics", analytics);
 Vue.component("timetablecom", timetablecom);
@@ -65,7 +64,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 
-
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
@@ -74,7 +72,6 @@ Vue.use(IconsPlugin);
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 
-Vue.use(VueAxios, Axios);
 Axios.defaults.baseURL = "https://cirportalbackend.herokuapp.com/";
 
 Vue.config.productionTip = false;
@@ -111,6 +108,7 @@ router.beforeEach((to, from, next) => {
 
 Axios.interceptors.response.use(
   function(response) {
+    console.log(response);
     return response;
   },
   function(error) {
@@ -123,6 +121,14 @@ Axios.interceptors.response.use(
     return Promise.reject(error.response.data);
   }
 );
+
+Vue.use(VueAxios, Axios);
+Vue.prototype.$axios = Axios;
+Vue.prototype.$token = {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("auth_staff")}`,
+  },
+};
 
 new Vue({
   router,

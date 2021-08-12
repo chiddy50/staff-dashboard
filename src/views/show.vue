@@ -5,11 +5,18 @@
 
     <header class="header" id="main_header">
       <div class="header__container">
-        <a href="#" class="header__logo">Welcome, Admin</a>
+        <!-- {{ current_staff }} -->
         <b-avatar
-          src="https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg"
-          class="ml-3"
+          :src="
+            `${current_staff.url}` ||
+            'https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg'
+          "
+          class="mr-3"
         ></b-avatar>
+        <a href="#" class="header__logo"
+          >Welcome, {{ current_staff.first_name }}
+          {{ current_staff.last_name }}</a
+        >
 
         <div class="header__toggle ml-3">
           <i class="bx bx-menu" id="header-toggle"></i>
@@ -45,19 +52,36 @@
                 <span class="nav__name">Class</span>
               </router-link>
 
-              <div class='nav__dropdown'>
-                <a href='#' class='nav__link'>
-                    <i class='bx bx-notepad nav__icon' ></i>
-                    <span class='nav__name'>Assesment</span>
-                    <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+              <div class="nav__dropdown">
+                <a href="#" class="nav__link">
+                  <i class="bx bx-notepad nav__icon"></i>
+                  <span class="nav__name">Assesment</span>
+                  <i
+                    class="bx bx-chevron-down nav__icon nav__dropdown-icon"
+                  ></i>
                 </a>
 
-                <div class='nav__dropdown-collapse'>
-                    <div class='nav__dropdown-content'>
-                        <router-link to="/assignment" tag="a" class='nav__dropdown-item'>Assignment</router-link>
-                        <router-link to="/assignment" tag="a" class='nav__dropdown-item'>Classwork</router-link>
-                        <router-link to="/assignment" tag="a" class='nav__dropdown-item'>Exam</router-link>
-                    </div>
+                <div class="nav__dropdown-collapse">
+                  <div class="nav__dropdown-content">
+                    <router-link
+                      to="/assignment"
+                      tag="a"
+                      class="nav__dropdown-item"
+                      >Assignment</router-link
+                    >
+                    <router-link
+                      to="/assignment"
+                      tag="a"
+                      class="nav__dropdown-item"
+                      >Classwork</router-link
+                    >
+                    <router-link
+                      to="/assignment"
+                      tag="a"
+                      class="nav__dropdown-item"
+                      >Exam</router-link
+                    >
+                  </div>
                 </div>
               </div>
 
@@ -67,8 +91,7 @@
               </router-link>
 
               <router-link to="/communication" tag="a" class="nav__link">
-             
-                <i class='bx bx-message-square nav__icon'></i>
+                <i class="bx bx-message-square nav__icon"></i>
                 <span class="nav__name">Message</span>
               </router-link>
 
@@ -106,6 +129,8 @@
 <script>
 import mainheader from "../components/header/header";
 import sidenav from "../components/sidenav/sidenav";
+import Helper from "@/helpers/functions";
+import { mapState } from "vuex";
 
 export default {
   props: ["component"],
@@ -121,7 +146,9 @@ export default {
     sidenav,
   },
   computed: {
-    // ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      current_staff: (state) => state.userData,
+    }),
   },
   methods: {
     // showNavabr(toggleId, navId, bodyId, headerId) {
@@ -189,6 +216,20 @@ export default {
         path: `/login`,
       });
     },
+    async getUser() {
+      try {
+        let auth = Helper.auth();
+        let { data, status } = await this.$axios.get(
+          "school/current_staff",
+          auth
+        );
+        if (status == 200) {
+          this.$store.dispatch("setUserData", data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     // overNav(){
     //   let headerElem = document.querySelector('.header__container');
@@ -203,6 +244,9 @@ export default {
   async mounted() {
     // this.showNavabr("header-toggle", "nav-bar", "body-pd", "main_header");
     this.showMenu("header-toggle", "navbar");
+  },
+  beforeMount() {
+    this.getUser();
   },
 };
 </script>
