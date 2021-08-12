@@ -8,14 +8,13 @@
         <!-- {{ current_staff }} -->
         <b-avatar
           :src="
-            `${current_staff.url}` ||
+            `${current_staff.image.file_url}` ||
             'https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg'
           "
           class="mr-3"
         ></b-avatar>
-        <a href="#" class="header__logo"
-          >Welcome, {{ current_staff.first_name }}
-          {{ current_staff.last_name }}</a
+        <a href="#" class="header__logo">
+          {{ current_staff.first_name }} {{ current_staff.last_name }}</a
         >
 
         <div class="header__toggle ml-3">
@@ -220,11 +219,11 @@ export default {
       try {
         let auth = Helper.auth();
         let { data, status } = await this.$axios.get(
-          "school/current_staff",
+          "school/staff-details",
           auth
         );
         if (status == 200) {
-          this.$store.dispatch("setUserData", data.message);
+          this.$store.dispatch("setUserData", data.data);
         }
       } catch (error) {
         console.log(error);

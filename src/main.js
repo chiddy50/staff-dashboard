@@ -129,6 +129,11 @@ Vue.prototype.$token = {
     Authorization: `Bearer ${localStorage.getItem("auth_staff")}`,
   },
 };
+Vue.filter("dateFilter", function(value) {
+  if (!value) return "";
+  let data = new Date(value).toDateString();
+  return data;
+});
 
 new Vue({
   router,
