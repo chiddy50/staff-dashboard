@@ -4,14 +4,18 @@
       <div class="contentBx">
         <div class="formBx">
           <!-- <h2>Login</h2> -->
-          <img src="../../assets/img/logo.png" class="w-32 mb-4" style="margin: 0 auto;" />
+          <img
+            src="../../assets/img/logo.png"
+            class="w-32 mb-4"
+            style="margin: 0 auto"
+          />
           <form action="">
             <div class="inputBx">
-              <span>Student ID</span>
+              <span>Email or Staff Id</span>
               <div class="input_container">
                 <input
                   type="text"
-                  v-model="student.student_id"
+                  v-model="personnel.username"
                   name="username"
                 />
               </div>
@@ -21,7 +25,7 @@
               <div class="input_container">
                 <input
                   :type="passwordType"
-                  v-model="student.credential"
+                  v-model="personnel.credential"
                   name="password"
                 />
                 <i
@@ -67,8 +71,8 @@ export default {
   name: "logincom",
   data() {
     return {
-      student: {
-        student_id: "",
+      personnel: {
+        username: "",
         credential: "",
       },
       passwordType: "password",
@@ -79,7 +83,7 @@ export default {
     ...mapGetters(["isLoggedIn"]),
 
     incompleteCredentials() {
-      return this.student.student_id === "" || this.student.credential === ""
+      return this.personnel.username === "" || this.personnel.credential === ""
         ? true
         : false;
     },
@@ -91,16 +95,15 @@ export default {
     async login() {
       try {
         this.loginLoading = true;
-        let body = this.student;
+        let body = this.personnel;
         // let body = { ...this.student, _id: this.$route.params.schoolid };
 
-        let { data, status } = await Axios.post("school/student-login", body);
+        let { data, status } = await Axios.post("school/personnel_login", body);
         // console.log(data, status);
         if (status == 200) {
           console.log(data);
-          this.$store.dispatch("setUserData", data.message.data);
           localStorage.setItem("auth_staff", data.message.token);
-          localStorage.setItem("school_id", this.$route.params.schoolid);
+
           this.$router.push({
             path: "/",
           });

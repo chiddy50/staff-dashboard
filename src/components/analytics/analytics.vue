@@ -2,18 +2,21 @@
   <div class="mt-12 pt-5">
     <div class="custom__banner mb-3 rounded-md flex justify-between">
       <div class="flex items-center justify-between banner__header w-full">
-        <h1 class="text-3xl mb-0 text-muted">
+        <h1 class="text-3xl mb-0 text-muted" v-if="current_staff">
           <i class="bx bx-message-detail ml-2"></i>
-          Hello, <span class="text-dark font-bold">Mike!</span>
+          Hello,
+          <span class="text-dark font-bold"
+            >{{ current_staff.first_name }}!</span
+          >
         </h1>
-        <h1 class="text-lg font-bold">September 28, monday</h1>
-    </div>
+        <h1 class="text-lg font-bold">{{ Date.now() | dateFilter }}</h1>
+      </div>
     </div>
 
     <div class="dashboard__content my-4">
       <div class="col-12">
         <div class="row">
-           <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-6">
             <div class="flex justify-end items-center">
               <div class="w-1/4">
                 <select
@@ -24,7 +27,9 @@
                   <option v-for="item in options" :key="item" :value="item">
                     {{ item }}
                   </option>
-                  <option :value="this.chart" disabled hidden>Choose Chart</option>
+                  <option :value="this.chart" disabled hidden>
+                    Choose Chart
+                  </option>
                 </select>
               </div>
             </div>
@@ -40,22 +45,30 @@
             </div>
           </div>
           <div class="col-12 col-lg-6">
-            <h1 class="text-lg text-gray-400 m-0">Here is your schedule for today,</h1>
+            <h1 class="text-lg text-gray-400 m-0">
+              Here is your schedule for today,
+            </h1>
             <div class="mb-10 mt-3">
               <div class="mb-4">
+<<<<<<< HEAD
                 <div class="schedule_item rounded-md shadow-sm p-3" :key="index" v-for="(index) in 6">
                   <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS1A</span></p>
+=======
+                <div
+                  class="schedule_item rounded-md shadow-sm p-3"
+                  :key="index"
+                  v-for="index in 4"
+                >
+                  <p class="text-sm font-bold m-0">
+                    Physics Class <span class="font-light">for SSS1A</span>
+                  </p>
+>>>>>>> be03e112d6691f0a40480a28d244c7fa0401ed40
                   <span class="text-xs text-gray-400">10:00 AM - 11:00 AM</span>
                 </div>
               </div>
-
-            
             </div>
           </div>
-         
         </div>
-
-       
       </div>
     </div>
   </div>
@@ -65,6 +78,7 @@
 import moment from "moment";
 import TestScores from "@/components/chart/test_score/TestScore.vue";
 import PieChart from "@/components/chart/test_score/PieChart.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "dashboard",
@@ -147,6 +161,11 @@ export default {
       this.chartType = this.chart;
     },
   },
+  computed: {
+    ...mapState({
+      current_staff: (state) => state.userData,
+    }),
+  },
 };
 </script>
 
@@ -201,10 +220,7 @@ export default {
 .schedule_item:nth-child(odd) {
   border-left: 5px solid orange;
   background: rgba(255, 166, 0, 0.185);
-
 }
-
-
 
 @media only screen and (max-width: 69.375em) {
   /**1110px */
@@ -217,8 +233,7 @@ export default {
   }
 }
 
-
-@media only screen and (max-width: 39.375em) { /**630px */
-
+@media only screen and (max-width: 39.375em) {
+  /**630px */
 }
 </style>
