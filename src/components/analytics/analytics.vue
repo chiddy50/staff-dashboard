@@ -50,10 +50,6 @@
             </h1>
             <div class="mb-10 mt-3">
               <div class="mb-4">
-<<<<<<< HEAD
-                <div class="schedule_item rounded-md shadow-sm p-3" :key="index" v-for="(index) in 6">
-                  <p class="text-sm font-bold m-0">Physics Class <span class="font-light">for SSS1A</span></p>
-=======
                 <div
                   class="schedule_item rounded-md shadow-sm p-3"
                   :key="index"
@@ -62,7 +58,6 @@
                   <p class="text-sm font-bold m-0">
                     Physics Class <span class="font-light">for SSS1A</span>
                   </p>
->>>>>>> be03e112d6691f0a40480a28d244c7fa0401ed40
                   <span class="text-xs text-gray-400">10:00 AM - 11:00 AM</span>
                 </div>
               </div>
