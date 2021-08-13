@@ -40,7 +40,7 @@
                     <textarea class='form-control' v-model="instruction" rows="3" placeholder="Instruction"></textarea>
                 </div>               
             </div>
-        </div>
+        </div>        
     </div>
 </template>
 

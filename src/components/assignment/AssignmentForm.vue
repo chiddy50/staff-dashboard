@@ -61,7 +61,7 @@
             </div>       
             <div class="row mb-3">
                 <div class="col-12 col-lg-6 col-xl-6 items-center">
-                    <span class="text-lg text-muted underline text-uppercase">{{assignmentTypeView}} {{subjective_or_objective}} Assignmment</span>  
+                    <span class="text-md text-muted underline text-uppercase">{{assignmentTypeView}} {{subjective_or_objective}} Assignment</span>  
                 </div>    
             </div> 
             <div class="row">
@@ -107,8 +107,34 @@
             </div>
 
             <div class="w-full">
-                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'objective'" class="btn btn-outline-info btn-sm">Add Objective Question</button>
-                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'subjective'" class="btn btn-outline-info btn-sm">Add Subjective Question</button>
+                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'objective'" class="btn btn-outline-info btn-sm mb-4">Add Objective Question</button>
+                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'subjective'" class="btn btn-outline-info btn-sm mb-4">Add Subjective Question</button>
+
+
+                <div>
+                    <label>Duration:</label>
+                    <div v-if="subjective_or_objective === 'objective'" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" placeholder="00" id="demo" name="email">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Hour</span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" placeholder="00" id="demo" name="email">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Minute</span>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" placeholder="00" id="demo" name="email">
+                            <div class="input-group-append">
+                                <span class="input-group-text">Second</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
