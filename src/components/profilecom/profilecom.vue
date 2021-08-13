@@ -212,7 +212,7 @@ export default {
       guardian: (state) => state.userData.guarantor,
     }),
   },
-  mounted() {
+  beforeMount() {
     this.getData();
   },
   methods: {
