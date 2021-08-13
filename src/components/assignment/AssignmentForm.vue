@@ -1,62 +1,132 @@
 <template>
-    <div class="col-12">        
-
-        <div class="row">
-            <div class="col-12 col-lg-4">
-                <div class="form-group">
-                    <div>										
-                        <multiselect v-model="assignment_data.subjectValues" tag-placeholder="Search & add Subject" 
-                            placeholder="Choose Subject" label="subject" class="mb-3"
-                            :custom-label="subjectLabel"
-                            :hideSelected="false"
-                            track-by="_id" :options="subjects">
-                        </multiselect>										
+    <div class="col-12">     
+        <div v-if="step === 1">
+            <div class="row mb-3">
+                <button class="btn btn-danger btn-sm">
+                    <i class='bx bx-arrow-back bx-tada text-lg'></i>
+                    Go Back
+                </button>                
+            </div> 
+            <div class="choose_type_box">
+                <div class="choose_type bg-white shadow-sm">
+                    <div class="flex flex-col items-center p-3">
+                        <span class="attention_icon">
+                            <i class='bx bx-error-circle text-blue-300 '></i>
+                        </span>
+                        <span class='font-bold text-lg'>Choose Assignment Type</span>
                     </div>
-                </div>               
-            </div>
-            <div class="col-12 col-lg-4">
-                <div class="form-group">
-                    <div>										
-                        <multiselect v-model="assignment_data.classValues" tag-placeholder="Search & add Classes" 
-                            placeholder="Choose Class" label="class" class="mb-3"
-                            :custom-label="classesLabel"
-                            :hideSelected="true"
-                            track-by="_id" :options="classes" :multiple="true" :taggable="true" @select="tagClasses" @remove="untagClasses">
-                        </multiselect>										
+                    <div class="choose_options">
+                        <span @click="toggleAssignmentType('cbt')" class="cbt">CBT</span>
+                        <span @click="toggleAssignmentType('normal')" class="normal">Normal</span>
                     </div>
-                </div>               
-            </div>
-            <div class="col-12 col-lg-4">
-                <div class="form-group">
-                    <div>										
-                        <multiselect v-model="assignment_data.type" tag-placeholder="Search & add Subjects" 
-                            placeholder="Choose Type" class="mb-3"
-                            :hideSelected="false"
-                            @select="toggleType"
-                            :options="assignment_types">
-                        </multiselect>										
-                    </div>
-                </div>               
+                </div>
             </div>
         </div>
+
+        <div v-if="step === 2">            
+            <div class="row mb-3">
+                <button class="btn btn-danger btn-sm" @click="step = 1">
+                    <i class='bx bx-arrow-back bx-tada text-lg'></i>
+                    Go Back
+                </button>                
+            </div> 
+            <div class="choose_type_box">
+                <div class="choose_type bg-white shadow-sm">
+                    <div class="flex flex-col items-center p-3">
+                        <span class="attention_icon">
+                            <i class='bx bx-check-square text-blue-300'></i>
+                        </span>
+                        <span class='font-bold text-lg'>Choose Type</span>
+                    </div>
+                    <!-- <div class="back_to_type">                    
+                        <button class="btn btn-sm btn-danger" @click="step = 1">
+                            Go Back
+                        </button>
+                    </div> -->
+                    <div class="choose_options">
+                        <span @click="toggle_subjective_objective('subjective')" class="subjective">Subjective</span>
+                        <span @click="toggle_subjective_objective('objective')" class="objective">Objective</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div v-if="step === 3">    
+            <div class="row mb-3">
+                <button class="btn btn-danger btn-sm" @click="step = 2">
+                    <i class='bx bx-arrow-back text-lg'></i>
+                    Go Back
+                </button>                
+            </div>       
+            <div class="row mb-3">
+                <div class="col-12 col-lg-6 col-xl-6 items-center">
+                    <span class="text-lg text-muted underline text-uppercase">{{assignmentTypeView}} {{subjective_or_objective}} Assignmment</span>  
+                </div>    
+            </div> 
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <div>										
+                            <multiselect v-model="assignment_data.subjectValues" tag-placeholder="Search & add Subject" 
+                                placeholder="Choose Subject" label="subject" class="mb-3"
+                                :custom-label="subjectLabel"
+                                :hideSelected="false"
+                                track-by="_id" :options="subjects">
+                            </multiselect>										
+                        </div>
+                    </div>               
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <div>										
+                            <multiselect v-model="assignment_data.classValues" tag-placeholder="Search & add Classes" 
+                                placeholder="Choose Class" label="class" class="mb-3"
+                                :custom-label="classesLabel"
+                                :hideSelected="true"
+                                track-by="_id" :options="classes" :multiple="true" :taggable="true" @select="tagClasses" @remove="untagClasses">
+                            </multiselect>										
+                        </div>
+                    </div>               
+                </div>
+                <!-- <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <div>										
+                            <multiselect v-model="assignment_data.type" 
+                                placeholder="Choose Type" class="mb-3"
+                                :hideSelected="false"
+                                :options="assignment_types">
+                            </multiselect>										
+                        </div>
+                    </div>               
+                </div> -->
+            </div>
+            
+            <div v-if="assignment_data.type" class="w-full">
+                <hr/>
+            </div>
+
+            <div class="w-full">
+                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'objective'" class="btn btn-outline-info btn-sm">Add Objective Question</button>
+                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'subjective'" class="btn btn-outline-info btn-sm">Add Subjective Question</button>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-12">                
+                    <!-- <objective v-if="assignmentTypeView === 'Objective'"></objective> -->
+                    <!-- <subjective v-if="assignmentTypeView === 'Subjective'"></subjective> -->
+                </div>
+            </div>
+
+            <!-- <div v-if="assignment_data.type" class="w-full">
+                <hr/>
+            </div> -->
+        </div>
+
         
-        <div v-if="assignment_data.type" class="w-full">
-            <hr/>
-        </div>
 
-        <div class="row">
-            <div class="col-12 col-lg-12">                
-                <objective v-if="assignmentTypeView === 'Objective'"></objective>
-                <subjective v-if="assignmentTypeView === 'Subjective'"></subjective>
 
-            </div>
-        </div>
-
-        <div v-if="assignment_data.type" class="w-full">
-            <hr/>
-        </div>
-
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-12 col-lg-12">
                 <div class="form-group">
                     <textarea class='form-control' v-model="assignment_data.description" rows="3" placeholder="Add description here..."></textarea>
@@ -97,7 +167,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- <div class="row">
             <div class="col-lg-6 col-12">
@@ -129,7 +199,7 @@
             </div>    
         </div> -->
 
-        <div class="row mb-2">                    
+        <!-- <div class="row mb-2">                    
             <div class="col-lg-6 col-12 flex items-center">
                 <button class="btn btn-outline-info flex items-center gap-2">Add Attachments
                     <i class="bx bx-pin"></i>
@@ -152,7 +222,19 @@
             <button class="btn btn-secondary flex items-center">
             <i class="bx bx-x-circle text-white"></i> {{ returnText }} 
             </button>
-        </div>
+        </div> -->
+
+
+         <b-modal id="addQuestion"
+          content-class="bg-gray-100"
+          size="lg"
+          centered
+          hide-footer
+          title="Add Question"
+        >
+            <objective v-if="subjective_or_objective === 'objective'"></objective>
+            <subjective v-if="subjective_or_objective === 'subjective'"></subjective>
+         </b-modal>
     </div>
 </template>
 
@@ -201,11 +283,14 @@ export default {
             subjects: [ { _id:1, subject: 'Mathematics' }, { _id:2, subject: 'Further Mathematics' } ], 
             viewAssignments: true,
             assignment_types: ['Objective', 'Subjective'],
-            assignmentTypeView: '',
+            // assignment_types: ['CBT', 'Normal'],
+            assignmentTypeView: null,
+            step: 1,
             assignment_data: {
                 description: '',
                 due_date: null,
                 type: '',
+                assignment_type: '',
                 title: '',
                 subjectValues: null,
                 classValues: null,
@@ -213,7 +298,8 @@ export default {
                 links: [
                     { title: '', url: '', _id: Math.floor(Math.random() * 9999999999999) } 
                 ]
-            }   
+            },
+            subjective_or_objective: null   
         }
     },
     methods: {
@@ -236,8 +322,13 @@ export default {
             // }
             this.assignment_data.links = this.assignment_data.links.filter(link => link._id !== id)
         },
-        toggleType(value){
-            this.assignmentTypeView = value;
+        toggle_subjective_objective(value){
+            this.subjective_or_objective = value;
+            this.step = 3;
+        },
+        toggleAssignmentType(view){
+            this.assignmentTypeView = view;
+            this.step = 2;
         },
         tagSubjects(newTag) {  
             // this.personnel_details.subjectIds.push(newTag.id)
@@ -281,5 +372,86 @@ export default {
 </script>
 
 <style>
+.choose_type_box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 4rem 0 0;
+    align-items: center;
+}
 
+.choose_type {
+    width: 400px;
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+}
+
+.attention_icon {
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.choose_options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.choose_options span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cbt {
+    color: #fff;
+    background: darkcyan
+}
+
+.normal {
+    background: tomato;    
+    color: #fff;    
+}
+
+.cbt:hover {
+    background: #fff;
+    color: darkcyan
+}
+
+.normal:hover {
+    color: tomato;
+    background: #fff
+}
+
+.back_to_type{
+    display: flex;
+    justify-content: center;
+    padding: 0 0 10px;
+}
+
+.back_to_type span{
+    background: #6f42c1;
+    color: #fff;
+}
+
+.objective{
+    background: #888;    
+    color: #fff;  
+}
+.subjective {
+    background: #6f42c1;    
+    color: #fff; 
+}
+
+.objective:hover{
+    color: #888;    
+    background: #fff;  
+}
+.subjective:hover {
+    color: #6f42c1;    
+    background: #fff; 
+}
 </style>

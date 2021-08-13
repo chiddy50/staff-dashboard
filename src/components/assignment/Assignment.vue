@@ -102,7 +102,7 @@
             </div>
         </div>
         <div v-if="assignmentView == 'add_assignment'" class="row">
-
+            <!-- <addAssignment></addAssignment> -->
             <assignmentForm></assignmentForm>
         </div>
         <div v-if="assignmentView == 'update_assignment'" class="row">
@@ -167,9 +167,13 @@
 <script>
 
 import { mapState } from 'vuex'
+import AddAssignment from './AddAssignment.vue'
 
 export default {
     name: 'assignment',
+    components: {
+        AddAssignment
+    },
     data(){
         return {
             send_notication: false,
@@ -197,7 +201,13 @@ export default {
 
         // to access local state with `this`, a normal function must be used
         updatePlaceholder () {
-            return this.assignmentView == 'update_assignment' ? 'Update' : ''        
+            if (this.assignmentView === 'update_assignment') {
+                return 'Update';
+            }else if (this.assignmentView === 'add_assignment'){
+                return 'Add';
+            }else{
+                return '';
+            }
         }
     }),
     methods :{
