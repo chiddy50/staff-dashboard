@@ -5,7 +5,9 @@
     </div>
     <div class="row p-3">
       <div class="col-md-6 flex items-center">
-        <h1 class="text-3xl ml-3"><i class="bx bx-message-detail ml-2"></i><b> Profile</b></h1>
+        <h1 class="text-3xl ml-3">
+          <i class="bx bx-message-detail ml-2"></i><b> Profile</b>
+        </h1>
       </div>
     </div>
     <div class="row">
@@ -15,7 +17,7 @@
       <img src="../../assets/img/preloadermain.gif" alt="" />
     </div>
     <div v-else class="row px-4">
-      <div v-if="userData !== null" class="col-md-12">
+      <div v-if="userData" class="col-md-12">
         <div class="row rounded p-4">
           <div class="col-md-12 my-4">
             <div class="flex">
@@ -33,16 +35,22 @@
                   </div>
                 </div>
                 <div>
-                  <h1
-                    class="text-xl lg:text-2xl xl:text-2xl  mb-3"
-                  >
+                  <h1 class="text-xl lg:text-2xl xl:text-2xl mb-3">
                     {{ userData.first_name }} {{ userData.last_name }}
                     {{ userData.middle_name }}
                   </h1>
                   <p
-                    class="text-sm text-red-600 bg-red-100 py-2 px-3 mb-0 rounded text-center"
+                    class="
+                      text-sm text-red-600
+                      bg-red-100
+                      py-2
+                      px-3
+                      mb-0
+                      rounded
+                      text-center
+                    "
                   >
-                    <b> {{ userData.student_id }}</b>
+                    <b> {{ userData.personnel_id }}</b>
                   </p>
                 </div>
               </div>
@@ -195,14 +203,16 @@ export default {
   components: {
     viewimage,
   },
-  computed: mapState({
-    // arrow functions can make the code very succinct!
-    // passing the string value 'count' is same as `state => state.count`
-    // to access local state with `this`, a normal function must be used
-    userData: (state) => state.userData,
-    guardian: (state) => state.userData.guardian,
-  }),
-  mounted() {
+  computed: {
+    ...mapState({
+      // arrow functions can make the code very succinct!
+      // passing the string value 'count' is same as `state => state.count`
+      // to access local state with `this`, a normal function must be used
+      userData: (state) => state.userData,
+      guardian: (state) => state.userData.guarantor,
+    }),
+  },
+  beforeMount() {
     this.getData();
   },
   methods: {
@@ -211,14 +221,14 @@ export default {
         this.loading = true;
         let auth = Helper.auth();
 
-        let { data, status } = await Axios.get("school/student-details", auth);
+        let { data, status } = await Axios.get("school/staff-details", auth);
 
         if (status == 200) {
           this.$store.dispatch("setUserData", data.data);
         }
       } catch (error) {
         console.log(error);
-        console.table(error);
+        // console.table(error);
       } finally {
         this.loading = false;
       }

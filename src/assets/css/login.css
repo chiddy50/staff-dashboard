@@ -73,7 +73,7 @@ section#login__container .contentBx .formBx .inputBx {
 }
 
 section#login__container .contentBx .formBx .inputBx span {
-  font-size: 17px;
+  font-size: 12px;
   /* margin-bottom: 5px; */
   display: inline-block;
   color: #607db8;
