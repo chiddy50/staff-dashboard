@@ -53,10 +53,10 @@
                 <div
                   class="schedule_item rounded-md shadow-sm p-3"
                   :key="index"
-                  v-for="index in 4"
+                  v-for="(item,index) in todayActivities"
                 >
-                  <p class="text-sm font-bold m-0">
-                    Physics Class <span class="font-light">for SSS1A</span>
+                  <p class="text-sm font-bold m-0 text-uppercase m-">
+                    {{item.activity}} Class <span class="font-light">for {{item.class}} {{item.subclass}}</span>
                   </p>
                   <span class="text-xs text-gray-400">10:00 AM - 11:00 AM</span>
                 </div>
@@ -73,6 +73,7 @@
 import moment from "moment";
 import TestScores from "@/components/chart/test_score/TestScore.vue";
 import PieChart from "@/components/chart/test_score/PieChart.vue";
+import Helper from "@/helpers/functions";
 import { mapState } from "vuex";
 
 export default {
@@ -82,42 +83,44 @@ export default {
       firstDayOfWeek: null,
       nextSevenDays: [],
       todayActivities: [
-        {
-          id: 1,
-          type: "Class",
-          subject: "Chemistry",
-          icon: "bx-bong",
-          starts: "09:00",
-          class: "bg-yellow-50",
-        },
-        {
-          id: 2,
-          type: "Class",
-          subject: "Biology",
-          icon: "bx-dna",
-          starts: "10:00",
-          class: "bg-purple-50",
-        },
-        {
-          id: 13,
-          type: "Test",
-          subject: "Physics",
-          icon: "bx-atom",
-          starts: "11:00",
-          class: "bg-red-50",
-        },
+        // {
+        //   id: 1,
+        //   type: "Class",
+        //   subject: "Chemistry",
+        //   icon: "bx-bong",
+        //   starts: "09:00",
+        //   class: "bg-yellow-50",
+        // },
+        // {
+        //   id: 2,
+        //   type: "Class",
+        //   subject: "Biology",
+        //   icon: "bx-dna",
+        //   starts: "10:00",
+        //   class: "bg-purple-50",
+        // },
+        // {
+        //   id: 13,
+        //   type: "Test",
+        //   subject: "Physics",
+        //   icon: "bx-atom",
+        //   starts: "11:00",
+        //   class: "bg-red-50",
+        // },
       ],
       chartType: "Column",
       chart: "",
       options: ["Pie", "Column", "Line"],
+      analyticsloading: false,
     };
   },
   components: {
     TestScores,
     PieChart,
   },
-  mounted() {
+  beforeMount() {
     this.weekFormat();
+    this.analytics();
   },
   methods: {
     weekFormat() {
@@ -154,6 +157,24 @@ export default {
     changeChart() {
       console.log(this.chart);
       this.chartType = this.chart;
+    },
+    async analytics() {
+      try {
+        let auth = Helper.auth();
+        this.analyticsloading = true;
+        let { data, status } = await this.$axios.get(
+          "school/staff_analytics",
+          auth
+        );
+
+        if (status == 200) {
+          this.todayActivities = data.data;
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.analyticsloading = false;
+      }
     },
   },
   computed: {
