@@ -1,6 +1,6 @@
 <template>
-    <div class="col-12">     
-        <div v-if="step === 1">
+    <div class="col-12" style="margin-bottom: 80px;">     
+        <!-- <div v-if="step === 1">
             <div class="row mb-3">
                 <button class="btn btn-danger btn-sm">
                     <i class='bx bx-arrow-back bx-tada text-lg'></i>
@@ -21,9 +21,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div v-if="step === 2">            
+        <!-- <div v-if="step === 2">            
             <div class="row mb-3">
                 <button class="btn btn-danger btn-sm" @click="step = 1">
                     <i class='bx bx-arrow-back bx-tada text-lg'></i>
@@ -38,162 +38,161 @@
                         </span>
                         <span class='font-bold text-lg'>Choose Type</span>
                     </div>
-                    <!-- <div class="back_to_type">                    
-                        <button class="btn btn-sm btn-danger" @click="step = 1">
-                            Go Back
-                        </button>
-                    </div> -->
                     <div class="choose_options">
                         <span @click="toggle_subjective_objective('subjective')" class="subjective">Subjective</span>
                         <span @click="toggle_subjective_objective('objective')" class="objective">Objective</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
-        <div v-if="step === 3">    
-            <div class="row mb-3">
-                <button class="btn btn-danger btn-sm" @click="step = 2">
-                    <i class='bx bx-arrow-back text-lg'></i>
-                    Go Back
-                </button>                
-            </div>       
-            <div class="row mb-3">
-                <div class="col-12 col-lg-6 col-xl-6 items-center">
-                    <span class="text-md text-muted underline text-uppercase">{{assignmentTypeView}} {{subjective_or_objective}} Assignment</span>  
-                </div>    
-            </div> 
+        <div>    
             <div class="row">
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <div>										
-                            <multiselect v-model="assignment_data.subjectValues" tag-placeholder="Search & add Subject" 
-                                placeholder="Choose Subject" label="subject" class="mb-3"
-                                :custom-label="subjectLabel"
-                                :hideSelected="false"
-                                track-by="_id" :options="subjects">
-                            </multiselect>										
+                <div class="col-12 col-lg-12">
+
+                    <div class="w-full">
+                        <div class="form-group">
+                            <div>										
+                                <multiselect v-model="assignment_data.subjectValues" tag-placeholder="Search & add Subject" 
+                                    placeholder="Choose Subject" label="subject" class="mb-3"
+                                    :custom-label="subjectLabel"
+                                    :hideSelected="false"
+                                    track-by="_id" :options="subjects">
+                                </multiselect>										
+                            </div>
+                        </div>               
+                    </div>
+                    <div class="w-full">
+                        <div class="form-group">
+                            <div>										
+                                <multiselect v-model="assignment_data.classValues" tag-placeholder="Search & add Classes" 
+                                    placeholder="Choose Class" label="class" class="mb-3"
+                                    :custom-label="classesLabel"
+                                    :hideSelected="true"
+                                    track-by="_id" :options="classes" :multiple="true" :taggable="true" @select="tagClasses" @remove="untagClasses">
+                                </multiselect>										
+                            </div>
+                        </div>               
+                    </div>
+
+                    <div class="w-full">
+                        <div class="form-group">            
+                            <label class='m-1'>Title:</label>
+                            <input v-model="assignment_data.title" type="text" class="form-control form-control-sm"  placeholder="Title" />
                         </div>
-                    </div>               
+                    </div>
+
+                    <div class="w-full">
+                        <div class="form-group">
+                            <label class='m-1'>Description:</label>
+                            <textarea class='form-control' v-model="assignment_data.description" rows="3" placeholder="Description here..."></textarea>
+                        </div>               
+                    </div>
+
+                    <div class="w-full mb-3">
+
+                        <div class="col-lg-6 col-12 flex items-center">
+                            <b-form-checkbox class="warning" v-model="isCBT" name="check-button" switch>
+                                <span class="text-xs">CBT assignment</span>
+                            </b-form-checkbox>                   
+                        </div>
+                    </div>
+
+                    <div class="w-full">
+                        <hr/>
+                    </div>
+
+                    <div v-if="isCBT" class="w-full">
+                        <div class="mb-2">
+                            <label>Duration:</label>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" placeholder="00" id="demo" name="email">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Hour</span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" placeholder="00" id="demo" name="email">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Minute</span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" placeholder="00" id="demo" name="email">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Second</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="form-group">
+                                <label class='m-1'>Due Date:</label>
+                                <input type="date" v-model="assignment_data.due_date" class="form-control form-control-sm"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div class="input-group mb-3">
+                                <input type="date" class="form-control" placeholder="00" id="demo" name="email">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Start Date</span>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="date" class="form-control" placeholder="00" id="demo" name="email">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">End Date</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <hr/>
+                    </div>
+
+                    <!-- <div class="w-full">
+                        <button v-b-modal.addQuestion  class="btn btn-outline-info btn-sm mb-4">Add Objective Question</button>
+                        <button v-b-modal.addQuestion  class="btn btn-outline-info btn-sm mb-4">Add Subjective Question</button>
+                    </div> -->
+
+                    <div class='mb-4'>
+                        <div class="flex items-center gap-1 mb-2">
+                            <label @click="addLink" class="flex items-center m-0 cursor-pointer text-info text-sm">Click to add links</label>                       
+                            <i @click="addLink" class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
+                        </div>
+
+                        <div class="assignment_links mb-2" v-for="(link, index) in assignment_data.links" :key="index">
+                            <input type="text" v-model="link.text" class="form-control form-control-sm" placeholder="Text" />
+                            <input type="text" v-model="link.link" class="form-control form-control-sm" placeholder="URL" />
+                            <i v-if="assignment_data.links.length > 1" class="bx bx-trash text-xl cursor-pointer" @click="removeLink(link._id)" v-b-popover.hover.bottom="'Remove link'"></i>
+                            
+                        </div>
+                    </div>
                 </div>
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <div>										
-                            <multiselect v-model="assignment_data.classValues" tag-placeholder="Search & add Classes" 
-                                placeholder="Choose Class" label="class" class="mb-3"
-                                :custom-label="classesLabel"
-                                :hideSelected="true"
-                                track-by="_id" :options="classes" :multiple="true" :taggable="true" @select="tagClasses" @remove="untagClasses">
-                            </multiselect>										
-                        </div>
-                    </div>               
-                </div>
-                <!-- <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <div>										
-                            <multiselect v-model="assignment_data.type" 
-                                placeholder="Choose Type" class="mb-3"
-                                :hideSelected="false"
-                                :options="assignment_types">
-                            </multiselect>										
-                        </div>
-                    </div>               
-                </div> -->
             </div>
             
-            <div v-if="assignment_data.type" class="w-full">
-                <hr/>
-            </div>
-
-            <div class="w-full">
-                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'objective'" class="btn btn-outline-info btn-sm mb-4">Add Objective Question</button>
-                <button v-b-modal.addQuestion v-if="subjective_or_objective === 'subjective'" class="btn btn-outline-info btn-sm mb-4">Add Subjective Question</button>
-
-
-                <div>
-                    <label>Duration:</label>
-                    <div v-if="subjective_or_objective === 'objective'" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="00" id="demo" name="email">
-                            <div class="input-group-append">
-                                <span class="input-group-text">Hour</span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="00" id="demo" name="email">
-                            <div class="input-group-append">
-                                <span class="input-group-text">Minute</span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="00" id="demo" name="email">
-                            <div class="input-group-append">
-                                <span class="input-group-text">Second</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12 col-lg-12">                
-                    <!-- <objective v-if="assignmentTypeView === 'Objective'"></objective> -->
-                    <!-- <subjective v-if="assignmentTypeView === 'Subjective'"></subjective> -->
+            <div class="row mb-2">                    
+                <div class="col-lg-6 col-12 flex items-center">
+                    <button class="btn btn-outline-danger btn-sm flex items-center gap-2">Add Attachments
+                        <i class="bx bx-pin"></i>
+                    </button>                     
                 </div>
             </div>
 
-            <!-- <div v-if="assignment_data.type" class="w-full">
-                <hr/>
-            </div> -->
-        </div>
-
-        
-
-
-        <!-- <div class="row">
-            <div class="col-12 col-lg-12">
-                <div class="form-group">
-                    <textarea class='form-control' v-model="assignment_data.description" rows="3" placeholder="Add description here..."></textarea>
-                </div>               
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-6 col-12">
-                <div class="form-group">            
-                    <label class='m-1'>Title:</label>
-                    <input v-model="assignment_data.title" type="text" class="form-control"  placeholder="Assignment title" />
-                </div>
-            </div>
-            <div class="col-lg-6 col-12">                
-                <div class="form-group">
-                    <div class="">
-                        <label class='m-1'>Due Date:</label>
-                        <input type="date" v-model="assignment_data.due_date" class="form-control" />                      
-                    </div>
+            <div class="row mb-4">                    
+                <div class="col-lg-6 col-12 flex items-center">
+                <b-form-checkbox class="warning" v-model="assignment_data.send_notification" name="check-button" switch>
+                        <span class="text-xs">Send Notification</span>
+                    </b-form-checkbox>                   
                 </div>
             </div>
         </div>
         
-        <div class="row">
-            <div class="col-12 col-lg-12">
-                <div class='mb-4'>
-                    <div class="flex items-center gap-1 mb-2">
-                        <label @click="addLink" class="flex items-center m-0 cursor-pointer text-info text-sm">Click to add links</label>                       
-                        <i @click="addLink" class="bx bx-link cursor-pointer" v-b-popover.hover.bottom="'Add link'"></i>                        
-                    </div>
 
-                    <div class="assignment_links mb-2" v-for="(link, index) in assignment_data.links" :key="index">
-                        <input type="text" v-model="link.text" class="form-control" placeholder="Text" />
-                        <input type="text" v-model="link.link" class="form-control" placeholder="URL" />
-                        <i v-if="assignment_data.links.length > 1" class="bx bx-trash text-xl cursor-pointer" @click="removeLink(link._id)" v-b-popover.hover.bottom="'Remove link'"></i>
-                        
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <!-- <div class="row">
             <div class="col-lg-6 col-12">
@@ -225,31 +224,47 @@
             </div>    
         </div> -->
 
-        <!-- <div class="row mb-2">                    
-            <div class="col-lg-6 col-12 flex items-center">
-                <button class="btn btn-outline-info flex items-center gap-2">Add Attachments
-                    <i class="bx bx-pin"></i>
-                </button>                     
-            </div>
-        </div>
+        
 
-        <div class="row mb-4">                    
-            <div class="col-lg-6 col-12 flex items-center">
-               <b-form-checkbox class="warning" v-model="assignment_data.send_notification" name="check-button" switch>
-                    <span class="text-xs">Send Notification</span>
-                </b-form-checkbox>                   
+        <!-- <div class="w-full mb-5">
+            <h3 class="text-muted underline mb-4">Questions</h3>
+
+            <div v-if="assignment_data.questions.length" class='bg-white p-4 rounded-lg shadow-sm'>
+                <div :key="i" v-for="(question, i) in assignment_data.questions" class="mb-5">
+                    <p class="text-gray-500 mb-2">{{ question.name }}</p>
+
+                    <div v-for="(option, index) in question.options" :key="index"  class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                        <input type="text" disabled class="form-control" :value="option.value">
+                    </div>
+                </div>
             </div>
-        </div>
+            <div v-else class="bg-white p-4 rounded-lg shadow-sm">
+                <h6 class="text-center text-gray-500">No questions added</h6>
+            </div>
+            
+        </div> -->
                     
-        <div class="mt-3">
+        <!-- <div class="mt-3 flex justify-end">
             <button class="btn btn-success flex items-center mr-3">                    
             <i class="bx bx-check-circle text-white"></i> {{ assignment == null ? 'Create' : 'Update' }}
             </button>
-            <button class="btn btn-secondary flex items-center">
-            <i class="bx bx-x-circle text-white"></i> {{ returnText }} 
-            </button>
         </div> -->
 
+        <b-modal id="allQuestions"
+          content-class="bg-gray-100"
+          size="lg"
+          centered
+          hide-footer
+          title="Questions"
+          :no-close-on-backdrop="true"
+        >
+            <questions :questions="assignment_data.questions"></questions>
+        </b-modal>
 
          <b-modal id="addQuestion"
           content-class="bg-gray-100"
@@ -257,22 +272,42 @@
           centered
           hide-footer
           title="Add Question"
+          :no-close-on-backdrop="true"
         >
-            <objective v-if="subjective_or_objective === 'objective'"></objective>
-            <subjective v-if="subjective_or_objective === 'subjective'"></subjective>
+            <div class="w-full flex items-center mb-3">
+                <b-form-checkbox class="warning" v-model="isObjective" name="check-button" switch>
+                    <span class="text-xs">Objective</span>
+                </b-form-checkbox>                   
+            </div>
+            <objective @send-question="add_question" v-if="isObjective"></objective>
+            <subjective v-else></subjective>
          </b-modal>
+
+
+        <div class="footer p-4 shadow z-10">
+            <div class="w-full flex justify-center">
+                <button v-b-modal.addQuestion class="btn btn-outline-primary btn-sm">Add Questions</button>
+                <button v-b-modal.allQuestions class="btn btn-outline-secondary mx-3 btn-sm">View Questions</button>
+                <button class="btn btn-success flex items-center">                    
+                    <i class="bx bx-check-circle text-white"></i> {{ assignment == null ? 'Create' : 'Update' }}
+                </button>
+            </div>
+        </div>
+
     </div>
 </template>
 
 <script>
 import Objective from './Objective.vue'
 import Subjective from './Subjective.vue'
+import Questions from './Questions.vue'
 
 export default {
     name: 'assignmentForm',
     components: {
         Objective,
-        Subjective
+        Subjective,
+        Questions
     },
     props: {
         returnText: {
@@ -310,7 +345,7 @@ export default {
             viewAssignments: true,
             assignment_types: ['Objective', 'Subjective'],
             // assignment_types: ['CBT', 'Normal'],
-            assignmentTypeView: null,
+            isCBT: true,
             step: 1,
             assignment_data: {
                 description: '',
@@ -323,9 +358,10 @@ export default {
                 send_notification: false,
                 links: [
                     { title: '', url: '', _id: Math.floor(Math.random() * 9999999999999) } 
-                ]
+                ],
+                questions: []
             },
-            subjective_or_objective: null   
+            isObjective: true   
         }
     },
     methods: {
@@ -349,11 +385,11 @@ export default {
             this.assignment_data.links = this.assignment_data.links.filter(link => link._id !== id)
         },
         toggle_subjective_objective(value){
-            this.subjective_or_objective = value;
+            this.isObjective = value;
             this.step = 3;
         },
         toggleAssignmentType(view){
-            this.assignmentTypeView = view;
+            this.isCBT = view;
             this.step = 2;
         },
         tagSubjects(newTag) {  
@@ -373,6 +409,10 @@ export default {
         },
         subjectLabel({ subject }) {
             return `${subject}`
+        },
+        add_question(question){
+            console.log(question);
+            this.assignment_data.questions.push(question);
         }
     },
     mounted() {
@@ -479,5 +519,15 @@ export default {
 .subjective:hover {
     color: #6f42c1;    
     background: #fff; 
+}
+
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background: #fff;
+   text-align: center;
 }
 </style>

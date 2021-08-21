@@ -18,17 +18,19 @@
             <div v-for="(option, index) in options" :key="index" class="col-12">                                   
                 <div class="form-group flex items-center">
                     <!-- <span class="text-lg text-gray-400 mr-2">{{ `${index+1}` }}</span> -->
-                    <input type="text" class="form-control"  :placeholder='`Option ${index+1}`'>
+                    <input type="text" class="form-control" @keyup="set_option_text" :id="option._id" ref="options" :placeholder='`Option ${index+1}`'>
                     <i v-if="options.length > 1" class="bx bx-trash cursor-pointer ml-2 text-xl text-red-300" @click="removeOption(option._id)" v-b-popover.hover.bottom="'Remove option'"></i>
                 </div>
             </div>
         </div>
 
         <div class="row my-3">
-            <div class="col-12 col-md-9 col-xl-6">
+            <div class="col-12 col-md-12 col-xl-12">
                 <multiselect v-model="correct_answer" 
                     placeholder="Choose correct answer" class="mb-3"
                     :hideSelected="false"
+                    track-by="_id"
+                    label="value"
                     :options="optionsList">
                 </multiselect>	
             </div>
@@ -40,7 +42,11 @@
                     <textarea class='form-control' v-model="instruction" rows="3" placeholder="Instruction"></textarea>
                 </div>               
             </div>
-        </div>        
+        </div>       
+
+        <div class="">
+            <button @click="sendQuestion" class="btn btn-success btn-block">Add</button>
+        </div> 
     </div>
 </template>
 
@@ -51,10 +57,7 @@ export default {
         return {
             question: null,
             options: [
-                {
-                    _id: Math.ceil(Math.random() * 9999999999999999),
-                    value: ''
-                }
+                
             ],
             number_of_options: 0,
             correct_answer: null,
@@ -65,12 +68,35 @@ export default {
         addOption(){
             this.options.push({
                 _id: Math.ceil(Math.random() * 9999999999999999),
-                value: ''
+                value: '',
+                placeholder: `Option ${this.options.length + 1}`,
+                edit: false
             })
         },
         removeOption(id){
-           
+            if (this.correct_answer._id === id) {
+                this.correct_answer = null
+            }
             this.options = this.options.filter(option => option._id !== id)
+        },
+
+        sendQuestion(){
+            let question = {};
+            question.name = this.question; 
+            question.instruction = this.instruction; 
+            question.correct_answer = this.correct_answer; 
+            question.options = this.options; 
+
+            console.log(question);
+            this.$emit('send-question', question);
+        },
+
+        set_option_text(e){
+            this.options = this.options.map(option => {
+                if (option._id === Number(e.target.id)) option.value = e.target.value;
+                return option;
+            }) 
+
         }
     }, 
     computed: {
@@ -78,10 +104,14 @@ export default {
             let correct_options = [];
             for (let i = 0; i < this.options.length; i++) {
                 // const element = this.options[i];
-                correct_options.push(`Option ${i+1}`)
+                correct_options.push(this.options[i])
             }
             return correct_options;
         }
+    },
+
+    watch: {
+        
     }
 }
 </script>
