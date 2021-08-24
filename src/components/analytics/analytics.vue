@@ -16,8 +16,8 @@
     <div class="dashboard__content my-4">
       <div class="col-12">
         <div class="row">
-          <div class="col-12 col-lg-6">
-            <div class="flex justify-end items-center">
+          <div class="col-12 col-lg-6 col-xl-5">
+            <!-- <div class="flex justify-end items-center">
               <div class="w-1/4">
                 <select
                   @change="changeChart"
@@ -42,23 +42,28 @@
                   :chartType="chartType.toLocaleLowerCase()"
                 ></test-scores>
               </div>
-            </div>
+            </div> -->
+            <calender @get-activties="analytics()"></calender>
           </div>
-          <div class="col-12 col-lg-6">
-            <h1 class="text-lg text-gray-400 m-0">
-              Here is your schedule for today,
-            </h1>
-            <div class="mb-10 mt-3">
-              <div class="mb-4">
-                <div
-                  class="schedule_item rounded-md shadow-sm p-3"
-                  :key="index"
-                  v-for="(item,index) in todayActivities"
-                >
-                  <p class="text-sm font-bold m-0 text-uppercase m-">
-                    {{item.activity}} Class <span class="font-light">for {{item.class}} {{item.subclass}}</span>
-                  </p>
-                  <span class="text-xs text-gray-400">10:00 AM - 11:00 AM</span>
+          <div :class="analyticsloading ? 'flex items-center justify-center' : ''" class="col-12 col-lg-6 col-xl-7">            
+            <div v-if="analyticsloading" style="width: 6rem; height: 6rem;" 
+            class="spinner-border text-dark"></div>            
+            <div v-else>
+              <h1 class="text-lg text-gray-400 m-0">
+                Here is your schedule for today,
+              </h1>
+              <div class="mb-10 mt-3">
+                <div class="mb-4">
+                  <div
+                    class="schedule_item rounded-md shadow-sm p-3"
+                    :key="index"
+                    v-for="(item,index) in todayActivities"
+                  >
+                    <p class="text-sm font-bold m-0 text-uppercase m-">
+                      {{item.activity}} Class <span class="font-light">for {{item.class}} {{item.subclass}}</span>
+                    </p>
+                    <span class="text-xs text-gray-400">{{ formatTime(item.starts) }} - {{ formatTime(item.ends) }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,6 +80,7 @@ import TestScores from "@/components/chart/test_score/TestScore.vue";
 import PieChart from "@/components/chart/test_score/PieChart.vue";
 import Helper from "@/helpers/functions";
 import { mapState } from "vuex";
+import Calender from './Calender';
 
 export default {
   name: "dashboard",
@@ -82,32 +88,7 @@ export default {
     return {
       firstDayOfWeek: null,
       nextSevenDays: [],
-      todayActivities: [
-        // {
-        //   id: 1,
-        //   type: "Class",
-        //   subject: "Chemistry",
-        //   icon: "bx-bong",
-        //   starts: "09:00",
-        //   class: "bg-yellow-50",
-        // },
-        // {
-        //   id: 2,
-        //   type: "Class",
-        //   subject: "Biology",
-        //   icon: "bx-dna",
-        //   starts: "10:00",
-        //   class: "bg-purple-50",
-        // },
-        // {
-        //   id: 13,
-        //   type: "Test",
-        //   subject: "Physics",
-        //   icon: "bx-atom",
-        //   starts: "11:00",
-        //   class: "bg-red-50",
-        // },
-      ],
+      todayActivities: [],
       chartType: "Column",
       chart: "",
       options: ["Pie", "Column", "Line"],
@@ -117,6 +98,7 @@ export default {
   components: {
     TestScores,
     PieChart,
+    Calender
   },
   beforeMount() {
     this.weekFormat();
@@ -175,6 +157,10 @@ export default {
       } finally {
         this.analyticsloading = false;
       }
+    },
+    formatTime(time) {
+      let minute = time.min < 10 ? `0${time.min}` : time.min;
+      return `${time.hour}:${minute}`;
     },
   },
   computed: {
