@@ -263,7 +263,7 @@
           title="Questions"
           :no-close-on-backdrop="true"
         >
-            <questions :questions="assignment_data.questions"></questions>
+            <questions @update-option="update_option" :questions="assignment_data.questions"></questions>
         </b-modal>
 
          <b-modal id="addQuestion"
@@ -289,7 +289,7 @@
                 <button v-b-modal.addQuestion class="btn btn-outline-primary btn-sm">Add Questions</button>
                 <button v-b-modal.allQuestions class="btn btn-outline-secondary mx-3 btn-sm">View Questions</button>
                 <button class="btn btn-success flex items-center">                    
-                    <i class="bx bx-check-circle text-white"></i> {{ assignment == null ? 'Create' : 'Update' }}
+                    {{ assignment == null ? 'Create' : 'Update' }}
                 </button>
             </div>
         </div>
@@ -413,6 +413,17 @@ export default {
         add_question(question){
             console.log(question);
             this.assignment_data.questions.push(question);
+        },
+        update_option(e){
+            let id = e.target.id;
+            this.assignment_data.questions = this.assignment_data.questions.map(question => {
+                question.options.forEach(option => {
+                    if (option._id == id) {
+                        option.value = e.target.value;
+                    }
+                })
+                return question;
+            });
         }
     },
     mounted() {
