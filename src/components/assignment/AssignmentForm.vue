@@ -263,7 +263,12 @@
           title="Questions"
           :no-close-on-backdrop="true"
         >
-            <questions @update-option="update_option" :questions="assignment_data.questions"></questions>
+            <questions
+                @update-option="update_option" 
+                :questions="assignment_data.questions"
+                @update-question="updateQuestion"
+                >
+            </questions>
         </b-modal>
 
          <b-modal id="addQuestion"
@@ -411,7 +416,6 @@ export default {
             return `${subject}`
         },
         add_question(question){
-            console.log(question);
             this.assignment_data.questions.push(question);
         },
         update_option(e){
@@ -424,6 +428,15 @@ export default {
                 })
                 return question;
             });
+        },
+        
+        updateQuestion(e){
+            this.assignment_data.questions = this.assignment_data.questions.map(question => {
+                if (Number(question._id) === Number(e.target.id)) {
+                    question.name = e.target.value;
+                }
+                return question;
+            })
         }
     },
     mounted() {

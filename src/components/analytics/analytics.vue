@@ -49,8 +49,11 @@
             <div v-if="analyticsloading" style="width: 6rem; height: 6rem;" 
             class="spinner-border text-dark"></div>            
             <div v-else>
-              <h1 class="text-lg text-gray-400 m-0">
+              <h1 v-if="todayActivities.length > 0" class="text-lg text-gray-400 m-0 text-center">
                 Here is your schedule for today,
+              </h1>
+              <h1 v-else class="text-lg text-gray-400 m-0 text-center">
+                No Activities
               </h1>
               <div class="mb-10 mt-3">
                 <div class="mb-4">

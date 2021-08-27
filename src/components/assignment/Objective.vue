@@ -90,6 +90,7 @@ export default {
             question.instruction = this.instruction; 
             question.correct_answer = this.correct_answer; 
             question.options = this.options; 
+            question._id = Math.ceil(Math.random() * 9999999999999999)
 
             console.log(question);
             this.$emit('send-question', question);

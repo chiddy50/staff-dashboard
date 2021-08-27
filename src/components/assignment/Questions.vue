@@ -8,10 +8,10 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="checkbox">
+                            <input type="checkbox" @change="toggleEditquestion($event, question._id)">
                         </div>
                     </div>
-                    <input type="text" disabled class="form-control form-control-lg" :value="question.name">
+                    <input type="text" disabled :id="question._id" @keyup="$emit('update-question', $event)" class="form-control form-control-lg" :value="question.name">
                 </div>
 
                 <div v-for="(option, index) in question.options" :key="index"  class="input-group mb-1">
@@ -22,6 +22,7 @@
                     </div>
                     <input type="text" :id="option._id" @keyup="updateOption($event)" disabled class="form-control form-control-sm" :value="option.value">
                 </div>
+                <hr/>    
             </div>
         </div>
         <div v-else class="">
@@ -37,14 +38,17 @@ export default {
     props: ['questions'],
     methods: {
         toggleEditOption(e, id){
-            console.log(e, id);
             let option = document.getElementById(id);
             option.disabled = !option.disabled;
-            console.log(option);
         },
         updateOption(e){
             this.$emit('update-option', e)
-        }
+        },
+        toggleEditquestion(e, id){
+            console.log(e, id);
+            let question = document.getElementById(id);
+            question.disabled = !question.disabled;
+        },
     }
 }
 </script>
