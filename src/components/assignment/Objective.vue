@@ -30,7 +30,7 @@
                     placeholder="Choose correct answer" class="mb-3"
                     :hideSelected="false"
                     track-by="_id"
-                    label="value"
+                    label="placeholder"
                     :options="optionsList">
                 </multiselect>	
             </div>
@@ -56,9 +56,7 @@ export default {
     data(){
         return {
             question: null,
-            options: [
-                
-            ],
+            options: [],
             number_of_options: 0,
             correct_answer: null,
             instruction: ''
@@ -74,10 +72,16 @@ export default {
             })
         },
         removeOption(id){
-            if (this.correct_answer._id === id) {
-                this.correct_answer = null
+            if (this.correct_answer !== null) {
+                if (this.correct_answer._id === id) {
+                    this.correct_answer = null
+                }
             }
             this.options = this.options.filter(option => option._id !== id)
+            this.options = this.options.map((option, index) => {
+                option.placeholder = `Option ${index + 1}`;
+                return option;
+            })
         },
 
         sendQuestion(){
@@ -89,6 +93,7 @@ export default {
 
             console.log(question);
             this.$emit('send-question', question);
+            this.resetForm()
         },
 
         set_option_text(e){
@@ -97,6 +102,13 @@ export default {
                 return option;
             }) 
 
+        },
+
+        resetForm() {
+            this.question = null; 
+            this.instruction = null; 
+            this.correct_answer = null; 
+            this.options = []; 
         }
     }, 
     computed: {

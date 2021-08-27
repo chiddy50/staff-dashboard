@@ -2,7 +2,7 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row px-3 pt-10 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-notepad mr-2"></i> <span class="font-bold">{{updatePlaceholder}} Assignment</span>
+                <i class="bx bx-notepad mr-2"></i> <span class="font-bold">{{ titlePlaceholder }} Assignment</span>
             </h1>
             <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
             <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
@@ -102,7 +102,6 @@
             </div>
         </div>
         <div v-if="assignmentView == 'add_assignment'" class="row">
-            <!-- <addAssignment></addAssignment> -->
             <assignmentForm></assignmentForm>
         </div>
         <div v-if="assignmentView == 'update_assignment'" class="row">
@@ -167,13 +166,12 @@
 <script>
 
 import { mapState } from 'vuex'
-import AddAssignment from './AddAssignment.vue'
 
 export default {
     name: 'assignment',
-    components: {
-        AddAssignment
-    },
+    // components: {
+    //     AddAssignment
+    // },
     data(){
         return {
             send_notication: false,
@@ -200,7 +198,7 @@ export default {
         // countAlias: 'count',
 
         // to access local state with `this`, a normal function must be used
-        updatePlaceholder () {
+         titlePlaceholder  () {
             if (this.assignmentView === 'update_assignment') {
                 return 'Update';
             }else if (this.assignmentView === 'add_assignment'){

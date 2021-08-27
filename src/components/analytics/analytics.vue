@@ -1,6 +1,6 @@
 <template>
   <div class="mt-12 pt-5">
-    <div class="custom__banner mb-3 rounded-md flex justify-between">
+    <div class="custom__banner rounded-md flex justify-between">
       <div class="flex items-center justify-between banner__header w-full">
         <h1 class="text-3xl mb-0 text-muted" v-if="current_staff">
           <i class="bx bx-message-detail ml-2"></i>
@@ -13,10 +13,10 @@
       </div>
     </div>
 
-    <div class="dashboard__content my-4">
+    <div class="dashboard__content my-5">
       <div class="col-12">
         <div class="row">
-          <div class="col-12 col-lg-6 col-xl-5">
+          <div class="col-12 col-lg-6 col-xl-5 p-4 bg-white">
             <!-- <div class="flex justify-end items-center">
               <div class="w-1/4">
                 <select
