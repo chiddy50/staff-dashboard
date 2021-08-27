@@ -6,7 +6,6 @@
           <i class="bx bx-book mr-2"></i> <span>Class</span>
         </h1>
       </div>
-      
     </div>
     <div class="row pr-3">
       <hr class="w-full" />
@@ -34,25 +33,30 @@
       <div class="py-3">
         <div class="">
           <div>
-            <b-col v-for="(a, i) in 5" :key="i">
+            <b-col v-for="(a, i) in classes" :key="i">
               <b-row>
                 <b-col>
                   <div class="display-data bg-white pr-4">
                     <b-row class="px-2">
                       <b-col>
-                        <span class="text-uppercase">SSS1A</span
+                        <span class="text-uppercase">{{ a.name }}</span>
+                        <br /><span class="text-gray-500 text-xs"
+                          >Mathematics</span
                         >
-                        <br /><span class="text-gray-500 text-xs">Mathematics</span>
                       </b-col>
-                      
-                      <b-col cols="2" md="1" class="flex items-center justify-end">
+
+                      <b-col
+                        cols="2"
+                        md="1"
+                        class="flex items-center justify-end"
+                      >
                         <span class="text-lg p-1 bg-yellow-100 rounded">
-                           <i class="bx bx-category text-yellow-700"></i>
+                          <i class="bx bx-category text-yellow-700"></i>
                         </span>
-                      <!-- <b-button size="sm">
+                        <!-- <b-button size="sm">
                         View
                       </b-button> -->
-												<!-- <b-button-group>
+                        <!-- <b-button-group>
 													<b-dropdown right split text="Action" size="sm">
 														<b-dropdown-item
 															:to="`/viewsubclass/${i}`">
@@ -63,7 +67,6 @@
 													</b-dropdown>
 												</b-button-group> -->
                       </b-col>
-
                     </b-row>
                   </div>
                 </b-col>
@@ -101,7 +104,6 @@
                             {{ toNaira(requirement.amount) }}</span
                           >
                         </b-col>
-                       
                       </b-row>
                     </div>
                   </b-col>
@@ -139,7 +141,6 @@
             </div>
           </div>
         </b-modal>
-
       </div>
     </div>
   </div>
@@ -170,6 +171,7 @@ export default {
       },
       paymentTotal: 0,
       paymentLoading: false,
+      classes: [],
     };
   },
   computed: {
@@ -182,7 +184,7 @@ export default {
   },
   mounted() {
     // this.onMounted();
-    this.getPayments();
+    this.getClass();
   },
   methods: {
     searchPayment() {
@@ -197,29 +199,17 @@ export default {
     toNaira(value = 0) {
       return formatNaira(value);
     },
-    async getPayments() {
+    async getClass() {
       try {
         this.refundLoading = true;
         let auth = Helper.auth();
-
-        let { data, status } = await Axios.get("school/get-payment", auth);
-        this.refundLoading = false;
+        let { data, status } = await Axios.get("school/staff_class", auth);
 
         if (status == 200) {
-          // this.$store.dispatch("setUserData", data.data);
-          // this.$bvModal.hide("refund-wallet");
-          this.paymentdata = data.data;
-          this.paymentTotal = this.paymentdata.requirements.reduce(
-            (acc, cur) => {
-              return acc + cur.amount;
-            },
-            0
-          );
-          console.log(this.paymentTotal);
+          this.classes = data.data;
         }
       } catch (error) {
         console.log(error);
-        console.table(error);
       } finally {
         this.refundLoading = false;
       }
