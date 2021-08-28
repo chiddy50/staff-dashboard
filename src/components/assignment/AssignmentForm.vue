@@ -293,7 +293,7 @@
             <div class="w-full flex justify-center">
                 <button v-b-modal.addQuestion class="btn btn-outline-primary btn-sm">Add Questions</button>
                 <button v-b-modal.allQuestions class="btn btn-outline-secondary mx-3 btn-sm">View Questions</button>
-                <button class="btn btn-success flex items-center">                    
+                <button @click="create_assignment" class="btn btn-success flex items-center">                    
                     {{ assignment == null ? 'Create' : 'Update' }}
                 </button>
             </div>
@@ -306,6 +306,7 @@
 import Objective from './Objective.vue'
 import Subjective from './Subjective.vue'
 import Questions from './Questions.vue'
+import Helper from "@/helpers/functions";
 
 export default {
     name: 'assignmentForm',
@@ -366,7 +367,8 @@ export default {
                 ],
                 questions: []
             },
-            isObjective: true   
+            isObjective: true,
+            loading: false   
         }
     },
     methods: {
@@ -437,9 +439,31 @@ export default {
                 }
                 return question;
             })
+        },
+        create_assignment(){
+
+        },
+        async get_teacher_details(){
+             try {
+                this.loading = true;
+                let auth = Helper.auth();
+                let { data, status } = await this.$axios.get(
+                    "/school/staff-assignment-bio",
+                    auth
+                );
+                this.loading = false;
+                if (status == 200) {
+                    console.log(data);
+                }
+            } catch (error) {
+                console.log(error);
+                console.log(error.response);
+                this.loading = false;
+            }
         }
     },
     mounted() {
+        this.get_teacher_details();
         if (this.assignment !== null) {
             this.assignment_data.description = this.assignment.description;
             this.assignment_data.title = this.assignment.title;
