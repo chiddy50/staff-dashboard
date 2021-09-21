@@ -1,31 +1,71 @@
 <template>
-  <div class="w-full mb-5">
+  <div class="w-full">
         <div v-if="questions.length" class=''>
-            <div :key="i" v-for="(question, i) in questions" class="mb-5">
-                <!-- <p class="text-gray-500 mb-2">{{ question.name }}</p> -->
-
-                <label style="font-size: 17px; font-weight: 600;">Question {{(i+1)}}</label>
+            <div :key="i" v-for="(question, i) in filter_question.data" class="">
+                <div class="flex justify-end">
+                    <span class="px-3 py-1 text-xs bg-blue-300 text-light rounded-xl">{{ question.isObjective ? 'Objective' : 'Subjective' }}</span>
+                </div>
+                <label style="font-size: 17px; font-weight: 600;">Question {{ currentPage }}</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             <input type="checkbox" @change="toggleEditquestion($event, question._id)">
                         </div>
                     </div>
-                    <input type="text" disabled :id="question._id" @keyup="$emit('update-question', $event)" class="form-control form-control-lg" :value="question.name">
+                    <textarea rows="4" :value="question.question" disabled :id="question._id" @keyup="$emit('update-question', $event)" class="form-control p-3" style="font-size:14px;"></textarea>
                 </div>
 
-                <div v-for="(option, index) in question.options" :key="index"  class="input-group mb-1">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <input type="checkbox" @change="toggleEditOption($event, option._id)">
+                <div v-if="question.isObjective">
+                    <h4 style="font-size: 17px;" class="mb-2 font-bold">Options</h4>
+                    <div v-for="(option, index) in question.options" :key="index"  class="input-group mb-1">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" @change="toggleEditOption($event, option._id)">
+                            </div>
+                        </div>
+                        <input type="text" :id="option._id" @keyup="updateOption($event)" disabled class="form-control form-control-sm" :value="option.value">
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-12 col-sm-8 col-md-8 col-lg-4 col-xl-4">                                   
+                            <span style="padding: 2px 12px; border: 1px solid; border-radius: 3px;"
+                            class="flex items-center justify-center cursor-pointer font-bold text-blue-400" @click="addOption(question._id)">
+                            Add more options <i class="ml-2 bx bx-plus"></i>
+                            </span>                    
                         </div>
                     </div>
-                    <input type="text" :id="option._id" @keyup="updateOption($event)" disabled class="form-control form-control-sm" :value="option.value">
+                    <div class="form-group">
+                        <label class='m-1 text-lg font-bold'>Answer:</label>
+                            <!-- :custom-label="subjectLabel" -->
+                        <multiselect v-model="question.correct_answer" tag-placeholder="Choose answer" 
+                            placeholder="Choose Subject" label="placeholder" class="mb-3"
+                            :hideSelected="false"
+                            @select="updateAnswer($event,question._id)"
+                            track-by="_id" :options="question.options">
+                        </multiselect>	
+                    </div> 
                 </div>
+
+                <div class="form-group">
+                    <label class='m-1 text-lg font-bold'>Instruction:</label>
+                    <textarea class='form-control'
+                            style="font-size: 13px;"
+                            :id="question._id"
+                            @keyup="$emit('update-instruction', $event)" 
+                            v-model="question.instruction" rows="3" 
+                            placeholder="Instruction">
+                    </textarea>
+                </div>               
                 <hr/>    
             </div>
+            <div class="">                
+                <b-pagination 
+                v-model="currentPage" pills 
+                :per-page="perpage" 
+                :total-rows="filter_question.length" align="center"
+                ></b-pagination>
+            </div>
         </div>
-        <div v-else class="">
+        <div v-else class="my-4">
             <h6 class="text-center text-gray-500">No questions added</h6>
         </div>
         
@@ -36,6 +76,22 @@
 export default {
     name: 'questions',
     props: ['questions'],
+    data(){
+        return {
+            currentPage: 1,
+            perpage: 1
+        }
+    },
+    computed: {
+        filter_question() {
+            let start = this.currentPage * this.perpage - this.perpage;
+            let end = this.currentPage * this.perpage;
+            return {
+                length: this.questions.length,
+                data: this.questions.slice(start, end),
+            };
+        },
+    },
     methods: {
         toggleEditOption(e, id){
             let option = document.getElementById(id);
@@ -45,10 +101,24 @@ export default {
             this.$emit('update-option', e)
         },
         toggleEditquestion(e, id){
-            console.log(e, id);
             let question = document.getElementById(id);
             question.disabled = !question.disabled;
         },
+        addOption(question_id){
+            let question = this.questions.find(question => question._id == question_id); // question to edit
+            let option = {
+                _id: Math.ceil(Math.random() * 99999999999439999999999),
+                value: '',
+                placeholder: `Option ${question.options.length + 1}`,
+                edit: true 
+            }
+            this.$emit('update-options', {option, id: question_id});           
+        },
+        updateAnswer(e, id){
+            console.log(e, id);
+            this.$emit('update-answer', {answer: e, id})
+        }
+        
     }
 }
 </script>

@@ -62,6 +62,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/subclass-students/:class/:desc/:subclass",
+    name: "subclass_students",
+    component: () => import("../views/SubclassStudents.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/wallet",
     name: "wallet",
     component: () => import("../views/Wallet.vue"),

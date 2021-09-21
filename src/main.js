@@ -10,6 +10,15 @@ import Multiselect from "vue-multiselect";
 import wysiwyg from "vue-wysiwyg";
 Vue.use(wysiwyg, {}); // config is optional. more below
 
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+Vue.use(Toast, {
+  transition: "Vue-Toastification__bounce",
+  maxToasts: 20,
+  newestOnTop: true
+});
+
 import "vue-wysiwyg/dist/vueWysiwyg.css";
 
 import show from "@/views/show";
@@ -22,6 +31,7 @@ import assignment from "@/components/assignment/Assignment";
 import manageProgress from "@/components/assignment/ManageProgress";
 import assignmentForm from "@/components/assignment/AssignmentForm";
 import communication from "@/components/communication/Communication";
+import subclass_students from "@/components/subclass_students/SubclassStudents";
 
 import preloader from "@/components/preloader/preloader";
 
@@ -35,6 +45,8 @@ Vue.component("assignment", assignment);
 Vue.component("manageProgress", manageProgress);
 Vue.component("assignmentForm", assignmentForm);
 Vue.component("communication", communication);
+Vue.component("subclass_students", subclass_students);
+
 Vue.component("preloader", preloader);
 
 Vue.component("Multiselect", Multiselect);

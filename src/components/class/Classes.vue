@@ -10,386 +10,121 @@
     <div class="row pr-3">
       <hr class="w-full" />
     </div>
-    <!-- <preloader v-if="refundLoading"></preloader> -->
-    <div>
-      <!-- <b-row class="px-2">
-        <div class="col-12 my-3">
-         
-          <div class="data_list">
-            <div class="data_item p-5 bg-white">
-              <span
-                class="text-3xl"
-                :class="styleBalance(paymentdata.wallet)"
-                >{{ toNaira(paymentdata.wallet) }}</span
-              >
-              <span class="text-sm font-semibold">Wallet Balance </span>
-            </div>
-           
+    <div v-if="loading" class="flex items-center flex-col justify-center py-5">
+      <div style="width: 5rem; height: 5rem;" class="spinner-border text-dark"></div>   
+    </div>
+    <div v-else id="accordion">
+      <div class="card" v-for="(class_item, index) in classes" :key="class_item._id">
+        <div class="card-header" style="border-bottom:none;">
+          <a class="card-link text-gray-500 text-lg" data-toggle="collapse" :href="`#collapseOne_${index}`">
+            {{ class_item.desc }}
+          </a>
+        </div>
+        <div :id="`#collapseOne_${index}`" class="collapse show" data-parent="#accordion">
+          <div class="card-body">
+            <router-link :to="`/subclass-students/${class_item.name}/${class_item.desc}/${subclass.name}`"
+             :style="{background: subclass.color}" 
+            class="text-capitalize px-5 py-1 mr-2 rounded-xl text-light subclass_btn"
+             v-for="subclass in class_item.subclass" :key="subclass._id">
+              {{ subclass.name }}
+            </router-link>
           </div>
         </div>
-
-      </b-row> -->
-
-      <div class="py-3">
-        <div class="">
-          <div>
-            <b-col v-for="(a, i) in classes" :key="i">
-              <b-row>
-                <b-col>
-                  <div class="display-data bg-white pr-4">
-                    <b-row class="px-2">
-                      <b-col>
-                        <span class="text-uppercase">{{ a.name }}</span>
-                        <br /><span class="text-gray-500 text-xs"
-                          >Mathematics</span
-                        >
-                      </b-col>
-
-                      <b-col
-                        cols="2"
-                        md="1"
-                        class="flex items-center justify-end"
-                      >
-                        <span class="text-lg p-1 bg-yellow-100 rounded">
-                          <i class="bx bx-category text-yellow-700"></i>
-                        </span>
-                        <!-- <b-button size="sm">
-                        View
-                      </b-button> -->
-                        <!-- <b-button-group>
-													<b-dropdown right split text="Action" size="sm">
-														<b-dropdown-item
-															:to="`/viewsubclass/${i}`">
-															<i class="fal fa-expand"></i> View
-														</b-dropdown-item>
-														<b-dropdown-item v-b-modal="`delete${i}`"><i
-																class="fal fa-trash"></i>Delete</b-dropdown-item>
-													</b-dropdown>
-												</b-button-group> -->
-                      </b-col>
-                    </b-row>
-                  </div>
-                </b-col>
-              </b-row>
-            </b-col>
-          </div>
-          <!-- <div v-else>
-            <h2 class="text-2xl text-center">No payment history</h2>
-          </div> -->
-        </div>
-
-        <b-modal
-          id="makePayment"
-          content-class="bg-gray-100"
-          size="lg"
-          centered
-          hide-footer
-          title="Make Payment"
-        >
-          <div class="row">
-            <div class="col-12">
-              <b-col
-                :key="index"
-                v-for="(requirement, index) in paymentdata.requirements"
-              >
-                <b-row>
-                  <b-col>
-                    <div class="display-data bg-white shadow-sm">
-                      <b-row class="px-2">
-                        <b-col class="flex items-center justify-between">
-                          <span class="text-capitalize font-bold text-sm">{{
-                            requirement.description
-                          }}</span>
-                          <span class="text-gray-500 text-xs">
-                            {{ toNaira(requirement.amount) }}</span
-                          >
-                        </b-col>
-                      </b-row>
-                    </div>
-                  </b-col>
-                </b-row>
-              </b-col>
-              <hr />
-              <b-col class="mt-3">
-                <b-row>
-                  <b-col>
-                    <div class="bg-white">
-                      <b-row class="px-2">
-                        <b-col class="flex items-center justify-between">
-                          <span class="text-capitalize font-bold text-xl"
-                            >TOTAL</span
-                          >
-                          <span class="text-gray-500 text-xl">
-                            {{ toNaira(paymentTotal) }}</span
-                          >
-                        </b-col>
-                      </b-row>
-                    </div>
-                  </b-col>
-                </b-row>
-              </b-col>
-              <hr />
-
-              <div class="col my-4">
-                <button
-                  class="btn btn-secondary btn-block"
-                  @click.prevent="makePayment(paymentdata.requirements)"
-                >
-                  Pay
-                </button>
-              </div>
-            </div>
-          </div>
-        </b-modal>
       </div>
     </div>
+      
   </div>
 </template>
 
 <script>
-// import paystack from 'vue-paystack';
-import formatNaira from "format-to-naira";
-import { mapState } from "vuex";
+
+// import { mapState } from "vuex";
 import Axios from "axios";
 import Helper from "@/helpers/functions.js";
 
 export default {
-  name: "payment",
-  // components: {
-  //     paystack
-  // },
+  name: "classes",
   data() {
     return {
-      showFilter: false,
-      amount: null,
-      full_name: null,
-      email: null,
-      paymentID: null,
-      refundLoading: false,
-      paymentdata: {
-        history: [],
-      },
-      paymentTotal: 0,
-      paymentLoading: false,
+      loading: false,
+      getstudent_loading: false,
       classes: [],
+      mycolor: '#'+(Math.random()*0xFFFFFF<<0).toString(16)
+
     };
   },
   computed: {
-    ...mapState(["userData", "dataLoading", "walletBalance"]),
+    // ...mapState(["userData", "dataLoading", "walletBalance"]),
   },
   watch: {
-    paymentID() {
-      this.searchPayment();
-    },
+  
   },
   mounted() {
-    // this.onMounted();
     this.getClass();
   },
   methods: {
-    searchPayment() {
-      // let data = this.personnels;
-    },
-    styleBalance(value) {
-      return value < 1 ? "text-danger" : "text-success";
-    },
-    async onMounted() {
-      // await this.$store.dispatch('getUserData');
-    },
     toNaira(value = 0) {
       return formatNaira(value);
     },
     async getClass() {
       try {
-        this.refundLoading = true;
+        this.loading = true;
         let auth = Helper.auth();
         let { data, status } = await Axios.get("school/staff_class", auth);
 
         if (status == 200) {
           this.classes = data.data;
+          this.classes = this.classes.map(item => {
+              item.subclass.forEach(subclass_item => {
+                let color = this.generator();
+                subclass_item.color = this.darken(color);
+              });
+              return item;
+          })
+          console.log(this.classes)
         }
       } catch (error) {
         console.log(error);
       } finally {
-        this.refundLoading = false;
+        this.loading = false;
       }
     },
-    async makePayment(param) {
-      try {
-        this.paymentLoading = true;
-        let auth = Helper.auth();
 
-        let { data, status } = await Axios.post(
-          "school/make-payment",
-          {
-            requirements: param,
-          },
-          auth
-        );
-
-        if (status == 200) {
-          // this.$store.dispatch("setUserData", data.data);
-          // this.$bvModal.hide("refund-wallet");
-          this.paymentdata = data.data;
-          console.log(this.paymentdata.requirements);
-          if (this.paymentdata.requirements.length) {
-            this.paymentTotal = this.paymentdata.requirements.reduce(
-              (acc, cur) => {
-                return acc + cur.amount;
-              },
-              0
-            );
-            console.log(this.paymentTotal);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        console.table(error);
-      } finally {
-        this.paymentLoading = false;
-      }
+    generator(){
+      let random_color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+      return random_color;
     },
+
+    darken(hex, lum = 0){
+      hex = String(hex).replace(/[^0-9a-f]/gi, '');
+      if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      }
+      lum = lum || 0;
+
+      // convert to decimal and change luminosity
+      var rgb = "#", c, i;
+      for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00"+c).substr(c.length);
+      }
+      return rgb;
+    },
+    
+  
   },
+
 };
 </script>
 
 <style>
-.payment__box {
-  /* border: 1px dashed; */
-  /* height: 300px; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f7f6fb;
-}
 
-.payment__form {
-  /* width: 430px; */
-  /* height: 90%; */
-  padding: 36px 35px 35px 35px;
-  border-radius: 50px;
-  background: #f7f6fb;
-  box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff;
-}
-
-.form__logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin: 0 auto;
-  /* border: 1px solid; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* box-shadow: 0px 0px 2px #5f5f5f,
-                0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaaf,
-                -8px -8px 15px #ffffff; */
-  box-shadow: 0px 0px 2px #f7f6fb, 0px 0px 0px 5px #f7f6fb, 8px 8px 15px #a7aaaf,
-    -8px -8px 15px #ffffff;
-}
-
-.form__logo img {
-  width: 50px;
-  height: 50px;
-}
-
-.form__title {
-  text-align: center;
-  font-size: 28px;
-  padding-top: 24px;
-  letter-spacing: 3px;
-}
-
-.fields {
-  width: 100%;
-  padding: 75px 5px 5px 5px;
-}
-
-.fields > div {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.fields input,
-.fields select {
-  border: none;
-  background: none;
-  outline: none;
-  font-size: 15px;
-  color: #555;
-  padding: 12px 10px 12px 12px;
-  width: 100%;
-}
-
-.payment-input,
-.amount-input,
-.date-input {
-  /* margin-bottom: 30px; */
-  border-radius: 25px;
-  box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #ffffff;
-}
-
-.fields svg {
-  height: 22px;
-  /* margin: 0 10px -3px 25px; */
-  margin-right: 10px;
-  display: inline;
-}
-
-.submit__btn {
-  outline: none;
-  border: none;
+.subclass_btn {
   cursor: pointer;
-  width: 100%;
-  height: 50px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  background: #24cfaa;
-  margin-bottom: 0;
-  box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px #ffffff;
-  transition: 0.5s;
 }
 
-.submit__btn:hover {
-  background: #2fdbb6;
-}
-
-.submit__btn:active {
-  background: #1da88a;
-}
-
-.payment__btn {
-  background: #c6e6f3;
-  padding: 6px 40px;
-  border-radius: 25px;
-  color: #0ea3e0;
-}
-
-.search__payment {
-  padding: 6px 11px;
-  background: #fff;
-  border-radius: 12px;
-}
-
-.payment__bg {
-  background-color: var(--first-color);
-}
-
-input,
-input:active,
-input:focus {
-  outline: none;
-  border: none;
-}
-
-.data_list {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  grid-auto-rows: auto;
-  gap: 1rem;
+.subclass_btn:hover {
+  opacity: 0.7;
 }
 </style>
