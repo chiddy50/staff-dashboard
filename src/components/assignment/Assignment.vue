@@ -2,7 +2,7 @@
     <div class="w-full py-2 mt-12 px-4">
         <div class="row px-3 pt-10 flex items-center justify-between">
             <h1 class="text-3xl m-0 flex items-center">
-                <i class="bx bx-notepad mr-2"></i> <span class="font-bold">{{ titlePlaceholder }} Assignment</span>
+                <i class="bx bx-notepad mr-2"></i> <span class="font-bold">{{ titlePlaceholder }}</span>
             </h1>
             <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
             <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
@@ -11,19 +11,35 @@
             <hr class="w-full" />
         </div>
         <div v-if="assignmentView == 'assignments'">
-            <div v-if="storedAssignments.length > 0">
-                <!-- <div v-for="(item, i) in storedAssignments" :key="i">
-                
-                    <div class="display-data bg-white pr-4">
-                        <b-row class="px-2">
-                            <b-col>
-                                <span class="text-uppercase">{{ item.title }}</span><br />
-                                <span class="text-gray-500 text-xs">{{ item.subject }}</span>
-                            </b-col>
-                            
-                            <b-col cols="2" md="1" class="flex items-center justify-center">
-                                <b-button-group>
+            <!-- <div v-if="storedAssignments.length > 0">
+             
+                <div v-for="(item, i) in storedAssignments" :key="i" class="assignment_item bg-white p-4 rounded-md text-sm">
+                    <div class="flex justify-between item-center">
+                        <p><span> Due Date: 28th July, 2021</span></p>
+                        <p>
+                            <span class="rounded-md bg-red-100 text-red-600 p-1 text-xs">
+                                Not Done
+                            </span>
+                        </p>
+                    </div>
+                    <div class="assignment_header">
+                        <p class="flex items-center">Memorize the quadratic equation</p>
+                    </div>
+                    <div class="assignment_desc">
+                        <span class="text-gray-400 flex items-center">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim
+                        dignissimos quisquam odit aliquam.
+                        </span>
+                    </div>
+                    <hr class="w-100" />
+                    <div class="assignment_body mt-2">
+                        <div class="assignment_stats">Mathematics * Homework * Project</div>
+                            <div class='flex justify-end'>
+                                <b-button-group class='btn-sm'>
                                     <b-dropdown right split text="Action" size="sm">
+                                        <b-dropdown-item>
+                                            <i class="bx bx-book mr-2"></i> Classes
+                                        </b-dropdown-item>
                                         <b-dropdown-item @click="updateAssignment(item._id)">
                                             <i class="bx bx-edit mr-2"></i> Update
                                         </b-dropdown-item>
@@ -38,68 +54,14 @@
                                         </b-dropdown-item>
                                     </b-dropdown>
                                 </b-button-group>
-                            </b-col>
-                        </b-row>
+                            </div>
+                        </div>                    
                     </div>
-                    
-                </div> -->
-
-                <div v-for="(item, i) in storedAssignments" :key="i"
-                 class="assignment_item bg-white p-4 rounded-md text-sm">
-                     <div class="flex justify-between item-center">
-            <p>
-              <span> Due Date: 28th July, 2021</span>
-            </p>
-           <p>
-                <span class="rounded-md bg-red-100 text-red-600 p-1 text-xs"
-              >Not Done</span
-            >
-           </p>
-          </div>
-          <div class="assignment_header">
-            <p class="flex items-center">Memorize the quadratic equation</p>
-          </div>
-          <div class="assignment_desc">
-            <span class="text-gray-400 flex items-center">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim
-              dignissimos quisquam odit aliquam.
-            </span>
-          </div>
-          <hr class="w-100" />
-                    <div class="assignment_body mt-2">
-                        <div class="assignment_stats">Mathematics * Homework * Project</div>
-                        <div class='flex justify-end'>
-                            <b-button-group class='btn-sm'>
-                                <b-dropdown right split text="Action" size="sm">
-                                    <b-dropdown-item>
-                                        <i class="bx bx-book mr-2"></i> Classes
-                                    </b-dropdown-item>
-                                    <b-dropdown-item @click="updateAssignment(item._id)">
-                                        <i class="bx bx-edit mr-2"></i> Update
-                                    </b-dropdown-item>
-                                    <b-dropdown-item :to="`/manage-progress/${item._id}`">
-                                        <i class="bx bx-hourglass mr-2"></i> Manage Progress
-                                    </b-dropdown-item>
-                                    <b-dropdown-item v-b-modal="`delete${i}`">
-                                        <i class="bx bx-trash mr-2"></i>Remove
-                                    </b-dropdown-item>                                            
-                                    <b-dropdown-item >
-                                        <i class="bx bx-pin mr-2"></i>Manage Attachments
-                                    </b-dropdown-item>
-                                </b-dropdown>
-                            </b-button-group>
-                        </div>
-                    </div>
-                    <!-- <div class="assignment_desc mt-2">
-                        <span class='text-gray-400 flex items-center'>Name the key signatures in the periiodic table</span>                        
-                    </div> -->
                 </div>
 
-            </div>
-
-            <div v-else class="col-12">
-                <h4 class="text-center my-4">No Assignments yet</h4>
-            </div>
+                <div v-else class="col-12">
+                    <h4 class="text-center my-4">No Assignments yet</h4>
+                </div>             -->
         </div>
         <div v-if="assignmentView == 'add_assignment'" class="row">
             <assignmentForm></assignmentForm>
@@ -112,11 +74,8 @@
             <assignmentForm 
                 :assignment="assignment"
                 :returnText="'Back to Assignments'">
-            </assignmentForm>
-            
+            </assignmentForm>        
         </div>
-
-        <!-- <wysiwyg v-model="myHTML" /> -->
 
         <b-modal id="addAssignment"
           content-class="bg-gray-100"
@@ -164,7 +123,6 @@
 </template>
 
 <script>
-
 import { mapState } from 'vuex'
 
 export default {
@@ -187,7 +145,8 @@ export default {
             assignmentView: 'assignments',
             assignments: [],     
             assignment: null,     
-            myHTML: ''
+            myHTML: '',
+            loading: false
         }
     },
     computed: mapState({
@@ -200,11 +159,11 @@ export default {
         // to access local state with `this`, a normal function must be used
          titlePlaceholder  () {
             if (this.assignmentView === 'update_assignment') {
-                return 'Update';
+                return 'Update Assignment';
             }else if (this.assignmentView === 'add_assignment'){
-                return 'Add';
+                return 'Add Assignment';
             }else{
-                return '';
+                return 'Assignments';
             }
         }
     }),
@@ -227,10 +186,24 @@ export default {
             this.assignment = this.storedAssignments.find(item => item._id === id);
             console.log(this.assignment);
             this.assignmentView = 'update_assignment'
+        },
+        async getAssignments(){
+            try {
+                this.loading = true;
+                let { data, status } = await this.$axios.get( "school/get-assignment" );
+                this.loading = false;
+                if (status == 200) {
+                    console.log(data);
+                    // this.set_all_assessments(data.data)
+                }
+            } catch (error) {
+                this.loading = false;
+                console.log(error);
+            }
         }
     },
-    watch: {
-        
+    mounted(){
+        this.getAssignments()
     }
 }
 </script>

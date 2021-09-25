@@ -70,13 +70,13 @@
                       >Assignment</router-link
                     >
                     <router-link
-                      to="/assignment"
+                      to="/classwork"
                       tag="a"
                       class="nav__dropdown-item"
                       >Classwork</router-link
                     >
                     <router-link
-                      to="/assignment"
+                      to="/exam"
                       tag="a"
                       class="nav__dropdown-item"
                       >Exam</router-link

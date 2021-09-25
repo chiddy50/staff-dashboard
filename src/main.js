@@ -27,6 +27,9 @@ import profilecom from "@/components/profilecom/profilecom";
 import timetablecom from "@/components/timetablecom/timetablecom";
 import classes from "@/components/class/Classes";
 import wallet from "@/components/wallet/wallet";
+import classwork from "@/components/classwork/Classwork";
+import exam from "@/components/exam/Exam";
+
 import assignment from "@/components/assignment/Assignment";
 import manageProgress from "@/components/assignment/ManageProgress";
 import assignmentForm from "@/components/assignment/AssignmentForm";
@@ -45,6 +48,9 @@ Vue.component("assignment", assignment);
 Vue.component("manageProgress", manageProgress);
 Vue.component("assignmentForm", assignmentForm);
 Vue.component("communication", communication);
+Vue.component("classwork", classwork);
+Vue.component("exam", exam);
+
 Vue.component("subclass_students", subclass_students);
 
 Vue.component("preloader", preloader);
@@ -85,6 +91,7 @@ Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 
 Axios.defaults.baseURL = "https://cirportalbackend.herokuapp.com/";
+Axios.defaults.headers.common['Authorization'] =  `Bearer ${localStorage.getItem("auth_staff")}`; 
 
 Vue.config.productionTip = false;
 
@@ -136,11 +143,7 @@ Axios.interceptors.response.use(
 
 Vue.use(VueAxios, Axios);
 Vue.prototype.$axios = Axios;
-Vue.prototype.$token = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("auth_staff")}`,
-  },
-};
+
 Vue.filter("dateFilter", function(value) {
   if (!value) return "";
   let data = new Date(value).toDateString();

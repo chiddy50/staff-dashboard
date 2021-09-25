@@ -74,6 +74,18 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/classwork",
+    name: "classwork",
+    component: () => import("../views/Classwork.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/exam",
+    name: "exam",
+    component: () => import("../views/Exam.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "*",
     name: "NotFound",
     component: () => import("../views/NotFound.vue"),

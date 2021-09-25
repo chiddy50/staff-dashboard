@@ -204,7 +204,10 @@
           hide-header
           :no-close-on-backdrop="false"
         >
-         <div></div>
+         <div>
+            <h2 class="text-muted font-bold text-lg">Summary</h2>
+            <p class='texxt-sm my-3'>You are about to create an assignment. Please review the summary below before proceeding.</p>
+         </div>
         </b-modal>
 
 
@@ -486,8 +489,8 @@ export default {
             }
         },
         viewSummary(){
-            // this.$bvModal.show('summary');
-            this.create_assignment()
+            this.$bvModal.show('summary');
+            // this.create_assignment()
         }
     },
     mounted() {
