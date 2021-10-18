@@ -19,7 +19,11 @@
                 <div v-for="(option, index) in options" :key="index" class="col-12">                                   
                     <div class="form-group flex items-center">
                         <!-- <span class="text-lg text-gray-400 mr-2">{{ `${index+1}` }}</span> -->
-                        <input type="text" class="form-control" @keyup="set_option_text" :id="option._id" ref="options" :placeholder='`Option ${index+1}`'>
+                        <input type="text" class="form-control" 
+                        @keyup="set_option_text" 
+                        :id="option._id"
+                        ref="options"
+                        :placeholder='`Option ${index+1}`' />
                         <i v-if="options.length > 1" class="bx bx-trash cursor-pointer ml-2 text-xl text-red-300" @click="removeOption(option._id)" v-b-popover.hover.bottom="'Remove option'"></i>
                     </div>
                 </div>
@@ -44,7 +48,17 @@
                     <textarea class='form-control' v-model="instruction" rows="3" placeholder="Instruction"></textarea>
                 </div>               
             </div>
-        </div>       
+        </div>    
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="input-group mb-3 input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">Score</span>
+                    </div>
+                    <input type="number" class="form-control">
+                </div>
+            </div>
+        </div>   
 
         <div class="">
             <button @click="sendQuestion" class="btn btn-success btn-block">Add</button>
@@ -163,9 +177,7 @@ export default {
         }
     },
 
-    watch: {
-        
-    }
+    
 }
 </script>
 

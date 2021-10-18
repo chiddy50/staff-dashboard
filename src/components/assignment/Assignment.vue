@@ -6,6 +6,7 @@
             </h1>
             <button v-if="assignmentView == 'assignments'" @click="assignmentView = 'add_assignment'" class="btn btn-info" style="font-size:13px;">Add Assignment</button>
             <button v-if="assignmentView == 'add_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
+            <button v-if="assignmentView == 'update_assignment'" @click="assignmentView = 'assignments'" class="btn btn-info" style="font-size:13px;">View Assignments</button>
         </div>
         <div class="row pr-3">
             <hr class="w-full" />
@@ -62,15 +63,16 @@
                 <div v-else class="col-12">
                     <h4 class="text-center my-4">No Assignments yet</h4>
                 </div>             -->
+
+
+            <assignments @set-assignments="setAssignments"
+                        @update-assignments="updateAssignment"
+            ></assignments>
         </div>
         <div v-if="assignmentView == 'add_assignment'" class="row">
-            <assignmentForm></assignmentForm>
+            <assignmentForm @set-assignments="setAssignments"></assignmentForm>
         </div>
         <div v-if="assignmentView == 'update_assignment'" class="row">
-            <!-- <div class="col-12">
-                <button @click="assignmentView = 'assignments'" class="btn btn-info mb-4" style="font-size:13px;">Back to Assignment</button>
-            </div> -->
-
             <assignmentForm 
                 :assignment="assignment"
                 :returnText="'Back to Assignments'">
@@ -124,29 +126,28 @@
 
 <script>
 import { mapState } from 'vuex'
+// import Helper from "@/helpers/functions";
+// import moment from "moment";
+import Assignments from './Assignments.vue'
 
 export default {
     name: 'assignment',
-    // components: {
-    //     AddAssignment
-    // },
+    components: {
+       Assignments
+    },
     data(){
         return {
             send_notication: false,
             subjectValues: [],
-            subjects: [
-                {subject:'Math for SS1A',id:1},
-                {subject:'Math for SSS3D',id:2},
-            ],   
-            links: [
-                { title: '', url: '', id: Math.floor(Math.random() * 9999999999999) } 
-            ],    
+            subjects: [],   
+            links: [],    
             viewAssignments: true,
             assignmentView: 'assignments',
             assignments: [],     
             assignment: null,     
             myHTML: '',
-            loading: false
+            loading: false,
+            // deleteprogress: false
         }
     },
     computed: mapState({
@@ -183,28 +184,45 @@ export default {
 
         },
         updateAssignment(id){
-            this.assignment = this.storedAssignments.find(item => item._id === id);
-            console.log(this.assignment);
+            this.assignment = this.assignments.find(item => item._id === id);
+            // console.log(this.assignment);
             this.assignmentView = 'update_assignment'
         },
-        async getAssignments(){
-            try {
-                this.loading = true;
-                let { data, status } = await this.$axios.get( "school/get-assignment" );
-                this.loading = false;
-                if (status == 200) {
-                    console.log(data);
-                    // this.set_all_assessments(data.data)
-                }
-            } catch (error) {
-                this.loading = false;
-                console.log(error);
-            }
-        }
+        
+        setAssignments(payload){
+            this.assignments = payload;
+
+            this.assignments = this.assignments.map((assignment, index) => {
+                assignment.questions.map(question => {
+                    question._id = question._id
+                    question.isObjective = question.is_objective
+                    question.question = question.question
+                    
+
+                    question.options = question.options.map((option, idx) => {
+                        return {
+                            _id: Math.ceil(Math.random() * 99999999999999999999945439593499349),
+                            edit: false,
+                            placeholder: `Option ${idx + 1}`,
+                            value: option
+                        }
+                    });
+
+                    question.options.forEach((option, correct_index) => {
+                        if (option.value === question.correct_answer) {                            
+                            question.correct_answer = option;
+                        }
+                    })
+
+                });
+
+                return assignment;
+            }); 
+        },
+        
+        
     },
-    mounted(){
-        this.getAssignments()
-    }
+
 }
 </script>
 
@@ -238,9 +256,6 @@ export default {
 }
 
 .assignment_body {
-    /* display: flex;
-    gap: 1rem; */
-
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
@@ -276,8 +291,7 @@ export default {
 .assignment_stats {
     display: flex;
     justify-content: space-between;
-align-items: center;
-    /* grid-template-columns: repeat(5, 1fr); */
+    align-items: center;
 }
 
 .assignment_desc{ 
@@ -286,5 +300,35 @@ align-items: center;
 
 .assignment_desc span {
     font-size: 13px;
+}
+
+.show_element {
+    display: block !important;
+}
+
+.dropdown_content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 30%;
+  overflow: auto;
+  z-index: 1;
+  right: 0;
+}
+
+.dropdown_option {
+    padding: 10px;
+    transition: all .4s;
+    cursor: pointer;
+}
+
+.dropdown_option:hover {
+    background-color: #eee;
+}
+
+.dropdown_option:not(:last-child) {
+    /* border-bottom: 1px solid #ddd; */
+    padding-bottom: 10px;
+    /* margin-bottom: 8px; */
 }
 </style>

@@ -91,7 +91,7 @@ Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 
 Axios.defaults.baseURL = "https://cirportalbackend.herokuapp.com/";
-Axios.defaults.headers.common['Authorization'] =  `Bearer ${localStorage.getItem("auth_staff")}`; 
+// Axios.defaults.headers.common['Authorization'] =  `Bearer ${localStorage.getItem("auth_staff")}`; 
 
 Vue.config.productionTip = false;
 
@@ -102,14 +102,6 @@ router.beforeEach((to, from, next) => {
       next({
         path: `/login`,
       });
-      // let schoolID = localStorage.getItem("school_id");
-      // if (schoolID) {
-
-      // } else {
-      //   next({
-      //     path: "/unauthorized",
-      //   });
-      // }
     } else {
       next();
     }
@@ -131,10 +123,7 @@ Axios.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (
-      error.response.status == 401 &&
-      error.response.data.error == "invalid_token"
-    ) {
+    if (error.response.status == 401 && error.response.data.error == "invalid_token") {
       store.dispatch("logout");
     }
     return Promise.reject(error.response.data);

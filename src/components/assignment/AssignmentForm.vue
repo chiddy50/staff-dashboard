@@ -1,6 +1,9 @@
 <template>
-    <div class="col-12" style="margin-bottom: 80px;">     
-        <div>    
+    <div class="col-12" style="margin-bottom: 80px;"> 
+        <div v-if="loading" class="flex justify-center my-5">
+            <div style="width: 6rem; height: 6rem;" class="spinner-border text-dark"></div>        
+        </div>
+        <div v-else>    
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="w-full mt-3">
@@ -32,7 +35,7 @@
                                 :custom-label="classesLabel"
                                 placeholder="Choose Class" label="placeholder" class="mb-3"
                                 :hideSelected="true"
-                                track-by="subclass_id" :options="classes" :multiple="true" :taggable="true" @select="tagClasses" @remove="untagClasses">
+                                track-by="tag" :options="classes" :multiple="true" :taggable="true" @select="tagClasses" @remove="untagClasses">
                             </multiselect>										                            
                         </div>               
                     </div>
@@ -176,6 +179,8 @@
                 @update-instruction="updateInstruction"
                 @update-answer="updateAnswer"
                 @update-options="updateOptions"
+                :assignment="assignment"
+                @remove-option="removeOption"
                 >
             </questions>
         </b-modal>
@@ -204,19 +209,20 @@
           hide-header
           :no-close-on-backdrop="false"
         >
-         <div>
-            <h2 class="text-muted font-bold text-lg">Summary</h2>
-            <p class='texxt-sm my-3'>You are about to create an assignment. Please review the summary below before proceeding.</p>
-         </div>
+            <Summary @proceed="create_assignment()"
+                    :assignment_data="assignment_data"
+                    :edit="edit"                    
+                    />
         </b-modal>
 
 
         <div class="footer p-4 shadow z-10">
             <div class="w-full flex justify-center">
-                <button v-b-modal.addQuestion class="btn btn-outline-primary btn-sm">Add Questions</button>
-                <button v-b-modal.allQuestions class="btn btn-outline-secondary mx-3 btn-sm">View Questions</button>
-                <button @click="viewSummary" class="btn btn-success flex items-center">                    
-                    {{ assignment == null ? 'Create' : 'Update' }}
+                <button :disabled='loading || add_loading' v-b-modal.addQuestion class="btn btn-outline-primary btn-sm">Add Question</button>
+                <button :disabled='loading || add_loading' v-b-modal.allQuestions class="btn btn-outline-secondary mx-3 btn-sm">View Questions</button>
+                <button :disabled='loading || add_loading' @click="viewSummary" style="display: flex;" class="btn btn-success flex items-center">                    
+                    <div v-if="add_loading" class="spinner-border spinner-border-sm mr-2"></div>
+                    Summary
                 </button>
             </div>
         </div>
@@ -227,13 +233,16 @@
 <script>
 import QuestionForm from './QuestionForm.vue'
 import Questions from './Questions.vue'
+import Summary from './Summary.vue'
 import Helper from "@/helpers/functions";
+import { DateTime } from "luxon";
 
 export default {
     name: 'assignmentForm',
     components: {
         QuestionForm,
-        Questions
+        Questions,
+        Summary
     },
     props: {
         returnText: {
@@ -250,8 +259,6 @@ export default {
             subject: null,
             classes: [],  
             subjects: [], 
-            viewAssignments: true,
-            assignment_types: ['Objective', 'Subjective'],
             step: 1,
             isObjective: true,
             assignment_data: {
@@ -279,7 +286,9 @@ export default {
             },
             staff_data: [],
             loading: false,
-            add_loading: false   
+            add_loading: false,
+            assignments: [],
+            first_edit_has_occured: false   
         }
     },
     computed: {
@@ -291,6 +300,9 @@ export default {
             }
             return weeks;
         },
+        edit(){
+            return this.assignment === null ? true : false;
+        }
         // subject_classes(){
         //     let subject_classes = [];
         //     // this.staff_data.forEach(item => {
@@ -310,25 +322,9 @@ export default {
             }
         },
         removeLink(id){
-            // if (this.assignment !== null) {
-            //     // this.$store.commit('REMOVE_ASSIGNMENT', id)
-            //     this.assignment_data.links = this.assignment_data.links.filter(link => link._id !== id)
-
-            // }else{
-            //     if(this.links.length !== 1){
-            //         this.links = this.links.filter(link => link._id !== id)
-            //     }
-            // }
             this.assignment_data.links = this.assignment_data.links.filter(link => link._id !== id)
         },
-        toggle_subjective_objective(value){
-            this.isObjective = value;
-            this.step = 3;
-        },
-        toggleAssignmentType(view){
-            this.assignment_data.isCBT = view;
-            this.step = 2;
-        },
+        
         tagSubjects(newTag) {  
             // this.personnel_details.subjectIds.push(newTag.id)
         },
@@ -363,8 +359,12 @@ export default {
         },
         
         updateQuestion(e){
+            console.log(e.target.value, e.target.id);
             this.assignment_data.questions = this.assignment_data.questions.map(question => {
-                if (Number(question._id) === Number(e.target.id)) {
+                let firstId = typeof question._id == "number" ? Number(question._id) : question._id 
+                let secondId = typeof e.target.id == "number" ? Number(e.target.id) : e.target.id
+
+                if (firstId === secondId) {
                     question.question = e.target.value;
                 }
                 return question;
@@ -372,7 +372,10 @@ export default {
         },
         updateInstruction(e){
             this.assignment_data.questions = this.assignment_data.questions.map(question => {
-                if (Number(question._id) === Number(e.target.id)) {
+                let firstId = typeof question._id == "number" ? Number(question._id) : question._id 
+                let secondId = typeof e.target.id == "number" ? Number(e.target.id) : e.target.id
+
+                if (firstId === secondId) {
                     question.instruction = e.target.value;
                 }
                 return question;
@@ -380,7 +383,10 @@ export default {
         },
         updateAnswer({ answer, id }){
             this.assignment_data.questions = this.assignment_data.questions.map(question => {
-                if (Number(question._id) === Number(id)) {
+                let firstId = typeof question._id == "number" ? Number(question._id) : question._id 
+                let secondId = typeof id == "number" ? Number(id) : id
+
+                if (firstId === secondId) {
                     question.correct_answer = answer;
                 }
                 return question;
@@ -388,8 +394,23 @@ export default {
         },
         updateOptions({ option, id }){
             this.assignment_data.questions = this.assignment_data.questions.map(question => {
-                if (Number(question._id) === Number(id)) {
+                let firstId = typeof question._id == "number" ? Number(question._id) : question._id 
+                let secondId = typeof id == "number" ? Number(id) : id
+
+                if (firstId === secondId) {
                     question.options.push(option);
+                }
+                return question;
+            })
+        },
+        removeOption({ question_id, option_id }){
+            console.log(question_id, option_id);
+            this.assignment_data.questions = this.assignment_data.questions.map(question => {
+                let questionID = typeof question_id == "number" ? Number(question_id) : question_id 
+                let optionID = typeof option_id == "number" ? Number(option_id) : option_id
+
+                if (questionID === question._id) {                    
+                    question.options = question.options.filter(option => option._id !== optionID);
                 }
                 return question;
             })
@@ -398,18 +419,24 @@ export default {
             let request = this.format_request();
             // console.log(request);
             // return;
+            let url = this.assignment === null ? "school/add-assignment" : "school/update-assignment";
+            let message = this.assignment === null ? 'created' : 'updated';
             try {
                 this.add_loading = true;
                 let auth = Helper.auth();
                 let { data, status } = await this.$axios.post(
-                    "school/add-assignment",
+                    url,
                     request,
                     auth
                 );
                 this.add_loading = false;
                 if (status == 200) {
                     console.log(data);
+                    this.assignments = data.message;
+                    this.$emit('set-assignments', data.message);
+                    this.showError(`Successfully ${message} assignment`);
                     // this.set_all_assessments(data.data)
+                    this.$bvModal.hide('summary');
                 }
             } catch (error) {
                 this.add_loading = false;
@@ -419,16 +446,16 @@ export default {
         format_request(){
             let request = {}
 
-            request.instruction = this.assignment_data.instruction
+            request.instruction = this.assignment_data.instruction;
+            request.assignment_id = this.assignment_data.assignment_id ? this.assignment_data.assignment_id : null ;
             request.assignment_week = this.assignment_data.week
             request.subject = this.assignment_data.subject.subject;
-            request.classes = this.assignment_data.classValues.map(item => {
-                return { class: item.class, subclass: item.subclass }
-            });
+            request.classes = this.assignment_data.classValues.map(item => ({ class: item.class, subclass: item.subclass }) );
 
             request.title = this.assignment_data.title
             request.description = this.assignment_data.description
             request.is_cbt = this.assignment_data.isCBT;
+            request.send_notification = this.assignment_data.send_notification;
             
             if (request.is_cbt) {                
                 request.duration = this.assignment_data.duration;
@@ -481,6 +508,11 @@ export default {
                     this.subjects = data.maindata.map(item => {
                         return { _id: item._id, subject: item.subject }
                     });
+
+                    if (this.assignment !== null) {
+                        this.setUpdateValue();
+                        // this.first_edit_has_occured = true;
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -491,50 +523,148 @@ export default {
         viewSummary(){
             this.$bvModal.show('summary');
             // this.create_assignment()
-        }
+        },
+        setUpdateValue(){
+            this.assignment_data.week = this.assignment.assignment_week; // set week of  assignment
+            this.assignment_data.assignment_id = this.assignment._id ? this.assignment._id : null ;
+            
+            let subject = this.assignment.subject;             
+            this.assignment_data.subject = { // set subject of assignment
+                subject: subject.charAt(0).toUpperCase() + subject.substring(1),
+                _id: Math.floor(Math.random() * 999999999999999999999999999999999999999)
+            }
+
+            // set selected classes
+            this.assignment_data.classValues = this.assignment.classes.map(item => {
+                return {
+                    class: item.class,
+                    subclass: item.subclass,
+                    tag: `${item.class.toUpperCase()} - ${item.subclass.toUpperCase()}`,
+                    placeholder: `${item.class.toUpperCase()} - ${item.subclass.toUpperCase()}`,
+                }
+            });
+
+            this.assignment_data.title = this.assignment.title; // set title of assignment
+            this.assignment_data.description = this.assignment.description; // set description of assignment
+            this.assignment_data.instruction = this.assignment.instruction; // set instruction of assignment            
+            this.assignment_data.isCBT = this.assignment.is_cbt; // set if assignment is CBT
+
+            if (this.assignment.is_cbt) {                
+                this.assignment_data.duration = this.assignment.duration; // set duration            
+                this.assignment_data.due_date = DateTime.fromISO(this.assignment.due_date).toFormat('yyyy-LL-dd'); 
+            }else{
+                this.assignment_data.start_date = DateTime.fromISO(this.assignment.start_date).toFormat('yyyy-LL-dd'); 
+                this.assignment_data.end_date = DateTime.fromISO(this.assignment.end_date).toFormat('yyyy-LL-dd'); 
+            }
+
+            this.assignment_data.links = this.assignment.links || []; // set if assignment is CBT            
+            this.assignment_data.send_notification = this.assignment.send_notification; // set if send_notification is CBT            
+
+            this.assignment_data.questions = this.assignment.questions;
+        },
+        showError(message){
+            this.$toast.success(message, {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            });
+        },
     },
     mounted() {
         this.get_teacher_details();
+        // this.editedQuestions = this.assignment.questions;
         // if (this.assignment !== null) {
-        //     this.assignment_data.description = this.assignment.description;
-        //     this.assignment_data.title = this.assignment.title;
-        //     this.assignment_data.marked = this.assignment.marked;
-        //     this.assignment_data.type = this.assignment.type;
-        //     this.assignment_data.send_notification = this.assignment.send_notification;
-        //     this.assignment_data.subject = this.assignment.classes;
-        //     this.assignment_data.links = this.assignment.links;
-        
-        //     // split date to format 
-        //     let due_date = this.assignment.due_date.split('/');
-        //     this.assignment_data.due_date = `${due_date[2]}-${due_date[0]}-${due_date[1]}`;
-            
+        //     this.editedQuestions = this.editedQuestions.map((question, index) => {
+        //         let obj = {
+        //             _id: question._id,
+        //             isObjective: question.is_objective,
+        //             question: question.question,
+        //             correct_answer: {
+        //                 _id: Math.ceil(Math.random() * 99999999999999999999945439593499349),
+        //                 value: question.correct_answer,
+        //                 edit: false,
+        //                 placeholder: `Option ${index}`
+        //             },
+        //             options: []
+        //         }
+
+        //         question.options.forEach(option => {
+        //             obj.options.push({
+        //                 _id: Math.ceil(Math.random() * 99999999999999999999945439593499349),
+        //                 edit: false,
+        //                 placeholder: `Option ${question.options.length + 1}`,
+        //                 value: option
+        //             })
+        //         });
+
+        //         return obj;
+        //     }); 
         // }
     },
     watch: {
         'assignment_data.subject': function(subject) {
-            this.assignment_data.classValues = []; // empty selected subclasses
-            this.classes = []; // empty filtered classes
-
-            this.staff_data.forEach(item => {
-                if (subject._id === item._id) {
-                    item.classes.forEach(class_item => {
-                        class_item.subclass.forEach(subclass => {
-                            this.classes.push({
-                                class_id: class_item._id,
-                                class: class_item.desc,
-                                subclass: subclass.name,
-                                placeholder: `${class_item.desc} - ${subclass.name.toUpperCase()}`,
-                                subclass_id: subclass._id
-                            });                        
+            console.log(subject);
+            if (this.assignment == null) {
+                this.assignment_data.classValues = []; // empty selected subclasses
+                this.classes = []; // empty filtered classes
+    
+                this.staff_data.forEach(item => {
+                    if (subject._id === item._id) {
+                        item.classes.forEach(class_item => {
+                            class_item.subclass.forEach(subclass => {
+                                this.classes.push({
+                                    class_id: class_item._id,
+                                    class: class_item.desc,
+                                    subclass: subclass.name,
+                                    tag: `${class_item.desc.toUpperCase()} - ${subclass.name.toUpperCase()}`,
+                                    placeholder: `${class_item.desc} - ${subclass.name.toUpperCase()}`,
+                                    subclass_id: subclass._id
+                                });                        
+                            });                            
+                            // console.log(class_item);
                         });
-                        
-                        console.log(class_item);
-                    });
-
+    
+                    }
+                });
+                // console.log(this.classes);            
+            }else{
+                if (this.first_edit_has_occured === true) {
+                    this.assignment_data.classValues = []; // empty selected subclasses  
+                    this.classes = []; // empty filtered classes
                 }
-            });
-            console.log(this.classes);
-        } 
+
+                this.staff_data.forEach(item => {
+                    if (subject.subject.toLowerCase() === item.subject.toLowerCase()) {
+                        item.classes.forEach(class_item => {
+                            class_item.subclass.forEach(subclass => {
+                                this.classes.push({
+                                    class_id: class_item._id,
+                                    class: class_item.desc,
+                                    subclass: subclass.name,
+                                    tag: `${class_item.desc.toUpperCase()} - ${subclass.name.toUpperCase()}`,
+                                    placeholder: `${class_item.desc} - ${subclass.name.toUpperCase()}`,
+                                    subclass_id: subclass._id
+                                });                        
+                            });
+                            console.log(class_item);
+                        });
+                        console.log(this.classes);            
+                        console.log(item);            
+                    }
+                });
+                this.first_edit_has_occured = true;
+            }
+        }, 
+
     }
 }
 </script>

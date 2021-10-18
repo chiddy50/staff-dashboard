@@ -73,7 +73,7 @@
             </div>
 
             <div class="students_list">
-                <div v-for="i in 30" :key="i" class='student_item bg-white p-3 shadow-sm rounded'>
+                <div v-for="i in 15" :key="i" class='student_item bg-white p-3 shadow-sm rounded'>
                     <div class="flex w-full">
                         <b-avatar
                         src="https://guardian.ng/wp-content/uploads/2018/07/unnamed-2-4.jpg"
